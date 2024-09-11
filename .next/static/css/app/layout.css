@@ -396,6 +396,9 @@ video {
 [hidden] {
   display: none;
 }
+  * {
+  font-family: Pretendard, sans-serif;
+}
 
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
@@ -505,7 +508,7 @@ video {
   --tw-contain-style:  ;
 }
 .font-iropke {
-  font-family: Iropke, sans-serif;
+  font-family: Iropke, serif;
 }
 .text-2xl {
   font-size: 1.5rem;
@@ -521,18 +524,14 @@ video {
 @font-face {
   font-family: 'Pretendard';
   font-style: normal;
-  src: '@/assets/fonts/PretendardVariable.woff2';
+  src: url(/_next/static/media/PretendardVariable.ff840cfe.woff2) format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Iropke';
   font-style: normal;
-  src: '@/assets/fonts/IropkeBatangM.woff';
+  src: url(/_next/static/media/IropkeBatangM.d57dc4f0.woff) format('woff');
   font-display: swap;
-}
-
-* {
-  font-family: 'Pretendard';
 }
 

@@ -8,7 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        iropke: ['Iropke', 'sans-serif'],
+        pretendard: ['Pretendard', 'sans-serif'],
+        iropke: ['Iropke', 'serif'],
       },
       colors: {
         'var-black-100': '#F9F9F9',

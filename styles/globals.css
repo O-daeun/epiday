@@ -5,17 +5,19 @@
 @font-face {
   font-family: 'Pretendard';
   font-style: normal;
-  src: '@/assets/fonts/PretendardVariable.woff2';
+  src: url('../assets/fonts/PretendardVariable.woff2') format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Iropke';
   font-style: normal;
-  src: '@/assets/fonts/IropkeBatangM.woff';
+  src: url('../assets/fonts/IropkeBatangM.woff') format('woff');
   font-display: swap;
 }
 
-* {
-  font-family: 'Pretendard';
+@layer base {
+  * {
+    @apply font-pretendard;
+  }
 }
