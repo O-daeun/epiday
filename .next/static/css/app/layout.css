@@ -504,8 +504,35 @@ video {
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
 }
+.font-iropke {
+  font-family: Iropke, sans-serif;
+}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.font-thin {
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  src: '@/assets/fonts/PretendardVariable.woff2';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Iropke';
+  font-style: normal;
+  src: '@/assets/fonts/IropkeBatangM.woff';
+  font-display: swap;
+}
+
+* {
+  font-family: 'Pretendard';
 }
 
