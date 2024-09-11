@@ -54,6 +54,10 @@ module.exports = {
         'var-line-100': '#F2F2F2',
         'var-line-200': '#CFDBEA',
       },
+      screens: {
+        sm: { max: '768px' }, // mobile
+        md: { max: '1024px' }, // tablet
+      },
     },
   },
   plugins: [],
