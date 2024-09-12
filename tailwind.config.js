@@ -23,6 +23,7 @@ module.exports = {
         'var-black-900': '#121212',
         'var-black-950': '#050505',
         'var-gray-100': '#DEDEDE',
+        'var-gray-150': '#D7D7D7',
         'var-gray-200': '#C4C4C4',
         'var-gray-300': '#ABABAB',
         'var-gray-400': '#919191',
