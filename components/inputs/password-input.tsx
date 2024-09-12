@@ -1,5 +1,18 @@
+import { InputHTMLAttributes } from 'react';
 import { inputStyle } from './input-styles';
 
-export default function PasswordInput() {
-  return <input className={`mb-6 ${inputStyle.auth}`} placeholder="비밀번호" />;
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  className?: string;
+}
+
+export default function PasswordInput({ value, onChange, className = '' }: Props) {
+  return (
+    <input
+      type="password"
+      value={value}
+      onChange={onChange}
+      className={`${inputStyle.auth} ${className}`}
+      placeholder="비밀번호"
+    />
+  );
 }

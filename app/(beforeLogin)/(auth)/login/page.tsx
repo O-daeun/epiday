@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
+import EmailInput from '@/components/inputs/email-input';
+import PasswordInput from '@/components/inputs/password-input';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -39,19 +41,11 @@ export default function LoginPage() {
           <Image src="/logo.svg" width={152} height={48} alt="Epiday logo" />
         </Link>
         <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={`mb-4 ${inputStyle.auth}`}
-            placeholder="이메일"
-          />
-          <input
-            type="password"
+          <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
+          <PasswordInput
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={`mb-6 ${inputStyle.auth}`}
-            placeholder="비밀번호"
+            className="mb-6"
           />
           <Button type="submit" design="wide">
             로그인
