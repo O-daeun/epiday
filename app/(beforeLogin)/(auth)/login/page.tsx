@@ -35,24 +35,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-var-background py-[213px]">
-      <div className="mx-auto max-w-[688px] px-6">
-        <Link href="/" className="mx-auto mb-[60px] block w-fit">
-          <Image src="/logo.svg" width={152} height={48} alt="Epiday logo" />
-        </Link>
-        <form onSubmit={handleLogin}>
-          <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
-          <PasswordInput
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mb-6"
-          />
-          <Button type="submit" design="wide">
-            로그인
-          </Button>
-        </form>
-        {error && <p className="text-var-error">{error}</p>}
-      </div>
-    </div>
+    <form onSubmit={handleLogin}>
+      <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
+      <PasswordInput
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="mb-6"
+      />
+      <Button type="submit" design="wide">
+        로그인
+      </Button>
+      {error && <p className="text-var-error">{error}</p>}
+    </form>
   );
 }

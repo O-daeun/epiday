@@ -4,7 +4,9 @@ interface Props {
 
 export default function HeaderLayout({ children, className = '' }) {
   return (
-    <header className={`border-var-gray-150 flex h-20 items-center border-b ${className}`}>
+    <header
+      className={`border-var-gray-150 fixed flex h-20 w-full items-center border-b bg-white ${className}`}
+    >
       {children}
     </header>
   );
