@@ -1,7 +1,6 @@
+import { baseUrl } from '@/constants/api-constants';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // NextAuth 설정
 const handler = NextAuth({

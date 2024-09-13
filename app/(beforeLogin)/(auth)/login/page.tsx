@@ -1,14 +1,10 @@
 'use client';
 
 import Button from '@/components/buttons/button';
-import { inputStyle } from '@/components/inputs/input-styles';
-import Image from 'next/image';
-import Link from 'next/link';
+import AuthInput from '@/components/inputs/auth-input';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { signIn } from 'next-auth/react';
-import EmailInput from '@/components/inputs/email-input';
-import PasswordInput from '@/components/inputs/password-input';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -36,9 +32,17 @@ export default function LoginPage() {
 
   return (
     <form onSubmit={handleLogin}>
-      <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} className="mb-4" />
-      <PasswordInput
+      <AuthInput
+        value={email}
+        type="email"
+        placeholder="이메일"
+        onChange={(e) => setEmail(e.target.value)}
+        className="mb-4"
+      />
+      <AuthInput
         value={password}
+        type="password"
+        placeholder="비밀번호"
         onChange={(e) => setPassword(e.target.value)}
         className="mb-6"
       />

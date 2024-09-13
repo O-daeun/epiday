@@ -18,6 +18,6 @@
 
 @layer base {
   * {
-    @apply font-pretendard;
+    @apply font-pretendard text-var-black-600;
   }
 }
