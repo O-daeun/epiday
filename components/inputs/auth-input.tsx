@@ -1,33 +1,26 @@
 import Image from 'next/image';
-import { InputHTMLAttributes, useState } from 'react';
-import { inputStyle } from './input-styles';
+import { InputHTMLAttributes, forwardRef, useState } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   error?: string;
 }
 
-export default function AuthInput({
-  value,
-  id,
-  type = 'text',
-  placeholder,
-  onChange,
-  className = '',
-  error,
-}: Props) {
+const AuthInput = forwardRef<HTMLInputElement, Props>(function AuthInput(
+  { type = 'text', placeholder, className = '', error, ...rest },
+  ref,
+) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <>
+    <div className={className}>
       <div className="relative">
         <input
           type={type !== 'password' ? type : isVisible ? 'text' : 'password'}
-          value={value}
-          id={id}
-          onChange={onChange}
-          className={`${inputStyle.auth} ${className}`}
+          ref={ref}
+          className={`flex h-16 w-full items-center rounded-xl bg-var-blue-200 px-4 text-xl outline-none placeholder:text-var-blue-400 ${error ? 'border border-var-error' : ''}`}
           placeholder={placeholder}
+          {...rest}
         />
         {type === 'password' && (
           <button
@@ -45,7 +38,9 @@ export default function AuthInput({
           </button>
         )}
       </div>
-      {error && <p>error</p>}
-    </>
+      {error && <p className="pl-2 leading-[162.5%] text-var-error">{error}</p>}
+    </div>
   );
-}
+});
+
+export default AuthInput;
