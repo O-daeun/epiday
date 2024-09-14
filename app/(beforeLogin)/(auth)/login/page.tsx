@@ -63,7 +63,7 @@ export default function LoginPage() {
         {...register('email', {
           required: '이메일은 필수 입력입니다.',
           pattern: {
-            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             message: '이메일 형식으로 작성해 주세요.',
           },
         })}
@@ -76,6 +76,14 @@ export default function LoginPage() {
       <AuthInput
         {...register('password', {
           required: '비밀번호는 필수 입력입니다.',
+          minLength: {
+            value: 8,
+            message: '비밀번호는 최소 8자 이상입니다.',
+          },
+          pattern: {
+            value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
+            message: '비밀번호는 숫자, 영문, 특수문자(!@#$%^&*)로만 작성하세요.',
+          },
         })}
         type="password"
         placeholder="비밀번호"
