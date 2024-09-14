@@ -4,12 +4,21 @@ import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface LoginFormInputs {
   email: string;
   password: string;
+}
+
+interface ServerError {
+  email: {
+    message: string;
+  };
+  password: {
+    message: string;
+  };
 }
 
 export default function LoginPage() {
@@ -23,6 +32,7 @@ export default function LoginPage() {
     mode: 'onBlur',
   });
   const router = useRouter();
+  const [serverError, setServerError] = useState('');
 
   const handleLogin = async (data: LoginFormInputs) => {
     const response = await signIn('credentials', {
@@ -32,8 +42,7 @@ export default function LoginPage() {
     });
 
     if (response?.error) {
-      // memo: 로그인 실패 처리
-      console.log(response.error);
+      setServerError(response.error);
     } else {
       router.push('/epidays');
     }
@@ -76,6 +85,7 @@ export default function LoginPage() {
           setValue('password', e.target.value, { shouldValidate: !!errors.password })
         }
       />
+      {serverError && <p className="text-center leading-[162.5%] text-var-error">{serverError}</p>}
       <Button type="submit" design="wide">
         로그인
       </Button>

@@ -2,7 +2,6 @@ import { baseUrl } from '@/constants/api-constants';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-// NextAuth 설정
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
@@ -12,8 +11,7 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // 백엔드 API 호출
-        const res = await fetch(`${baseUrl}/auth/signIn`, {
+        const response = await fetch(`${baseUrl}/auth/signIn`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -24,13 +22,12 @@ const handler = NextAuth({
           }),
         });
 
-        const user = await res.json();
+        const user = await response.json();
 
-        // 로그인 성공 여부 확인
-        if (res.ok && user) {
+        if (response.ok && user) {
           return user;
         } else {
-          return null; // 인증 실패 시 null 반환
+          throw new Error(user.message || '로그인에 실패했습니다.');
         }
       },
     }),
