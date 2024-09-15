@@ -5,7 +5,7 @@ import AuthInput from '@/components/inputs/auth-input';
 import { useToastStore } from '@/store/useToastStore';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface LoginFormInputs {
@@ -26,6 +26,9 @@ export default function LoginPage() {
   const router = useRouter();
   const { showToast } = useToastStore();
 
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
   const handleLogin = async (data: LoginFormInputs) => {
     try {
       const response = await signIn('credentials', {
@@ -36,6 +39,19 @@ export default function LoginPage() {
 
       if (response?.error) {
         showToast({ message: response.error, type: 'error' });
+        if (response.error.includes('이메일') && emailRef.current) {
+          emailRef.current.focus();
+          emailRef.current.setSelectionRange(
+            emailRef.current.value.length,
+            emailRef.current.value.length,
+          );
+        } else if (response.error.includes('비밀번호') && passwordRef.current) {
+          passwordRef.current.focus();
+          passwordRef.current.setSelectionRange(
+            passwordRef.current.value.length,
+            passwordRef.current.value.length,
+          );
+        }
       } else {
         router.push('/epidays');
       }
@@ -54,6 +70,23 @@ export default function LoginPage() {
     }
   }, [errors, trigger]);
 
+  useEffect(() => {
+    if (errors.email && emailRef.current) {
+      emailRef.current.focus();
+      emailRef.current.setSelectionRange(
+        emailRef.current.value.length,
+        emailRef.current.value.length,
+      );
+    }
+    if (errors.password && passwordRef.current) {
+      passwordRef.current.focus();
+      passwordRef.current.setSelectionRange(
+        passwordRef.current.value.length,
+        passwordRef.current.value.length,
+      );
+    }
+  }, [errors]);
+
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
       <AuthInput
@@ -64,10 +97,10 @@ export default function LoginPage() {
             message: '이메일 형식으로 작성해 주세요.',
           },
         })}
-        type="email"
         placeholder="이메일"
         className="mb-4"
         error={errors.email?.message}
+        ref={emailRef}
         onChange={(e) => setValue('email', e.target.value, { shouldValidate: !!errors.email })}
       />
       <AuthInput
@@ -86,6 +119,7 @@ export default function LoginPage() {
         placeholder="비밀번호"
         className="mb-6"
         error={errors.password?.message}
+        ref={passwordRef}
         onChange={(e) =>
           setValue('password', e.target.value, { shouldValidate: !!errors.password })
         }

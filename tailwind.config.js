@@ -59,6 +59,37 @@ module.exports = {
         sm: { max: '768px' }, // mobile
         md: { max: '1024px' }, // tablet
       },
+      keyframes: {
+        progress: {
+          '0%': { width: '100%' },
+          '100%': { width: '0%' },
+        },
+        slideIn: {
+          '0%': {
+            transform: 'translateY(20px)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
+        slideOut: {
+          '0%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'translateY(20px)',
+            opacity: '0',
+          },
+        },
+      },
+      animation: {
+        progress: 'progress 3s linear',
+        slideIn: 'slideIn 0.3s ease-out',
+        slideOut: 'slideOut 0.3s ease-in',
+      },
     },
   },
   plugins: [],
