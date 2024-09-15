@@ -2,23 +2,15 @@
 
 import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
+import { useToastStore } from '@/store/useToastStore';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface LoginFormInputs {
   email: string;
   password: string;
-}
-
-interface ServerError {
-  email: {
-    message: string;
-  };
-  password: {
-    message: string;
-  };
 }
 
 export default function LoginPage() {
@@ -32,19 +24,24 @@ export default function LoginPage() {
     mode: 'onBlur',
   });
   const router = useRouter();
-  const [serverError, setServerError] = useState('');
+  const { showToast } = useToastStore();
 
   const handleLogin = async (data: LoginFormInputs) => {
-    const response = await signIn('credentials', {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const response = await signIn('credentials', {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
 
-    if (response?.error) {
-      setServerError(response.error);
-    } else {
-      router.push('/epidays');
+      if (response?.error) {
+        showToast({ message: response.error, type: 'error' });
+      } else {
+        router.push('/epidays');
+      }
+    } catch (error) {
+      console.error('로그인 중 예외 발생: ', error);
+      showToast({ message: '로그인 중 오류가 발생했습니다.', type: 'error' });
     }
   };
 
@@ -93,7 +90,6 @@ export default function LoginPage() {
           setValue('password', e.target.value, { shouldValidate: !!errors.password })
         }
       />
-      {serverError && <p className="text-center leading-[162.5%] text-var-error">{serverError}</p>}
       <Button type="submit" design="wide">
         로그인
       </Button>
