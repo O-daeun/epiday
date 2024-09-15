@@ -1,6 +1,5 @@
-import Link from 'next/link';
-import { buttonStyle } from './button-styles';
-import { ButtonHTMLAttributes } from 'react';
+import { useRouter } from 'next/navigation';
+import { ButtonHTMLAttributes, MouseEvent } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   link?: string;
@@ -17,17 +16,21 @@ export default function Button({
   type = 'button',
   disabled,
 }: Props) {
-  if (link)
-    return (
-      <Link className={`${buttonStyle[design]} ${className}`} href={link} scroll={false}>
-        {children}
-      </Link>
-    );
+  const router = useRouter();
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (link && !disabled) {
+      router.push(link);
+    }
+    if (onClick) {
+      onClick(event);
+    }
+  };
 
   return (
     <button
-      className={`${buttonStyle[design]} ${className}`}
-      onClick={onClick}
+      className={`flex h-16 items-center justify-center rounded-xl bg-var-black-500 text-xl font-semibold text-white hover:bg-var-black-600 ${design === 'main' ? 'w-64' : 'w-full'} active:bg-var-black-700 disabled:bg-var-blue-300 ${className}`}
+      onClick={handleClick}
       type={type}
       disabled={disabled}
     >

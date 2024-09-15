@@ -5,7 +5,7 @@ import AuthInput from '@/components/inputs/auth-input';
 import { useToastStore } from '@/store/useToastStore';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface LoginFormInputs {
@@ -17,19 +17,23 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     trigger,
     setValue,
   } = useForm<LoginFormInputs>({
-    mode: 'onBlur',
+    mode: 'onChange',
+    criteriaMode: 'all',
   });
   const router = useRouter();
   const { showToast } = useToastStore();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleLogin = async (data: LoginFormInputs) => {
+    setIsLoading(true);
     try {
       const response = await signIn('credentials', {
         redirect: false,
@@ -58,6 +62,8 @@ export default function LoginPage() {
     } catch (error) {
       console.error('로그인 중 예외 발생: ', error);
       showToast({ message: '로그인 중 오류가 발생했습니다.', type: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,7 +107,7 @@ export default function LoginPage() {
         className="mb-4"
         error={errors.email?.message}
         ref={emailRef}
-        onChange={(e) => setValue('email', e.target.value, { shouldValidate: !!errors.email })}
+        onChange={(e) => setValue('email', e.target.value, { shouldValidate: true })}
       />
       <AuthInput
         {...register('password', {
@@ -120,11 +126,9 @@ export default function LoginPage() {
         className="mb-6"
         error={errors.password?.message}
         ref={passwordRef}
-        onChange={(e) =>
-          setValue('password', e.target.value, { shouldValidate: !!errors.password })
-        }
+        onChange={(e) => setValue('password', e.target.value, { shouldValidate: true })}
       />
-      <Button type="submit" design="wide">
+      <Button type="submit" design="wide" disabled={isLoading || !isValid}>
         로그인
       </Button>
     </form>
