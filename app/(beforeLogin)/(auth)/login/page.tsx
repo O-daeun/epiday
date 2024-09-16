@@ -36,6 +36,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const response = await signIn('credentials', {
+        method: 'POST',
         redirect: false,
         email: data.email,
         password: data.password,
