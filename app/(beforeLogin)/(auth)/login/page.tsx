@@ -2,7 +2,7 @@
 
 import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
-import { useToastStore } from '@/store/useToastStore';
+import { useToastStore } from '@/store/use-toast-store';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
