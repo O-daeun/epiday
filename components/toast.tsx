@@ -1,6 +1,6 @@
 'use client';
 
-import { useToastStore } from '@/store/useToastStore';
+import { useToastStore } from '@/store/use-toast-store';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 
@@ -30,7 +30,7 @@ export default function Toast() {
         <CheckCircleIcon className="h-5 w-5 stroke-white" />
       )}
       {toast.message}
-      <div className="animate-progress absolute bottom-0 left-0 h-1 bg-white"></div>
+      <div className="absolute bottom-0 left-0 h-1 animate-progress bg-white"></div>
     </div>
   );
 }

@@ -4,80 +4,122 @@ import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
 import AuthLabel from '@/components/inputs/auth-label';
 import { baseUrl } from '@/constants/api-constants';
+import { useToastStore } from '@/store/use-toast-store';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+interface SignUpFormInputs {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirmation: string;
+}
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    setValue,
+    watch,
+  } = useForm<SignUpFormInputs>({
+    mode: 'onTouched',
+    criteriaMode: 'all',
+  });
+
   const router = useRouter();
+  const { showToast } = useToastStore();
 
-  const handleSignUp = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    const response = await fetch(`${baseUrl}/auth/signUp`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        nickname,
-        password,
-        passwordConfirmation,
-      }),
-    });
+  const handleSignUp = async (data: SignUpFormInputs) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${baseUrl}/auth/signUp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      router.push('/login');
-    } else {
-      const { message } = await response.json();
-      setError(message || '회원가입에 실패했습니다.');
+      if (response.ok) {
+        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
+        router.push('/login');
+      } else {
+        const { message } = await response.json();
+        showToast({ message, type: 'error' });
+      }
+    } catch (error) {
+      console.error('회원가입 중 예외 발생: ', error);
+      showToast({ message: '회원가입 중 오류가 발생했습니다.', type: 'error' });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
-    <form onSubmit={handleSignUp} className="flex flex-col gap-10">
+    <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-10">
       <AuthLabel htmlFor="email" label="이메일">
         <AuthInput
-          value={email}
+          {...register('email', {
+            required: '이메일은 필수 입력입니다.',
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: '이메일 형식으로 작성해 주세요.',
+            },
+          })}
           id="email"
-          type="email"
           placeholder="이메일"
-          onChange={(e) => setEmail(e.target.value)}
+          error={errors.email?.message}
+          onChange={(e) => setValue('email', e.target.value, { shouldValidate: true })}
         />
       </AuthLabel>
       <AuthLabel htmlFor="password" label="비밀번호">
         <AuthInput
-          value={password}
+          {...register('password', {
+            required: '비밀번호는 필수 입력입니다.',
+            minLength: {
+              value: 8,
+              message: '비밀번호는 최소 8자 이상입니다.',
+            },
+            pattern: {
+              value: /^([a-z]|[A-Z]|[0-9]|[!@#$%^&*])+$/,
+              message: '비밀번호는 숫자, 영문, 특수문자(!@#$%^&*)로만 가능합니다.',
+            },
+          })}
           id="password"
           type="password"
           placeholder="비밀번호"
-          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password?.message}
+          onChange={(e) => setValue('password', e.target.value, { shouldValidate: true })}
         />
         <AuthInput
-          value={passwordConfirmation}
+          {...register('passwordConfirmation', {
+            required: '비밀번호 확인은 필수 입력입니다.',
+            validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다.',
+          })}
           id="passwordConfirm"
           type="password"
           placeholder="비밀번호 확인"
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
+          error={errors.passwordConfirmation?.message}
         />
       </AuthLabel>
       <AuthLabel htmlFor="nickname" label="닉네임">
         <AuthInput
-          value={nickname}
+          {...register('nickname', {
+            required: '닉네임은 필수 입력입니다.',
+          })}
           id="nickname"
           placeholder="닉네임"
-          onChange={(e) => setNickname(e.target.value)}
+          error={errors.nickname?.message}
+          maxLength={20}
+          onChange={(e) => setValue('nickname', e.target.value, { shouldValidate: true })}
         />
       </AuthLabel>
-      <Button type="submit" design="wide">
+      <Button type="submit" design="wide" disabled={isLoading || !isValid}>
         회원가입
       </Button>
-      {error && <p className="text-var-error">{error}</p>}
     </form>
   );
 }

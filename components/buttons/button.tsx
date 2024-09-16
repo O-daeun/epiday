@@ -29,7 +29,7 @@ export default function Button({
 
   return (
     <button
-      className={`flex h-16 items-center justify-center rounded-xl bg-var-black-500 text-xl font-semibold text-white hover:bg-var-black-600 ${design === 'main' ? 'w-64' : 'w-full'} active:bg-var-black-700 disabled:bg-var-blue-300 ${className}`}
+      className={`flex h-16 items-center justify-center rounded-xl bg-var-black-500 text-xl font-semibold text-white duration-100 hover:bg-var-black-600 ${design === 'main' ? 'w-64' : 'w-full'} active:bg-var-black-700 disabled:bg-var-blue-300 ${className}`}
       onClick={handleClick}
       type={type}
       disabled={disabled}

@@ -21,7 +21,7 @@ export default function LoginPage() {
     trigger,
     setValue,
   } = useForm<LoginFormInputs>({
-    mode: 'onChange',
+    mode: 'onTouched',
     criteriaMode: 'all',
   });
   const router = useRouter();
@@ -42,7 +42,9 @@ export default function LoginPage() {
         password: data.password,
       });
 
-      if (response?.error) {
+      if (response.ok) {
+        router.push('/epidays');
+      } else {
         showToast({ message: response.error, type: 'error' });
         if (response.error.includes('이메일') && emailRef.current) {
           emailRef.current.focus();
@@ -57,8 +59,6 @@ export default function LoginPage() {
             passwordRef.current.value.length,
           );
         }
-      } else {
-        router.push('/epidays');
       }
     } catch (error) {
       console.error('로그인 중 예외 발생: ', error);
