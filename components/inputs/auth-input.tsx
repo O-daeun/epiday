@@ -18,7 +18,7 @@ const AuthInput = forwardRef<HTMLInputElement, Props>(function AuthInput(
         <input
           type={type !== 'password' ? type : isVisible ? 'text' : 'password'}
           ref={ref}
-          className={`flex h-16 w-full items-center rounded-xl bg-var-blue-200 px-4 text-xl outline-none placeholder:text-var-blue-400 focus:border focus:border-var-black-200 ${error ? 'border !border-var-error' : ''}`}
+          className={`flex h-16 w-full items-center rounded-xl border border-var-blue-200 bg-var-blue-200 px-4 text-xl outline-none duration-100 placeholder:text-var-blue-400 focus:border-var-blue-500 ${error ? 'border !border-var-error' : ''}`}
           placeholder={placeholder}
           {...rest}
         />
