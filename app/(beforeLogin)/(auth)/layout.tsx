@@ -19,7 +19,7 @@ export default function Layout({ children }: Props) {
       <AuthHeader />
       <div className="flex min-h-screen items-center justify-center bg-var-background px-6 py-[160px]">
         <div className="w-full max-w-[640px]">
-          <LogoLink width={152} height={48} className="mx-auto mb-[60px] block w-fit" />
+          <LogoLink size="l" className="mx-auto mb-[60px] block w-fit" />
           {children}
           <div className="mb-[60px] mt-[10px] flex items-center justify-end gap-2 pr-2">
             <span className="text-xl font-medium text-var-blue-400">
