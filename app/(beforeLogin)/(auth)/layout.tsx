@@ -1,12 +1,17 @@
 'use client';
 
+import SnsLogin from '@/components/auth/sns-login';
 import AuthHeader from '@/components/headers/auth-header';
-import SnsLogin from '@/components/sns-login';
-import Image from 'next/image';
+import LogoLink from '@/components/logo-link';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ReactNode } from 'react';
 
-export default function Layout({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: Props) {
   const pathname = usePathname();
   const isLoginPage = pathname === '/login';
   return (
@@ -14,9 +19,7 @@ export default function Layout({ children }) {
       <AuthHeader />
       <div className="flex min-h-screen items-center justify-center bg-var-background px-6 py-[160px]">
         <div className="w-full max-w-[640px]">
-          <Link href="/" className="mx-auto mb-[60px] block w-fit">
-            <Image src="/logo.svg" width={152} height={48} alt="Epiday logo" />
-          </Link>
+          <LogoLink width={152} height={48} className="mx-auto mb-[60px] block w-fit" />
           {children}
           <div className="mb-[60px] mt-[10px] flex items-center justify-end gap-2 pr-2">
             <span className="text-xl font-medium text-var-blue-400">

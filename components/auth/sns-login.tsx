@@ -1,4 +1,4 @@
-import SnsLoginButton from './buttons/sns-login-button';
+import SnsLoginButton from './sns-login-button';
 
 function Line() {
   return <div className="h-[1px] w-full bg-var-gray-200" />;
