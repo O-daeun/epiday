@@ -21,7 +21,9 @@ export default function NavHeader() {
         <LogoLink />
         <nav className="flex gap-6">
           {NAV_LIST.map((nav) => (
-            <Link href={nav.link}>{nav.title}</Link>
+            <Link href={nav.link} key={nav.title}>
+              {nav.title}
+            </Link>
           ))}
         </nav>
       </div>
