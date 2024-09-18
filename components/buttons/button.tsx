@@ -1,10 +1,11 @@
 import { useRouter } from 'next/navigation';
-import { ButtonHTMLAttributes, MouseEvent } from 'react';
+import { ButtonHTMLAttributes, MouseEvent, ReactNode } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   link?: string;
   className?: string;
   design?: 'main' | 'wide';
+  children: ReactNode;
 }
 
 export default function Button({
