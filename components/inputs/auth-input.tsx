@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
+import ErrorMessage from './error-message';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -38,7 +39,7 @@ const AuthInput = forwardRef<HTMLInputElement, Props>(function AuthInput(
           </button>
         )}
       </div>
-      {error && <p className="pl-2 leading-[162.5%] text-var-error">{error}</p>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </div>
   );
 });
