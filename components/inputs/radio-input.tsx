@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, InputHTMLAttributes } from 'react';
+import { ChangeEvent, InputHTMLAttributes, forwardRef } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -7,11 +7,15 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function RadioInput({ label, checked, onChange, value, ...rest }: Props) {
+const RadioInput = forwardRef<HTMLInputElement, Props>(function RadioInput(
+  { label, checked, onChange, value, ...rest },
+  ref,
+) {
   return (
     <label htmlFor={`radio-${value}`} className="flex cursor-pointer items-center gap-2">
       <input
         type="radio"
+        ref={ref}
         id={`radio-${value}`}
         value={value}
         checked={checked}
@@ -28,4 +32,6 @@ export default function RadioInput({ label, checked, onChange, value, ...rest }:
       <span className="text-xl">{label}</span>
     </label>
   );
-}
+});
+
+export default RadioInput;
