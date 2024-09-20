@@ -1,4 +1,7 @@
+'use client';
+
 import NavHeader from '@/components/headers/nav-header';
+import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -7,9 +10,9 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   return (
-    <>
+    <SessionProvider>
       <NavHeader />
       {children}
-    </>
+    </SessionProvider>
   );
 }
