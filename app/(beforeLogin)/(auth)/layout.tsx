@@ -3,6 +3,7 @@
 import SnsLogin from '@/components/auth/sns-login';
 import AuthHeader from '@/components/headers/auth-header';
 import LogoLink from '@/components/logo-link';
+import { SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -15,7 +16,7 @@ export default function Layout({ children }: Props) {
   const pathname = usePathname();
   const isLoginPage = pathname === '/login';
   return (
-    <>
+    <SessionProvider>
       <AuthHeader />
       <div className="flex min-h-screen items-center justify-center bg-var-background px-6 py-[160px]">
         <div className="w-full max-w-[640px]">
@@ -35,6 +36,6 @@ export default function Layout({ children }: Props) {
           <SnsLogin />
         </div>
       </div>
-    </>
+    </SessionProvider>
   );
 }

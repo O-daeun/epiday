@@ -21,13 +21,16 @@ const handler = NextAuth({
             password: credentials?.password,
           }),
         });
+        const data = await response.json();
 
-        const user = await response.json();
-
-        if (response.ok && user) {
-          return user;
+        if (response.ok && data?.user) {
+          return {
+            ...data.user,
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+          };
         } else {
-          throw new Error(user.message || '로그인에 실패했습니다.');
+          throw new Error(data.message || '로그인에 실패했습니다.');
         }
       },
     }),
@@ -39,16 +42,20 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
+        token.nickname = user.nickname;
         token.email = user.email;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.id = token.id as string;
-        session.name = token.name as string;
+        session.nickname = token.nickname as string;
         session.email = token.email as string;
+        session.accessToken = token.accessToken as string;
+        session.refreshToken = token.refreshToken as string;
       }
       return session;
     },

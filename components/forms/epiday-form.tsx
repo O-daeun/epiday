@@ -2,6 +2,7 @@
 
 import { baseUrl } from '@/constants/api-constants';
 import { useToastStore } from '@/store/use-toast-store';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,7 @@ import RadioInput from '../inputs/radio-input';
 import Textarea from '../inputs/textarea';
 
 interface EpidayFormValues {
-  tags?: string[];
+  tags: string[];
   referenceUrl?: string;
   referenceTitle?: string;
   author: string;
@@ -34,6 +35,7 @@ export default function EpidayForm() {
 
   const router = useRouter();
   const { showToast } = useToastStore();
+  const { data: session } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAuthor, setSelectedAuthor] = useState('직접입력');
@@ -51,17 +53,11 @@ export default function EpidayForm() {
   const handlePost = async (data: EpidayFormValues) => {
     setIsLoading(true);
     try {
-      const getCookie = (name) => {
-        const value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-        return value ? value[2] : null;
-      };
-      const accessToken = getCookie('next-auth.session-token');
-
       const response = await fetch(`${baseUrl}/epigrams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${session.accessToken}`,
         },
         body: JSON.stringify(data),
       });
