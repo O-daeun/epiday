@@ -11,9 +11,10 @@ import InnerLayout from '../inner-layout';
 import Input from '../inputs/input';
 import Label from '../inputs/label';
 import RadioInput from '../inputs/radio-input';
+import TagsInput from '../inputs/tags-input';
 import Textarea from '../inputs/textarea';
 
-interface EpidayFormValues {
+export interface EpidayFormValues {
   tags: string[];
   referenceUrl?: string;
   referenceTitle?: string;
@@ -81,7 +82,7 @@ export default function EpidayForm() {
     <InnerLayout className="py-[136px]">
       <h1 className="mb-10 text-2xl font-semibold text-black">에피데이 만들기</h1>
       <form onSubmit={handleSubmit(handlePost)} className="flex flex-col gap-[54px]">
-        <Label label="내용" isRequired>
+        <Label label="내용" required>
           <Textarea
             error={errors.content?.message}
             placeholder="500자 이내로 입력해주세요."
@@ -92,7 +93,7 @@ export default function EpidayForm() {
             })}
           />
         </Label>
-        <Label label="저자" isRequired>
+        <Label label="저자" required>
           <div className="mb-4 flex gap-6">
             <RadioInput
               name="author"
@@ -154,13 +155,15 @@ export default function EpidayForm() {
             })}
           />
         </Label>
-        <Label label="태그">
-          <Input
-            placeholder="입력하여 태그 작성 (최대 10자)"
+        <Label label="태그" required>
+          <TagsInput
+            setValue={setValue}
+            register={register}
             onFocus={() => {
               trigger('content');
               trigger('author');
             }}
+            error={errors.tags?.message}
           />
         </Label>
         <Button type="submit" design="wide" disabled={isLoading || !isValid}>
