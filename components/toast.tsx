@@ -25,9 +25,9 @@ export default function Toast() {
       className={`fixed bottom-4 right-4 z-50 flex items-center gap-1 overflow-hidden rounded-lg p-4 text-white shadow-lg ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} ${isVisible ? 'animate-slideIn' : 'animate-slideOut'}`}
     >
       {toast.type === 'error' ? (
-        <ExclamationCircleIcon className="h-5 w-5 stroke-white" />
+        <ExclamationCircleIcon className="size-5 stroke-white" />
       ) : (
-        <CheckCircleIcon className="h-5 w-5 stroke-white" />
+        <CheckCircleIcon className="size-5 stroke-white" />
       )}
       {toast.message}
       <div className="absolute bottom-0 left-0 h-1 animate-progress bg-white"></div>
