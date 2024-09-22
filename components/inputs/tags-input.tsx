@@ -20,6 +20,7 @@ export default function TagsInput({ setValue, register, error, ...rest }: Props)
       e.preventDefault();
       if (!tags.includes(inputValue.trim())) {
         setTags([...tags, inputValue.trim()]);
+        setValue('tags', [...tags, inputValue.trim()]);
       }
       setInputValue('');
     }

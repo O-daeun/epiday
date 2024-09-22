@@ -54,18 +54,21 @@ export default function EpidayForm() {
   const handlePost = async (data: EpidayFormValues) => {
     setIsLoading(true);
     try {
+      const updatedData = Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => value !== ''),
+      );
       const response = await fetch(`${baseUrl}/epigrams`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${session.accessToken}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updatedData),
       });
 
       if (response.ok) {
         showToast({ message: '에피데이 작성이 완료되었습니다.', type: 'success' });
-        router.push('/'); // note: 상세페이지로 이동
+        router.push('/epidays'); // note: 상세페이지로 이동
       } else {
         const { message } = await response.json();
         showToast({ message, type: 'error' });
