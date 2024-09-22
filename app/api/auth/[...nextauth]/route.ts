@@ -1,6 +1,46 @@
 import { baseUrl } from '@/constants/api-constants';
 import NextAuth from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+interface Token extends JWT {
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
+  error?: string;
+}
+
+async function refreshAccessToken(token: Token): Promise<Token> {
+  try {
+    const response = await fetch(`${baseUrl}/auth/refresh-token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        refreshToken: token.refreshToken,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return {
+        ...token,
+        accessToken: data.accessToken,
+        accessTokenExpires: Date.now() + 3600 * 1000, // 1시간
+      };
+    } else {
+      throw new Error(data.message || '리프레시 토큰 갱신 실패');
+    }
+  } catch (error) {
+    console.error('리프레시 토큰 갱신 중 오류 발생: ', error);
+    return {
+      ...token,
+      error: '리프레시 토큰 갱신 실패',
+    };
+  }
+}
 
 const handler = NextAuth({
   providers: [
@@ -41,21 +81,28 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.nickname = user.nickname;
-        token.email = user.email;
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+        return {
+          ...token,
+          accessToken: user.accessToken,
+          refreshToken: user.refreshToken,
+          accessTokenExpires: Date.now() + 3600 * 1000, // 1시간 동안 유효
+        };
       }
-      return token;
+
+      if (Date.now() < (token as Token).accessTokenExpires) {
+        return token;
+      }
+
+      return refreshAccessToken(token as Token);
     },
     async session({ session, token }) {
+      const typedToken = token as Token;
       if (token) {
-        session.id = token.id as string;
-        session.nickname = token.nickname as string;
-        session.email = token.email as string;
-        session.accessToken = token.accessToken as string;
-        session.refreshToken = token.refreshToken as string;
+        session.id = typedToken.id as string;
+        session.nickname = typedToken.nickname as string;
+        session.email = typedToken.email as string;
+        session.accessToken = typedToken.accessToken as string;
+        session.refreshToken = typedToken.refreshToken as string;
       }
       return session;
     },
