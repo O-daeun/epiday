@@ -10,16 +10,16 @@ interface Props {
   params: { id: number };
 }
 
-export default function EditPage({ params }: Props) {
+export default function EditPage({ params: { id } }: Props) {
   const [epidayData, setEpidayData] = useState();
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (params.id && session) {
+    if (id && session) {
       const handleLoadData = async () => {
-        const response = await fetch(`${baseUrl}/epigrams/${params.id}`, {
+        const response = await fetch(`${baseUrl}/epigrams/${id}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${session.accessToken}`,
@@ -36,10 +36,10 @@ export default function EditPage({ params }: Props) {
       };
       handleLoadData();
     }
-  }, [params.id, session]);
+  }, [id, session]);
   return (
     <div>
-      <EpidayForm data={epidayData} />
+      <EpidayForm data={epidayData} id={id} />
     </div>
   );
 }

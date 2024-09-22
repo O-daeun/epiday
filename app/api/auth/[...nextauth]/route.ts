@@ -1,14 +1,7 @@
 import { baseUrl } from '@/constants/api-constants';
+import { Token } from '@/types/token';
 import NextAuth from 'next-auth';
-import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-interface Token extends JWT {
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpires: number;
-  error?: string;
-}
 
 async function refreshAccessToken(token: Token): Promise<Token> {
   try {
@@ -28,7 +21,6 @@ async function refreshAccessToken(token: Token): Promise<Token> {
       return {
         ...token,
         accessToken: data.accessToken,
-        accessTokenExpires: Date.now() + 3600 * 1000, // 1시간
       };
     } else {
       throw new Error(data.message || '리프레시 토큰 갱신 실패');
@@ -85,12 +77,7 @@ const handler = NextAuth({
           ...token,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
-          accessTokenExpires: Date.now() + 3600 * 1000, // 1시간 동안 유효
         };
-      }
-
-      if (Date.now() < (token as Token).accessTokenExpires) {
-        return token;
       }
 
       return refreshAccessToken(token as Token);

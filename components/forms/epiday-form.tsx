@@ -1,6 +1,6 @@
 'use client';
 
-import { baseUrl } from '@/constants/api-constants';
+import { fetchWithToken } from '@/api/fetch-with-token';
 import { useToastStore } from '@/store/use-toast-store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -36,9 +36,10 @@ interface EpidayResponse {
 
 interface Props {
   data?: EpidayResponse;
+  id?: number;
 }
 
-export default function EpidayForm({ data }: Props) {
+export default function EpidayForm({ data, id }: Props) {
   const {
     register,
     handleSubmit,
@@ -73,18 +74,15 @@ export default function EpidayForm({ data }: Props) {
       const updatedData = Object.fromEntries(
         Object.entries(data).filter(([_, value]) => value !== ''),
       );
-      const response = await fetch(`${baseUrl}/epigrams`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-        body: JSON.stringify(updatedData),
-      });
-
+      const response = await fetchWithToken('POST', 'epigrams', session, updatedData);
       if (response.ok) {
         showToast({ message: '에피데이 작성이 완료되었습니다.', type: 'success' });
-        router.push('/epidays'); // note: 상세페이지로 이동
+        if (id) {
+          router.push(`/epidays/${id}`);
+        } else {
+          const data = await response.json();
+          router.push(`/epidays/${data.id}`);
+        }
       } else {
         const { message } = await response.json();
         showToast({ message, type: 'error' });
