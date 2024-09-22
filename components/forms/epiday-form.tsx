@@ -4,7 +4,7 @@ import { baseUrl } from '@/constants/api-constants';
 import { useToastStore } from '@/store/use-toast-store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../buttons/button';
 import InnerLayout from '../inner-layout';
@@ -22,7 +22,23 @@ export interface EpidayFormValues {
   content: string;
 }
 
-export default function EpidayForm() {
+interface EpidayResponse {
+  author: string;
+  content: string;
+  id: number;
+  isLiked: boolean;
+  likeCount: number;
+  referenceTitle: string | null;
+  referenceUrl: string | null;
+  tags: string[];
+  writerId: number;
+}
+
+interface Props {
+  data?: EpidayResponse;
+}
+
+export default function EpidayForm({ data }: Props) {
   const {
     register,
     handleSubmit,
@@ -80,6 +96,16 @@ export default function EpidayForm() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setValue('content', data.content);
+      setValue('author', data.author);
+      setValue('referenceTitle', data.referenceTitle);
+      setValue('referenceUrl', data.referenceUrl);
+      setValue('tags', data.tags);
+    }
+  }, [data]);
 
   return (
     <InnerLayout className="py-[136px]">
@@ -158,7 +184,7 @@ export default function EpidayForm() {
             })}
           />
         </Label>
-        <Label label="태그" required>
+        <Label label="태그">
           <TagsInput
             setValue={setValue}
             register={register}
