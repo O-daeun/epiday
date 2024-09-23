@@ -130,7 +130,7 @@ export default function EpidayForm({ data, id }: Props) {
   }, [data]);
 
   return (
-    <InnerLayout className="py-[136px]">
+    <InnerLayout className="py-14">
       <h1 className="mb-10 text-2xl font-semibold text-black">에피데이 만들기</h1>
       <form onSubmit={handleSubmit(handlePost)} className="flex flex-col gap-[54px]">
         <Label label="내용" required>

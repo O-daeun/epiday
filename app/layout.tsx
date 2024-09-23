@@ -14,7 +14,7 @@ interface Props {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="ko">
-      <body>
+      <body className="min-h-screen">
         {children}
         <Toast />
       </body>
