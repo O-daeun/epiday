@@ -1,6 +1,7 @@
 'use client';
 
 import { fetchWithToken } from '@/api/fetch-with-token';
+import { AUTHOR_VALUE, REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
 import { useSession } from 'next-auth/react';
@@ -57,16 +58,16 @@ export default function EpidayForm({ data, id }: Props) {
   const { data: session } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAuthor, setSelectedAuthor] = useState('직접입력');
+  const [selectedAuthor, setSelectedAuthor] = useState(AUTHOR_VALUE.writtenByUser);
 
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = e.target.value;
     setSelectedAuthor(selectedValue);
     trigger('author');
-    if (selectedValue === '직접입력') {
+    if (selectedValue === AUTHOR_VALUE.writtenByUser) {
       setValue('author', '');
-    } else if (selectedValue === '본인') {
-      setValue('author', `본인/${selectedValue}`);
+    } else if (selectedValue === AUTHOR_VALUE.myself) {
+      setValue('author', `${AUTHOR_VALUE.myself}:${selectedValue}`);
     } else {
       setValue('author', selectedValue);
     }
@@ -75,9 +76,10 @@ export default function EpidayForm({ data, id }: Props) {
   const handlePost = async (data: EpidayFormValues) => {
     setIsLoading(true);
     try {
-      const updatedData = Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => value !== '' && value !== null),
-      );
+      const updatedData = {
+        ...data,
+        referenceUrl: data.referenceUrl === '' ? REFERENCE_URL_DEFAULT_VALUE : data.referenceUrl,
+      };
       let response: Response;
       if (id) {
         response = await fetchWithToken('PATCH', `epigrams/${id}`, session, updatedData);
@@ -110,16 +112,19 @@ export default function EpidayForm({ data, id }: Props) {
       setValue('content', data.content);
       setValue('author', data.author);
       setValue('referenceTitle', data.referenceTitle);
-      setValue('referenceUrl', data.referenceUrl);
+      setValue(
+        'referenceUrl',
+        data.referenceUrl === REFERENCE_URL_DEFAULT_VALUE ? '' : data.referenceUrl,
+      );
 
       trigger();
 
-      if (data.author === '알수없음') {
-        setSelectedAuthor('알수없음');
-      } else if (data.author.startsWith('본인')) {
-        setSelectedAuthor('본인');
+      if (data.author === AUTHOR_VALUE.unknown) {
+        setSelectedAuthor(AUTHOR_VALUE.unknown);
+      } else if (data.author.startsWith(AUTHOR_VALUE.myself)) {
+        setSelectedAuthor(AUTHOR_VALUE.myself);
       } else {
-        setSelectedAuthor('직접입력');
+        setSelectedAuthor(AUTHOR_VALUE.writtenByUser);
       }
     }
   }, [data]);
@@ -143,27 +148,27 @@ export default function EpidayForm({ data, id }: Props) {
           <div className="mb-4 flex gap-6">
             <RadioInput
               name="author"
-              value="직접입력"
-              label="직접 입력"
-              checked={selectedAuthor === '직접입력'}
+              value={AUTHOR_VALUE.writtenByUser}
+              label={AUTHOR_VALUE.writtenByUser}
+              checked={selectedAuthor === AUTHOR_VALUE.writtenByUser}
               onChange={handleRadioChange}
             />
             <RadioInput
               name="author"
-              value="알수없음"
-              label="알 수 없음"
-              checked={selectedAuthor === '알수없음'}
+              value={AUTHOR_VALUE.unknown}
+              label={AUTHOR_VALUE.unknown}
+              checked={selectedAuthor === AUTHOR_VALUE.unknown}
               onChange={handleRadioChange}
             />
             <RadioInput
               name="author"
-              value="본인"
-              label="본인"
-              checked={selectedAuthor === '본인'}
+              value={AUTHOR_VALUE.myself}
+              label={AUTHOR_VALUE.myself}
+              checked={selectedAuthor === AUTHOR_VALUE.myself}
               onChange={handleRadioChange}
             />
           </div>
-          {selectedAuthor === '직접입력' && (
+          {selectedAuthor === AUTHOR_VALUE.writtenByUser && (
             <Input
               placeholder="저자 이름 입력"
               error={errors.author?.message}
