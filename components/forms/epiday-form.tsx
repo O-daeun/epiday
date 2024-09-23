@@ -72,14 +72,20 @@ export default function EpidayForm({ data, id }: Props) {
     setIsLoading(true);
     try {
       const updatedData = Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => value !== ''),
+        Object.entries(data).filter(([_, value]) => value !== '' && value !== null),
       );
-      const response = await fetchWithToken('POST', 'epigrams', session, updatedData);
+      let response: Response;
+      if (id) {
+        response = await fetchWithToken('PATCH', `epigrams/${id}`, session, updatedData);
+      } else {
+        response = await fetchWithToken('POST', 'epigrams', session, updatedData);
+      }
       if (response.ok) {
-        showToast({ message: '에피데이 작성이 완료되었습니다.', type: 'success' });
         if (id) {
+          showToast({ message: '에피데이 수정이 완료되었습니다.', type: 'success' });
           router.push(`/epidays/${id}`);
         } else {
+          showToast({ message: '에피데이 작성이 완료되었습니다.', type: 'success' });
           const data = await response.json();
           router.push(`/epidays/${data.id}`);
         }
