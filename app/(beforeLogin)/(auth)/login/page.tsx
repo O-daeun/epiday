@@ -2,6 +2,7 @@
 
 import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
+import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -62,7 +63,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error('로그인 중 예외 발생: ', error);
-      showToast({ message: '로그인 중 오류가 발생했습니다.', type: 'error' });
+      showToast({ message: TOAST_MESSAGES.auth.loginError, type: 'error' });
     } finally {
       setIsLoading(false);
     }

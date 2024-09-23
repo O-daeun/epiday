@@ -4,6 +4,7 @@ import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
 import AuthLabel from '@/components/inputs/auth-label';
 import { baseUrl } from '@/constants/api-constants';
+import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -45,7 +46,7 @@ export default function SignUpPage() {
       });
 
       if (response.ok) {
-        showToast({ message: '회원가입이 완료되었습니다.', type: 'success' });
+        showToast({ message: TOAST_MESSAGES.auth.signUpSuccess, type: 'success' });
         router.push('/login');
       } else {
         const { message } = await response.json();
@@ -53,7 +54,7 @@ export default function SignUpPage() {
       }
     } catch (error) {
       console.error('회원가입 중 예외 발생: ', error);
-      showToast({ message: '회원가입 중 오류가 발생했습니다.', type: 'error' });
+      showToast({ message: TOAST_MESSAGES.auth.signUpError, type: 'error' });
     } finally {
       setIsLoading(false);
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import { fetchWithToken } from '@/api/fetch-with-token';
+import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -82,10 +83,10 @@ export default function EpidayForm({ data, id }: Props) {
       }
       if (response.ok) {
         if (id) {
-          showToast({ message: '에피데이 수정이 완료되었습니다.', type: 'success' });
+          showToast({ message: TOAST_MESSAGES.epiday.updateSuccess, type: 'success' });
           router.push(`/epidays/${id}`);
         } else {
-          showToast({ message: '에피데이 작성이 완료되었습니다.', type: 'success' });
+          showToast({ message: TOAST_MESSAGES.epiday.createSuccess, type: 'success' });
           const data = await response.json();
           router.push(`/epidays/${data.id}`);
         }
@@ -95,7 +96,7 @@ export default function EpidayForm({ data, id }: Props) {
       }
     } catch (error) {
       console.error('작성완료 중 예외 발생: ', error);
-      showToast({ message: '작성완료 중 오류가 발생했습니다.', type: 'error' });
+      showToast({ message: TOAST_MESSAGES.error, type: 'error' });
     } finally {
       setIsLoading(false);
     }
