@@ -31,7 +31,7 @@ interface EpidayResponse {
   likeCount: number;
   referenceTitle: string | null;
   referenceUrl: string | null;
-  tags: string[];
+  tags: { id: number; name: string }[];
   writerId: number;
 }
 
@@ -62,8 +62,11 @@ export default function EpidayForm({ data, id }: Props) {
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedValue = e.target.value;
     setSelectedAuthor(selectedValue);
+    trigger('author');
     if (selectedValue === '직접입력') {
       setValue('author', '');
+    } else if (selectedValue === '본인') {
+      setValue('author', `본인/${selectedValue}`);
     } else {
       setValue('author', selectedValue);
     }
@@ -108,7 +111,16 @@ export default function EpidayForm({ data, id }: Props) {
       setValue('author', data.author);
       setValue('referenceTitle', data.referenceTitle);
       setValue('referenceUrl', data.referenceUrl);
-      setValue('tags', data.tags);
+
+      trigger();
+
+      if (data.author === '알수없음') {
+        setSelectedAuthor('알수없음');
+      } else if (data.author.startsWith('본인')) {
+        setSelectedAuthor('본인');
+      } else {
+        setSelectedAuthor('직접입력');
+      }
     }
   }, [data]);
 
@@ -193,6 +205,7 @@ export default function EpidayForm({ data, id }: Props) {
           <TagsInput
             setValue={setValue}
             register={register}
+            initialTags={data?.tags}
             onFocus={() => {
               trigger('content');
               trigger('author');

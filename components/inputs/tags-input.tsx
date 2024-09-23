@@ -8,15 +8,17 @@ import Input from './input';
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   setValue: (name: string, value: any) => void;
   register: UseFormRegister<EpidayFormValues>;
+  initialTags?: { id: number; name: string }[] | null;
   error?: string;
 }
 
-export default function TagsInput({ setValue, register, error, ...rest }: Props) {
+export default function TagsInput({ setValue, register, initialTags, error, ...rest }: Props) {
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
 
   const addTag = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if (e.key === 'Enter' && !isComposing && inputValue.trim()) {
       e.preventDefault();
       if (!tags.includes(inputValue.trim())) {
         setTags([...tags, inputValue.trim()]);
@@ -34,11 +36,20 @@ export default function TagsInput({ setValue, register, error, ...rest }: Props)
     setValue('tags', tags);
   }, []);
 
+  useEffect(() => {
+    if (initialTags) {
+      const tagNames = initialTags.map((item) => item.name);
+      setTags(tagNames);
+    }
+  }, [initialTags]);
+
   return (
     <>
       <Input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        onCompositionStart={() => setIsComposing(true)}
+        onCompositionEnd={() => setIsComposing(false)}
         onKeyDown={addTag}
         maxLength={10}
         placeholder="입력하여 태그 작성 (최대 10자)"
