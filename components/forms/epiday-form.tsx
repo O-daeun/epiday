@@ -4,6 +4,7 @@ import { fetchWithToken } from '@/api/fetch-with-token';
 import { AUTHOR_VALUE, REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
+import { GetEpidayData, PostEpidayData } from '@/types/epiday-types';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -16,28 +17,8 @@ import RadioInput from '../inputs/radio-input';
 import TagsInput from '../inputs/tags-input';
 import Textarea from '../inputs/textarea';
 
-export interface EpidayFormValues {
-  tags: string[];
-  referenceUrl?: string;
-  referenceTitle?: string;
-  author: string;
-  content: string;
-}
-
-interface EpidayResponse {
-  author: string;
-  content: string;
-  id: number;
-  isLiked: boolean;
-  likeCount: number;
-  referenceTitle: string | null;
-  referenceUrl: string | null;
-  tags: { id: number; name: string }[];
-  writerId: number;
-}
-
 interface Props {
-  data?: EpidayResponse;
+  data?: GetEpidayData;
   id?: number;
 }
 
@@ -48,7 +29,7 @@ export default function EpidayForm({ data, id }: Props) {
     formState: { errors, isValid },
     setValue,
     trigger,
-  } = useForm<EpidayFormValues>({
+  } = useForm<PostEpidayData>({
     mode: 'onTouched',
     criteriaMode: 'all',
   });
@@ -73,7 +54,7 @@ export default function EpidayForm({ data, id }: Props) {
     }
   };
 
-  const handlePost = async (data: EpidayFormValues) => {
+  const handlePost = async (data: PostEpidayData) => {
     setIsLoading(true);
     try {
       const updatedData = {
@@ -82,9 +63,9 @@ export default function EpidayForm({ data, id }: Props) {
       };
       let response: Response;
       if (id) {
-        response = await fetchWithToken('PATCH', `epigrams/${id}`, session, updatedData);
+        response = await fetchWithToken('PATCH', `/epigrams/${id}`, session, updatedData);
       } else {
-        response = await fetchWithToken('POST', 'epigrams', session, updatedData);
+        response = await fetchWithToken('POST', '/epigrams', session, updatedData);
       }
       if (response.ok) {
         if (id) {

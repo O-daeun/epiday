@@ -1,8 +1,9 @@
 'use client';
 
+import { fetchWithToken } from '@/api/fetch-with-token';
 import EpidayForm from '@/components/forms/epiday-form';
-import { baseUrl } from '@/constants/api-constants';
 import { useToastStore } from '@/store/use-toast-store';
+import { GetEpidayData } from '@/types/epiday-types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +12,7 @@ interface Props {
 }
 
 export default function EditPage({ params: { id } }: Props) {
-  const [epidayData, setEpidayData] = useState();
+  const [epidayData, setEpidayData] = useState<GetEpidayData>();
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
@@ -19,12 +20,7 @@ export default function EditPage({ params: { id } }: Props) {
   useEffect(() => {
     if (id && session) {
       const handleLoadData = async () => {
-        const response = await fetch(`${baseUrl}/epigrams/${id}`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-        });
+        const response = await fetchWithToken('GET', `/epigrams/${id}`, session);
 
         if (response.ok) {
           const data = await response.json();
@@ -37,6 +33,7 @@ export default function EditPage({ params: { id } }: Props) {
       handleLoadData();
     }
   }, [id, session]);
+
   return (
     <div>
       <EpidayForm data={epidayData} id={id} />

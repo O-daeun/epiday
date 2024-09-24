@@ -1,13 +1,13 @@
+import { PostEpidayData } from '@/types/epiday-types';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { InputHTMLAttributes, KeyboardEvent, useEffect, useState } from 'react';
 import { UseFormRegister } from 'react-hook-form';
-import { EpidayFormValues } from '../forms/epiday-form';
 import ErrorMessage from './error-message';
 import Input from './input';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   setValue: (name: string, value: any) => void;
-  register: UseFormRegister<EpidayFormValues>;
+  register: UseFormRegister<PostEpidayData>;
   initialTags?: { id: number; name: string }[] | null;
   error?: string;
 }
