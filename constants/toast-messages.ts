@@ -1,4 +1,5 @@
 export const TOAST_MESSAGES = {
+  error: '오류가 발생하였습니다. 다시 시도해 주세요.',
   epiday: {
     createSuccess: '에피데이 작성이 완료되었습니다.',
     updateSuccess: '에피데이 수정이 완료되었습니다.',
@@ -8,5 +9,8 @@ export const TOAST_MESSAGES = {
     signUpError: '회원가입 중 오류가 발생하였습니다. 다시 시도해 주세요.',
     loginError: '로그인 중 오류가 발생하였습니다. 다시 시도해 주세요.',
   },
-  error: '오류가 발생하였습니다. 다시 시도해 주세요.',
+  urlCopy: {
+    copySuccess: 'URL 복사가 완료되었습니다.',
+    copyError: 'URL 복사 중 오류가 발생하였습니다. 다시 시도해 주세요.',
+  },
 };
