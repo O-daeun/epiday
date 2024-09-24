@@ -93,7 +93,7 @@ export async function fetchWithToken(
     body: JSON.stringify(data),
   };
   const response = await apiWithToken(
-    `${baseUrl}/${url}`,
+    `${baseUrl}${url}`,
     {
       method,
       ...options,
