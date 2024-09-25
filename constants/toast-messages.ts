@@ -9,6 +9,7 @@ export const TOAST_MESSAGES = {
     signUpSuccess: '회원가입이 완료되었습니다. 로그인을 시도해 주세요.',
     signUpError: '회원가입 중 오류가 발생하였습니다. 다시 시도해 주세요.',
     loginError: '로그인 중 오류가 발생하였습니다. 다시 시도해 주세요.',
+    afterLogin: '로그인 후 이용해 주세요.',
   },
   urlCopy: {
     copySuccess: 'URL 복사가 완료되었습니다.',
