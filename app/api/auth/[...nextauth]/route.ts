@@ -75,6 +75,10 @@ const handler = NextAuth({
       if (user) {
         return {
           ...token,
+          id: user.id,
+          nickname: user.nickname,
+          email: user.email,
+          image: user.image,
           accessToken: user.accessToken,
           refreshToken: user.refreshToken,
         };
@@ -88,6 +92,7 @@ const handler = NextAuth({
         session.id = typedToken.id as string;
         session.nickname = typedToken.nickname as string;
         session.email = typedToken.email as string;
+        session.image = typedToken.image as string | null;
         session.accessToken = typedToken.accessToken as string;
         session.refreshToken = typedToken.refreshToken as string;
       }

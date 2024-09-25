@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import LogoLink from '../logo-link';
 import ProfileLink from '../profile-link';
@@ -15,6 +16,7 @@ const NAV_LIST = [
 ];
 
 export default function NavHeader() {
+  const { data: session } = useSession();
   return (
     <HeaderLayout className="flex w-full items-center justify-between px-[120px] md:px-6">
       <div className="flex items-center gap-9">
@@ -27,7 +29,7 @@ export default function NavHeader() {
           ))}
         </nav>
       </div>
-      <ProfileLink src={null} nickname="오다은" />
+      {session && <ProfileLink src={session.image} nickname={session.nickname} />}
     </HeaderLayout>
   );
 }

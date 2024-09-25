@@ -48,7 +48,7 @@ export default function EpidayForm({ data, id }: Props) {
     if (selectedValue === AUTHOR_VALUE.writtenByUser) {
       setValue('author', '');
     } else if (selectedValue === AUTHOR_VALUE.myself) {
-      setValue('author', `${AUTHOR_VALUE.myself}:${selectedValue}`);
+      setValue('author', `${AUTHOR_VALUE.myself}:${session.nickname}`);
     } else {
       setValue('author', selectedValue);
     }
