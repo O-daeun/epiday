@@ -29,7 +29,7 @@ export default function LikeButton({ id, number }: Props) {
     <button
       type="button"
       onClick={handleClick}
-      className="flex h-12 w-fit items-center gap-[6px] rounded-full bg-var-black-600 pl-[14px] pr-5"
+      className="flex h-12 w-fit items-center gap-[6px] rounded-full bg-var-black-600 pl-[14px] pr-5 duration-100 ease-in-out hover:shadow-md"
     >
       <Image src="/like.svg" width={36} height={36} alt="좋아요" />
       <span className="text-xl font-medium text-var-blue-100">{likeCount}</span>
