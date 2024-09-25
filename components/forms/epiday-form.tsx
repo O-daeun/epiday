@@ -200,7 +200,7 @@ export default function EpidayForm({ data, id }: Props) {
           />
         </Label>
         <Button type="submit" design="wide" disabled={isLoading || !isValid}>
-          작성 완료
+          {id ? '수정 완료' : '작성 완료'}
         </Button>
       </form>
     </InnerLayout>
