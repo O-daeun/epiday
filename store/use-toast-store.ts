@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface ToastMessage {
   message: string;
-  type?: 'success' | 'error';
+  type: 'success' | 'error';
 }
 
 interface ToastStore {
