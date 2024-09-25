@@ -41,7 +41,7 @@ export default function EpidayDetailContents({ id }: Props) {
   if (!epidayData) return <p>로딩중</p>; // note: 추후 로딩 구현
 
   return (
-    <section>
+    <section className="bg-[url('/detail-contents-bg.png')] bg-cover py-[42px]">
       <InnerLayout>
         <div className="flex items-center justify-between">
           <TagList tags={epidayData.tags} />
