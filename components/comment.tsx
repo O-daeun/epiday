@@ -1,6 +1,4 @@
-import { fetchWithToken } from '@/api/fetch-with-token';
-import { TOAST_MESSAGES } from '@/constants/toast-messages';
-import { useToastStore } from '@/store/use-toast-store';
+import { useModalStore } from '@/store/use-modal-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { timeAgo } from '@/utils/timeAgo';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
@@ -9,6 +7,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import CommentButton from './buttons/comment-button';
 import CommentForm from './forms/comment-form';
 import InnerLayout from './inner-layout';
+import DeleteModal from './modals/delete-modal';
 import ProfileImage from './profile-image';
 
 interface Props {
@@ -19,21 +18,7 @@ interface Props {
 export default function Comment({ comment, onChangeComments }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const { data: session } = useSession();
-  const { showToast } = useToastStore();
-
-  const handleDelete = async () => {
-    const response = await fetchWithToken('DELETE', `/comments/${comment.id}`, session);
-    if (response.ok) {
-      showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
-      onChangeComments((prev) => ({
-        ...prev,
-        list: prev.list.filter((item: GetCommentData) => item.id !== comment.id),
-      }));
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-  };
+  const { openModal } = useModalStore();
 
   return (
     <div className="mx-auto max-w-[640px] border-t border-var-line-200 py-[35px]">
@@ -55,7 +40,12 @@ export default function Comment({ comment, onChangeComments }: Props) {
                 <CommentButton color="black" onClick={() => setIsEdit(true)}>
                   수정
                 </CommentButton>
-                <CommentButton color="red" onClick={handleDelete}>
+                <CommentButton
+                  color="red"
+                  onClick={() =>
+                    openModal(<DeleteModal id={comment.id} onChangeComments={onChangeComments} />)
+                  }
+                >
                   삭제
                 </CommentButton>
               </div>
