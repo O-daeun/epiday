@@ -1,6 +1,7 @@
 'use client';
 
 import NavHeader from '@/components/headers/nav-header';
+import Modal from '@/components/modals/modal';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
@@ -13,6 +14,7 @@ export default function Layout({ children }: Props) {
     <SessionProvider>
       <NavHeader />
       {children}
+      <Modal />
     </SessionProvider>
   );
 }
