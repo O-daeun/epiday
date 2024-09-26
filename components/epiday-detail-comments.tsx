@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function EpidayDetailComments({ id }: Props) {
-  const [commentsData, setCommentsData] = useState<GetCommentsData>();
+  const [comments, setComments] = useState<GetCommentsData>();
   const { showToast } = useToastStore();
   const { data: session } = useSession();
 
@@ -22,7 +22,7 @@ export default function EpidayDetailComments({ id }: Props) {
         const response = await fetchWithToken('GET', `/epigrams/${id}/comments/?limit=10`, session);
         if (response.ok) {
           const data = await response.json();
-          setCommentsData(data);
+          setComments(data);
         } else {
           const { message } = await response.json();
           showToast({ message, type: 'error' });
@@ -34,9 +34,9 @@ export default function EpidayDetailComments({ id }: Props) {
 
   return (
     <section>
-      {commentsData?.list.length > 0 &&
-        commentsData.list.map((comment: GetCommentData) => (
-          <Comment key={comment.id} comment={comment} />
+      {comments?.list.length > 0 &&
+        comments.list.map((comment: GetCommentData) => (
+          <Comment key={comment.id} comment={comment} onChangeComments={setComments} />
         ))}
     </section>
   );

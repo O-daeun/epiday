@@ -1,23 +1,26 @@
-import { GetCommentData } from '@/types/comment-types';
+import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { timeAgo } from '@/utils/timeAgo';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import CommentButton from './buttons/comment-button';
+import CommentForm from './forms/comment-form';
 import InnerLayout from './inner-layout';
 import ProfileImage from './profile-image';
 
 interface Props {
   comment: GetCommentData;
+  onChangeComments: Dispatch<SetStateAction<GetCommentsData>>;
 }
 
-export default function Comment({ comment }: Props) {
+export default function Comment({ comment, onChangeComments }: Props) {
+  const [isEdit, setIsEdit] = useState(false);
   const { data: session } = useSession();
 
-  const handleEdit = () => {};
   const handleDelete = () => {};
 
   return (
-    <div className="border-t border-var-line-200 py-[35px]">
+    <div className="mx-auto max-w-[640px] border-t border-var-line-200 py-[35px]">
       <InnerLayout className="flex gap-[13px]">
         <ProfileImage nickname={comment.writer.nickname} imageUrl={comment.writer.image} size="m" />
         <div className="grow">
@@ -33,7 +36,7 @@ export default function Comment({ comment }: Props) {
             </div>
             {comment.writer.id === session.id && (
               <div className="flex gap-4">
-                <CommentButton color="black" onClick={handleEdit}>
+                <CommentButton color="black" onClick={() => setIsEdit(true)}>
                   수정
                 </CommentButton>
                 <CommentButton color="red" onClick={handleDelete}>
@@ -42,7 +45,16 @@ export default function Comment({ comment }: Props) {
               </div>
             )}
           </div>
-          <p className="mt-4 text-xl leading-8">{comment.content}</p>
+          {isEdit ? (
+            <CommentForm
+              onChangeComments={onChangeComments}
+              comment={comment}
+              onEdit={setIsEdit}
+              className="mt-4"
+            />
+          ) : (
+            <p className="mt-4 text-xl leading-8">{comment.content}</p>
+          )}
         </div>
       </InnerLayout>
     </div>
