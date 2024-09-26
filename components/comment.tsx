@@ -1,3 +1,6 @@
+import { fetchWithToken } from '@/api/fetch-with-token';
+import { TOAST_MESSAGES } from '@/constants/toast-messages';
+import { useToastStore } from '@/store/use-toast-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { timeAgo } from '@/utils/timeAgo';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
@@ -16,8 +19,21 @@ interface Props {
 export default function Comment({ comment, onChangeComments }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const { data: session } = useSession();
+  const { showToast } = useToastStore();
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    const response = await fetchWithToken('DELETE', `/comments/${comment.id}`, session);
+    if (response.ok) {
+      showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
+      onChangeComments((prev) => ({
+        ...prev,
+        list: prev.list.filter((item: GetCommentData) => item.id !== comment.id),
+      }));
+    } else {
+      const { message } = await response.json();
+      showToast({ message, type: 'error' });
+    }
+  };
 
   return (
     <div className="mx-auto max-w-[640px] border-t border-var-line-200 py-[35px]">
