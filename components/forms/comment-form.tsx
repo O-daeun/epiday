@@ -114,9 +114,21 @@ export default function CommentForm({
               />
             </button>
           </div>
-          <SmallButton type="submit" disabled={isLoading} className="!w-15">
-            저장
-          </SmallButton>
+          <div className="flex gap-2">
+            {comment && (
+              <SmallButton
+                type="button"
+                disabled={isLoading}
+                onClick={() => onEdit(false)}
+                className="!bg-var-gray-100 !text-var-black-300"
+              >
+                취소
+              </SmallButton>
+            )}
+            <SmallButton type="submit" disabled={isLoading}>
+              저장
+            </SmallButton>
+          </div>
         </div>
       )}
     </form>
