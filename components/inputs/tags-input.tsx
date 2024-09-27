@@ -40,6 +40,7 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
     if (initialTags) {
       const tagNames = initialTags.map((item) => item.name);
       setTags(tagNames);
+      setValue('tags', tagNames);
     }
   }, [initialTags]);
 

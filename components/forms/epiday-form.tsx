@@ -59,7 +59,8 @@ export default function EpidayForm({ data, id }: Props) {
     try {
       const updatedData = {
         ...data,
-        referenceUrl: data.referenceUrl === '' ? REFERENCE_URL_DEFAULT_VALUE : data.referenceUrl,
+        referenceUrl: !data.referenceUrl ? REFERENCE_URL_DEFAULT_VALUE : data.referenceUrl,
+        referenceTitle: !data.referenceTitle ? '' : data.referenceUrl,
       };
       let response: Response;
       if (id) {
