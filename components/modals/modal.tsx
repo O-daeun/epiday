@@ -22,7 +22,7 @@ export default function Modal() {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.6)]">
+    <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.6)]">
       <div className="h-fit w-fit rounded-3xl bg-white">{content}</div>
     </div>,
     document.body,
