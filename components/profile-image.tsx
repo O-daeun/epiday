@@ -53,7 +53,7 @@ export default function ProfileImage({ nickname, imageUrl, size }: Props) {
   if (!imageUrl) {
     return (
       <div
-        className="flex items-center justify-center rounded-[50%] bg-var-gray-300 text-white shadow-md"
+        className="flex shrink-0 items-center justify-center rounded-[50%] bg-var-gray-300 text-white shadow-md"
         style={{ ...style, backgroundColor: getColorForNickname(nickname) }}
       >
         {nickname.slice(0, 1)}
@@ -67,7 +67,7 @@ export default function ProfileImage({ nickname, imageUrl, size }: Props) {
       width={SIZES[size].circle}
       height={SIZES[size].circle}
       alt="프로필이미지"
-      className="rounded-full object-cover shadow-md"
+      className="shrink-0 rounded-full object-cover shadow-md"
       style={style}
     />
   );

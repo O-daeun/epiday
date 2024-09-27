@@ -59,7 +59,9 @@ export default function Comment({ comment, onChangeComments }: Props) {
               className="mt-4"
             />
           ) : (
-            <p className="mt-4 text-xl leading-8">{comment.content}</p>
+            <p className="mt-4 w-full whitespace-pre-line break-all text-xl leading-8">
+              {comment.content}
+            </p>
           )}
         </div>
       </InnerLayout>

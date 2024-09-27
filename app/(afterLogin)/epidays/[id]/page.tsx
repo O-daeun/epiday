@@ -1,6 +1,6 @@
-import EpidayDetailComments from '@/components/epiday-detail-comments';
-import EpidayDetailContents from '@/components/epiday-detail-contents';
-import Image from 'next/image';
+import EpidayDetailComments from '@/components/epiday-detail/epiday-detail-comments';
+import EpidayDetailContents from '@/components/epiday-detail/epiday-detail-contents';
+import EpidayDetailLine from '@/components/epiday-detail/epiday-detail-line';
 
 interface Props {
   params: { id: number };
@@ -8,17 +8,9 @@ interface Props {
 
 export default function DetailPage({ params: { id } }: Props) {
   return (
-    <div className="bg-var-background">
+    <div className="flex min-h-[calc(100vh-80px)] flex-col bg-var-background pb-32">
       <EpidayDetailContents id={id} />
-      <div className="w-full overflow-x-hidden">
-        <Image
-          src="/detail-line.png"
-          width={2640}
-          height={54}
-          className="-ml-5 -mt-6 w-[2640px] max-w-[2640px]"
-          alt=""
-        />
-      </div>
+      <EpidayDetailLine />
       <EpidayDetailComments id={id} />
     </div>
   );
