@@ -24,6 +24,7 @@ export default function DeleteModal({ id, onChangeComments }: Props) {
       showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
       onChangeComments((prev) => ({
         ...prev,
+        totalCount: prev.totalCount - 1,
         list: prev.list.filter((item: GetCommentData) => item.id !== id),
       }));
       closeModal();

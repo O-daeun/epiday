@@ -76,7 +76,11 @@ export default function CommentForm({
           setContent('');
           setIsPrivate(false);
           showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
-          onChangeComments((prev) => ({ ...prev, list: [newComment, ...prev.list] }));
+          onChangeComments((prev) => ({
+            ...prev,
+            totalCount: prev.totalCount + 1,
+            list: [newComment, ...prev.list],
+          }));
         }
       } else {
         const { message } = await response.json();
