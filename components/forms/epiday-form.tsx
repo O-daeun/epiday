@@ -52,6 +52,7 @@ export default function EpidayForm({ data, id }: Props) {
     } else {
       setValue('author', selectedValue);
     }
+    trigger();
   };
 
   const handlePost = async (data: PostEpidayData) => {
