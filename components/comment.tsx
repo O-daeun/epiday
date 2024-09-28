@@ -43,7 +43,13 @@ export default function Comment({ comment, onChangeComments }: Props) {
                 <CommentButton
                   color="red"
                   onClick={() =>
-                    openModal(<DeleteModal id={comment.id} onChangeComments={onChangeComments} />)
+                    openModal(
+                      <DeleteModal
+                        id={comment.id}
+                        type="comment"
+                        onChangeComments={onChangeComments}
+                      />,
+                    )
                   }
                 >
                   삭제

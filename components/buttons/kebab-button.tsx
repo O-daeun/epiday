@@ -1,13 +1,10 @@
 'use client';
 
-import { fetchWithToken } from '@/api/fetch-with-token';
-import { TOAST_MESSAGES } from '@/constants/toast-messages';
-import { useToastStore } from '@/store/use-toast-store';
-import { useSession } from 'next-auth/react';
+import { useModalStore } from '@/store/use-modal-store';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import DeleteModal from '../modals/delete-modal';
 
 interface Props {
   id: number;
@@ -15,21 +12,8 @@ interface Props {
 
 export default function KebabButton({ id }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const { data: session } = useSession();
-  const { showToast } = useToastStore();
+  const { openModal } = useModalStore();
   const kebabRef = useRef<HTMLDivElement>(null);
-
-  const handleDelete = async () => {
-    const response = await fetchWithToken('DELETE', `/epigrams/${id}`, session);
-    if (response.ok) {
-      showToast({ message: TOAST_MESSAGES.epiday.deleteSuccess, type: 'success' });
-      router.push('/mypage');
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -57,7 +41,7 @@ export default function KebabButton({ id }: Props) {
             수정하기
           </Link>
           <button
-            onClick={handleDelete}
+            onClick={() => openModal(<DeleteModal id={id} type="epiday" />)}
             className="flex h-14 w-full items-center justify-center text-xl"
           >
             삭제하기
