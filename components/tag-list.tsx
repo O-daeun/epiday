@@ -1,14 +1,15 @@
-import { GetTagData } from '@/types/epiday-types';
+import { TagData } from '@/types/epiday-types';
 
 interface Props {
-  tags: GetTagData[] | null;
+  tags: TagData[] | null;
+  className?: string;
 }
 
-export default function TagList({ tags }: Props) {
+export default function TagList({ tags, className }: Props) {
   return (
     <ul className="flex gap-4">
       {tags.map((tag) => (
-        <li key={tag.id} className="text-xl text-var-blue-400">
+        <li key={tag.id} className={`text-xl text-var-blue-400 ${className}`}>
           #{tag.name}
         </li>
       ))}

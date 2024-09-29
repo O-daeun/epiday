@@ -1,4 +1,4 @@
-export interface GetTagData {
+export interface TagData {
   id: number;
   name: string;
 }
@@ -11,8 +11,26 @@ export interface GetEpidayData {
   likeCount: number;
   referenceTitle: string | null;
   referenceUrl: string | null;
-  tags: GetTagData[] | [];
+  tags: TagData[] | [];
   writerId: number;
+}
+
+// GetEpidaysData의 list item type
+export interface EpidayItemData {
+  likeCount: number;
+  id: number;
+  content: string;
+  author: string;
+  referenceTitle: string;
+  referenceUrl: string;
+  writerId: number;
+  tags: TagData[] | [];
+}
+
+export interface GetEpidaysData {
+  list: EpidayItemData[];
+  nextCursor: number;
+  totalCount: number;
 }
 
 export interface PostEpidayData {
