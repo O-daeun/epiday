@@ -56,8 +56,8 @@ module.exports = {
         'var-line-200': '#CFDBEA',
       },
       screens: {
-        sm: { max: '768px' }, // mobile
-        md: { max: '1024px' }, // tablet
+        sm: '768px', // mobile
+        md: '1024px', // tablet
       },
       keyframes: {
         progress: {

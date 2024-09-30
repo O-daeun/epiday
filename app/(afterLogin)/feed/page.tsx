@@ -28,7 +28,7 @@ export default function FeedPage() {
     <div className="bg-var-background py-[120px]">
       <div className="mx-auto w-full max-w-[1248px] px-6">
         <h1 className="text-2xl font-semibold">피드</h1>
-        <ul className="mt-10 grid grid-cols-2 gap-x-[30px] gap-y-10 sm:grid-cols-1">
+        <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
           {epidaysData?.list.map((epiday) => (
             <li key={epiday.id}>
               <EpidayBox epiday={epiday} />
