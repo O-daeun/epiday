@@ -24,10 +24,14 @@ export default function EpidayPhrase({
 
   return (
     <div className={`flex flex-col gap-8 ${GAP_SIZE[gap]} ${className}`}>
-      <h1 className="font-iropke text-2xl leading-normal">{content}</h1>
-      <p className={`text-right font-iropke text-2xl text-var-blue-400 ${authorPositionStyle}`}>
+      <q className="font-iropke text-2xl leading-normal" style={{ quotes: 'none' }}>
+        {content}
+      </q>
+      <cite
+        className={`text-right font-iropke text-2xl not-italic text-var-blue-400 ${authorPositionStyle}`}
+      >
         - {authorName} -
-      </p>
+      </cite>
     </div>
   );
 }
