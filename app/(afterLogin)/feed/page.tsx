@@ -5,6 +5,7 @@ import EpidayBox from '@/components/epiday-box';
 import { useObserver } from '@/hooks/use-observer';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidaysData } from '@/types/epiday-types';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 export default function FeedPage() {
@@ -65,7 +66,9 @@ export default function FeedPage() {
         <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
           {epidaysData?.list.map((epiday) => (
             <li key={epiday.id}>
-              <EpidayBox epiday={epiday} />
+              <Link href={`/epidays/${epiday.id}`}>
+                <EpidayBox epiday={epiday} />
+              </Link>
             </li>
           ))}
         </ul>
