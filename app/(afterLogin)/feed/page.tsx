@@ -2,27 +2,61 @@
 
 import { fetchWithoutToken } from '@/api/fetch-without-token';
 import EpidayBox from '@/components/epiday-box';
+import { useObserver } from '@/hooks/use-observer';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidaysData } from '@/types/epiday-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function FeedPage() {
   const [epidaysData, setEpidaysData] = useState<GetEpidaysData>();
+  const [cursor, setCursor] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const { showToast } = useToastStore();
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  console.log(cursor);
+
+  const fetchNextCursor = async () => {
+    if (!hasMore || isLoading) return;
+
+    setIsLoading(true);
+    const cursorQuery = cursor ? `&cursor=${cursor}` : '';
+    const response = await fetchWithoutToken('GET', `/epigrams?limit=10${cursorQuery}`);
+    if (response.ok) {
+      const data = await response.json();
+
+      if (epidaysData) {
+        setEpidaysData((prev) => ({
+          ...data,
+          list: [...prev.list, ...data.list],
+        }));
+      } else {
+        setEpidaysData(data);
+      }
+
+      if (data.list.length > 0) {
+        const lastEpiday = data.list[data.list.length - 1];
+        setCursor(lastEpiday.id);
+      } else {
+        setHasMore(false);
+      }
+    } else {
+      const { message } = await response.json();
+      showToast({ message, type: 'error' });
+    }
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    const handleLoadData = async () => {
-      const response = await fetchWithoutToken('GET', '/epigrams?limit=10');
-      if (response.ok) {
-        const data = await response.json();
-        setEpidaysData(data);
-      } else {
-        const { message } = await response.json();
-        showToast({ message, type: 'error' });
-      }
-    };
-    handleLoadData();
+    fetchNextCursor();
   }, []);
+
+  useObserver({
+    isLoading,
+    ref: observerRef,
+    fetchNextCursor,
+  });
 
   return (
     <div className="bg-var-background py-[120px]">
@@ -35,6 +69,8 @@ export default function FeedPage() {
             </li>
           ))}
         </ul>
+        <div ref={observerRef} className="h-10" />
+        {isLoading && <p>Loading</p>} {/* note: 추후 로딩 ui 구현 */}
       </div>
     </div>
   );
