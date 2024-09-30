@@ -32,18 +32,20 @@ export default function NavHeader() {
   }, [status, router]);
 
   return (
-    <HeaderLayout className="flex w-full items-center justify-between px-[120px] md:px-6">
-      <div className="flex items-center gap-9">
-        <LogoLink />
-        <nav className="flex gap-6">
-          {NAV_LIST.map((nav) => (
-            <Link href={nav.link} key={nav.title}>
-              {nav.title}
-            </Link>
-          ))}
-        </nav>
+    <HeaderLayout>
+      <div className="mx-auto flex w-full max-w-[1248px] items-center justify-between px-6">
+        <div className="flex items-center gap-9">
+          <LogoLink />
+          <nav className="flex gap-6">
+            {NAV_LIST.map((nav) => (
+              <Link href={nav.link} key={nav.title}>
+                {nav.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        {session && <ProfileLink src={session.image} nickname={session.nickname} />}
       </div>
-      {session && <ProfileLink src={session.image} nickname={session.nickname} />}
     </HeaderLayout>
   );
 }
