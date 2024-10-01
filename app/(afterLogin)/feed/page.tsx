@@ -16,8 +16,6 @@ export default function FeedPage() {
   const { showToast } = useToastStore();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  console.log(cursor);
-
   const fetchNextCursor = async () => {
     if (!hasMore || isLoading) return;
 

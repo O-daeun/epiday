@@ -71,7 +71,6 @@ export default function CommentForm({
           }));
         } else {
           const newComment = await response.json();
-          console.log(newComment);
 
           setContent('');
           setIsPrivate(false);
