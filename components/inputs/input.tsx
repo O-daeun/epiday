@@ -8,7 +8,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { error, className, type = 'text', ...rest },
+  { error, className = '', type = 'text', ...rest },
   ref,
 ) {
   return (
