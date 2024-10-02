@@ -29,7 +29,7 @@ export const useObserver = ({
       const target = entries[0];
 
       if (target.isIntersecting && !isLoading) {
-        fetchNextCursor(); // page 대신 cursor를 사용하는 함수 호출
+        fetchNextCursor();
       }
     };
 
