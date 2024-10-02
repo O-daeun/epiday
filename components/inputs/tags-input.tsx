@@ -16,8 +16,13 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isComposing, setIsComposing] = useState(false);
+  const [tagsLengthError, setTagsLengthError] = useState(false);
 
   const addTag = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (tags.length >= 3) {
+      setTagsLengthError(true);
+      return;
+    }
     if (e.key === 'Enter' && !isComposing && inputValue.trim()) {
       e.preventDefault();
       if (!tags.includes(inputValue.trim())) {
@@ -30,6 +35,10 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
 
   const removeTag = (selectedTag: string) => {
     setTags(tags.filter((tag) => tag !== selectedTag));
+    setValue(
+      'tags',
+      tags.filter((tag) => tag !== selectedTag),
+    );
   };
 
   useEffect(() => {
@@ -57,6 +66,7 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
         {...rest}
       />
       {error && <ErrorMessage isRight>{error}</ErrorMessage>}
+      {tagsLengthError && <ErrorMessage isRight>태그는 최대 3개까지 작성 가능합니다.</ErrorMessage>}
       {tags.length > 0 && (
         <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
           {tags.map((tag) => (
