@@ -1,27 +1,24 @@
 'use client';
 
 import { fetchWithoutToken } from '@/api/fetch-without-token';
+import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';
-import { useObserver } from '@/hooks/use-observer';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidaysData } from '@/types/epiday-types';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function FeedPage() {
   const [epidaysData, setEpidaysData] = useState<GetEpidaysData>();
-  const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
   const { showToast } = useToastStore();
-  const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchNextCursor = async () => {
-    if (!hasMore || isLoading) return;
+  const fetchEpidays = async () => {
+    if (isLoading) return;
 
     setIsLoading(true);
-    const cursorQuery = cursor ? `&cursor=${cursor}` : '';
-    const response = await fetchWithoutToken('GET', `/epigrams?limit=10${cursorQuery}`);
+    const cursorParams = epidaysData ? `&cursor=${epidaysData.nextCursor}` : '';
+    const response = await fetchWithoutToken('GET', `/epigrams?limit=5${cursorParams}`);
     if (response.ok) {
       const data = await response.json();
 
@@ -33,13 +30,6 @@ export default function FeedPage() {
       } else {
         setEpidaysData(data);
       }
-
-      if (data.list.length > 0) {
-        const lastEpiday = data.list[data.list.length - 1];
-        setCursor(lastEpiday.id);
-      } else {
-        setHasMore(false);
-      }
     } else {
       const { message } = await response.json();
       showToast({ message, type: 'error' });
@@ -48,14 +38,8 @@ export default function FeedPage() {
   };
 
   useEffect(() => {
-    fetchNextCursor();
+    fetchEpidays();
   }, []);
-
-  useObserver({
-    isLoading,
-    ref: observerRef,
-    fetchNextCursor,
-  });
 
   return (
     <div className="bg-var-background py-[120px]">
@@ -70,8 +54,7 @@ export default function FeedPage() {
             </li>
           ))}
         </ul>
-        <div ref={observerRef} className="h-10" />
-        {isLoading && <p>Loading</p>} {/* note: 추후 로딩 ui 구현 */}
+        {(!epidaysData || epidaysData?.nextCursor) && <SeeMoreButton onClick={fetchEpidays} />}
       </div>
     </div>
   );
