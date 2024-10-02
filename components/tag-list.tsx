@@ -7,7 +7,7 @@ interface Props {
 
 export default function TagList({ tags, className }: Props) {
   return (
-    <ul className="flex gap-4">
+    <ul className="flex flex-wrap justify-end gap-4">
       {tags.map((tag) => (
         <li key={tag.id} className={`text-xl text-var-blue-400 ${className}`}>
           #{tag.name}
