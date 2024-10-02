@@ -14,7 +14,7 @@ export default function Page({ searchParams: { keyword } }: Props) {
     <div className="pt-12">
       <InnerLayout>
         <SearchForm keyword={keyword} />
-        <RecentSearch />
+        <RecentSearch keyword={keyword} />
       </InnerLayout>
       {keyword && <SearchEpidayList keyword={keyword} />}
     </div>

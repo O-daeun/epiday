@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 interface Props {
   keyword: string;
@@ -12,8 +12,24 @@ export default function SearchForm({ keyword }: Props) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const storedKeywords = localStorage.getItem('searchKeywords');
+    let keywordList: string[] = JSON.parse(storedKeywords) ? JSON.parse(storedKeywords) : [];
+
+    if (text && !keywordList.includes(text)) {
+      keywordList.unshift(text);
+      if (keywordList.length > 10) {
+        keywordList.pop();
+      }
+      localStorage.setItem('searchKeywords', JSON.stringify(keywordList));
+    }
+
     router.push(`/search?keyword=${text}`);
   };
+
+  useEffect(() => {
+    setText(keyword || '');
+  }, [keyword]);
 
   return (
     <form onSubmit={handleSubmit} className="flex h-20 items-center border-b-4 border-var-blue-800">
