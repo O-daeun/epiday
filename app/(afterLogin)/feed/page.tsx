@@ -18,7 +18,7 @@ export default function FeedPage() {
 
     setIsLoading(true);
     const cursorParams = epidaysData ? `&cursor=${epidaysData.nextCursor}` : '';
-    const response = await fetchWithoutToken('GET', `/epigrams?limit=5${cursorParams}`);
+    const response = await fetchWithoutToken('GET', `/epigrams?limit=8${cursorParams}`);
     if (response.ok) {
       const data = await response.json();
 

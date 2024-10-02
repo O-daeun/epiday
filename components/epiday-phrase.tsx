@@ -1,3 +1,5 @@
+import { AUTHOR_VALUE } from '@/constants/api-constants';
+
 const GAP_SIZE = {
   s: 5,
   m: 6,
@@ -34,14 +36,18 @@ export default function EpidayPhrase({
   return (
     <div className={`flex w-full flex-col ${gapStyle} ${className}`}>
       <q
-        className={`break-all font-iropke text-2xl leading-normal ${isContentLimit ? 'line-clamp-4' : ''}`}
+        className={`whitespace-pre-line break-all font-iropke text-2xl leading-normal ${!isContentLimit ? '' : author === AUTHOR_VALUE.unknown ? 'line-clamp-6' : 'line-clamp-4'}`}
         style={{ quotes: 'none' }}
       >
         {content}
       </q>
-      <cite className={`font-iropke text-2xl not-italic text-var-blue-400 ${authorPositionStyle}`}>
-        - {authorName} -
-      </cite>
+      {authorName !== AUTHOR_VALUE.unknown && (
+        <cite
+          className={`font-iropke text-2xl not-italic text-var-blue-400 ${authorPositionStyle}`}
+        >
+          - {authorName} -
+        </cite>
+      )}
     </div>
   );
 }
