@@ -1,4 +1,5 @@
 import { AUTHOR_VALUE } from '@/constants/api-constants';
+import { ReactNode } from 'react';
 
 const GAP_SIZE = {
   s: 5,
@@ -7,7 +8,7 @@ const GAP_SIZE = {
 };
 
 interface Props {
-  content: string;
+  content: string | ReactNode;
   author: string;
   gap?: 's' | 'm' | 'l';
   authorPosition?: 'left' | 'right';

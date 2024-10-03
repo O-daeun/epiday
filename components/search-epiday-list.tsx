@@ -5,6 +5,7 @@ import { GetEpidaysData } from '@/types/epiday-types';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import EpidayPhrase from './epiday-phrase';
+import HighlightKeyword from './highlight-keyword';
 import TagList from './tag-list';
 
 interface Props {
@@ -73,13 +74,13 @@ export default function SearchEpidayList({ keyword }: Props) {
         <li key={epiday.id} className="border-b border-var-gray-100">
           <Link href={`/epidays/${epiday.id}`} className="block p-6">
             <EpidayPhrase
-              content={epiday.content}
+              content={<HighlightKeyword text={epiday.content} keyword={keyword} />}
               author={epiday.author}
               gap="m"
               authorPosition="left"
             />
             <div className="mt-4 flex justify-end">
-              <TagList tags={epiday.tags} />
+              <TagList tags={epiday.tags} keyword={keyword} />
             </div>
           </Link>
         </li>
