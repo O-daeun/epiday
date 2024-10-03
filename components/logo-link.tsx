@@ -12,7 +12,7 @@ interface Props {
 
 export default function LogoLink({ className = '', size = 's' }: Props) {
   return (
-    <Link href="/" className={className}>
+    <Link href="/epidays" className={className}>
       <Image
         src="/logo.svg"
         alt="Epiday logo"
