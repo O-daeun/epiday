@@ -1,3 +1,4 @@
+import { useToastStore } from '@/store/use-toast-store';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
@@ -8,10 +9,15 @@ interface Props {
 
 export default function SearchForm({ keyword }: Props) {
   const [text, setText] = useState(keyword || '');
+  const { showToast } = useToastStore();
   const router = useRouter();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!text) {
+      showToast({ message: '검색어를 입력해 주세요.', type: 'error' });
+      return;
+    }
 
     const storedKeywords = localStorage.getItem('searchKeywords');
     let keywordList: string[] = JSON.parse(storedKeywords) ? JSON.parse(storedKeywords) : [];
