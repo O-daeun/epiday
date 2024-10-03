@@ -1,6 +1,6 @@
 import { useModalStore } from '@/store/use-modal-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
-import { timeAgo } from '@/utils/timeAgo';
+import { timeAgo } from '@/utils/time-ago';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction, useState } from 'react';
