@@ -2,23 +2,23 @@ import { Emotion } from '@/types/emotion-types';
 
 export const EMOTIONS: { title: Emotion; text: string }[] = [
   {
-    title: 'moved',
+    title: 'MOVED',
     text: '감동',
   },
   {
-    title: 'happy',
+    title: 'HAPPY',
     text: '기쁨',
   },
   {
-    title: 'worried',
+    title: 'WORRIED',
     text: '고민',
   },
   {
-    title: 'sad',
+    title: 'SAD',
     text: '슬픔',
   },
   {
-    title: 'angry',
+    title: 'ANGRY',
     text: '분노',
   },
 ];

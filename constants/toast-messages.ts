@@ -21,4 +21,8 @@ export const TOAST_MESSAGES = {
     copySuccess: 'URL 복사가 완료되었습니다.',
     copyError: 'URL 복사 중 오류가 발생하였습니다. 다시 시도해 주세요.',
   },
+  emotion: {
+    createSuccess: '오늘의 감정 등록이 완료되었습니다.',
+    updateSuccess: '오늘의 감정 변경이 완료되었습니다.',
+  },
 };
