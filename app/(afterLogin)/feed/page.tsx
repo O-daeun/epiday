@@ -54,7 +54,9 @@ export default function FeedPage() {
             </li>
           ))}
         </ul>
-        {(!epidaysData || epidaysData?.nextCursor) && <SeeMoreButton onClick={fetchEpidays} />}
+        {(!epidaysData || epidaysData?.nextCursor) && (
+          <SeeMoreButton onClick={fetchEpidays}>에피데이 더보기</SeeMoreButton>
+        )}
       </div>
     </div>
   );

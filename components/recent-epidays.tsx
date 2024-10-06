@@ -49,7 +49,9 @@ export default function RecentEpidays() {
             </Link>
           </li>
         ))}
-        {(!epidays || epidays?.nextCursor) && <SeeMoreButton onClick={fetchEpidays} />}
+        {(!epidays || epidays?.nextCursor) && (
+          <SeeMoreButton onClick={fetchEpidays}>에피데이 더보기</SeeMoreButton>
+        )}
       </ul>
     </MainSection>
   );
