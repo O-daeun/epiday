@@ -35,7 +35,7 @@ export default function Comment({ comment, onChangeComments }: Props) {
                 </span>
               )}
             </div>
-            {!isEdit && comment.writer.id === session.id && (
+            {!isEdit && comment.writer.id === session?.id && (
               <div className="flex gap-4">
                 <CommentButton color="black" onClick={() => setIsEdit(true)}>
                   수정
