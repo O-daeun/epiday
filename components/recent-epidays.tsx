@@ -7,7 +7,7 @@ import SeeMoreButton from './buttons/see-more-button';
 import EpidayBox from './epiday-box';
 import MainSection from './main-section';
 
-export default function RecentEpigrams() {
+export default function RecentEpidays() {
   const [epidays, setEpidays] = useState<GetEpidaysData>();
   const [isLoading, setIsLoading] = useState(false);
   const { showToast } = useToastStore();
