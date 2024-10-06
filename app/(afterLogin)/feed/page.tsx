@@ -49,7 +49,7 @@ export default function FeedPage() {
           {epidaysData?.list.map((epiday) => (
             <li key={epiday.id}>
               <Link href={`/epidays/${epiday.id}`}>
-                <EpidayBox epiday={epiday} />
+                <EpidayBox epiday={epiday} isContentLimit />
               </Link>
             </li>
           ))}

@@ -85,6 +85,10 @@ module.exports = {
           },
         },
       },
+      boxShadow: {
+        custom: '0px 3px 12px 0px rgba(0, 0, 0, 0.04)',
+        hover: '0px 3px 12px 0px rgba(0, 0, 0, 0.1)',
+      },
       animation: {
         progress: 'progress 3s linear',
         slideIn: 'slideIn 0.3s ease-out',

@@ -4,16 +4,19 @@ import TagList from './tag-list';
 
 interface Props {
   epiday: EpidayItemData;
+  isContentLimit?: boolean;
 }
 
-export default function EpidayBox({ epiday }: Props) {
+export default function EpidayBox({ epiday, isContentLimit = false }: Props) {
   return (
     <>
-      <div className="flex h-[260px] rounded-2xl border border-var-line-100 bg-var-blue-100 bg-[repeating-linear-gradient(white,white_25px,#F2F2F2_27px)] p-6 shadow-[0px_3px_12px_0px_rgba(0,0,0,0.04)] duration-100 hover:shadow-[0px_3px_12px_0px_rgba(0,0,0,0.1)]">
+      <div
+        className={`shadow-custom hover:shadow-hover flex rounded-2xl border border-var-line-100 bg-var-blue-100 bg-[repeating-linear-gradient(white,white_25px,#F2F2F2_27px)] p-6 duration-100 ${isContentLimit ? 'h-[260px]' : ''}`}
+      >
         <EpidayPhrase
           content={epiday.content}
           author={epiday.author}
-          isContentLimit
+          isContentLimit={isContentLimit}
           className="justify-between"
         />
       </div>
