@@ -9,7 +9,7 @@ export default function SeeMoreButton({ onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="mx-auto mt-20 flex gap-2 rounded-full border border-var-line-200 px-10 py-3"
+      className="hover:shadow-custom mx-auto mt-20 flex gap-2 rounded-full border border-var-line-200 px-10 py-3 duration-100"
     >
       <Image src="/plus.svg" width={24} height={24} alt="더보기" />
       <span className="text-xl font-medium text-var-blue-500">에피그램 더보기</span>
