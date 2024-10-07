@@ -18,14 +18,19 @@ export default function EmotionButtons() {
       const response = await fetchWithoutToken('GET', `/emotionLogs/today/?userId=${session.id}`);
 
       if (response.ok) {
-        const data: GetTodayEmotionLog = await response.json();
-        setActiveEmotion(data.emotion);
+        if (response.status === 200) {
+          const data: GetTodayEmotionLog = await response.json();
+          setActiveEmotion(data.emotion);
+        } else {
+          return;
+        }
       } else {
         const { message } = await response.json();
         showToast({ message, type: 'error' });
       }
     } catch (error) {
-      console.error('작성완료 중 예외 발생: ', error);
+      console.error('감정 로드 중 예외 발생: ', error);
+
       showToast({ message: TOAST_MESSAGES.error, type: 'error' });
     }
   };
@@ -49,7 +54,7 @@ export default function EmotionButtons() {
         showToast({ message, type: 'error' });
       }
     } catch (error) {
-      console.error('작성완료 중 예외 발생: ', error);
+      console.error('감정 선택 중 예외 발생: ', error);
       showToast({ message: TOAST_MESSAGES.error, type: 'error' });
     }
   };
