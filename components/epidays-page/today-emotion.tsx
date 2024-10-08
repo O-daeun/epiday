@@ -1,10 +1,10 @@
-import EmotionButtons from './buttons/emotion-buttons';
-import MainSection from './main-section';
+import EmotionButtons from '../buttons/emotion-buttons';
+import Section from './section';
 
 export default function TodayEmotion() {
   return (
-    <MainSection title="오늘의 감정은 어떤가요?">
+    <Section title="오늘의 감정은 어떤가요?">
       <EmotionButtons />
-    </MainSection>
+    </Section>
   );
 }

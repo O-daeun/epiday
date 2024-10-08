@@ -3,9 +3,9 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidaysData } from '@/types/epiday-types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import SeeMoreButton from './buttons/see-more-button';
-import EpidayBox from './epiday-box';
-import MainSection from './main-section';
+import SeeMoreButton from '../buttons/see-more-button';
+import EpidayBox from '../epiday-box';
+import Section from './section';
 
 export default function RecentEpidays() {
   const [epidays, setEpidays] = useState<GetEpidaysData>();
@@ -40,7 +40,7 @@ export default function RecentEpidays() {
     fetchEpidays();
   }, []);
   return (
-    <MainSection title="최신 에피데이">
+    <Section title="최신 에피데이">
       <ul className="flex flex-col gap-4">
         {epidays?.list.map((epiday) => (
           <li key={epiday.id}>
@@ -53,6 +53,6 @@ export default function RecentEpidays() {
           <SeeMoreButton onClick={fetchEpidays}>에피데이 더보기</SeeMoreButton>
         )}
       </ul>
-    </MainSection>
+    </Section>
   );
 }

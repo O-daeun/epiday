@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import InnerLayout from './inner-layout';
+import InnerLayout from '../inner-layout';
 
 interface Props {
   title: string;
@@ -8,12 +8,7 @@ interface Props {
   className?: string;
 }
 
-export default function MainSection({
-  title,
-  isResponsive = false,
-  children,
-  className = '',
-}: Props) {
+export default function Section({ title, isResponsive = false, children, className = '' }: Props) {
   return (
     <section className={`flex flex-col gap-10 ${className}`}>
       {isResponsive ? (

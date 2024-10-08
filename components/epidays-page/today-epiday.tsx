@@ -3,8 +3,8 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidayData } from '@/types/epiday-types';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import EpidayBox from './epiday-box';
-import MainSection from './main-section';
+import EpidayBox from '../epiday-box';
+import Section from './section';
 
 export default function TodayEpiday() {
   const [epiday, setEpiday] = useState<GetEpidayData>();
@@ -34,10 +34,10 @@ export default function TodayEpiday() {
   if (!epiday) return;
 
   return (
-    <MainSection title="오늘의 에피데이">
+    <Section title="오늘의 에피데이">
       <Link href={`/epidays/${epiday.id}`}>
         <EpidayBox epiday={epiday} />
       </Link>
-    </MainSection>
+    </Section>
   );
 }
