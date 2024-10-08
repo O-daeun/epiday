@@ -9,7 +9,7 @@ interface Props {
 
 export default function EpidayBox({ epiday, isContentLimit = false }: Props) {
   return (
-    <>
+    <div>
       <div
         className={`flex rounded-2xl border border-var-line-100 bg-var-blue-100 bg-[repeating-linear-gradient(white,white_25px,#F2F2F2_27px)] p-6 shadow-custom duration-100 hover:shadow-hover ${isContentLimit ? 'h-[260px]' : ''}`}
       >
@@ -25,6 +25,6 @@ export default function EpidayBox({ epiday, isContentLimit = false }: Props) {
           <TagList tags={epiday.tags} className="font-iropke" />
         </div>
       )}
-    </>
+    </div>
   );
 }
