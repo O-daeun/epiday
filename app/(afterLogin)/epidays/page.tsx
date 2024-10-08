@@ -1,10 +1,10 @@
 'use client';
 
+import RecentComments from '@/components/epidays-page/recent-comments';
+import RecentEpidays from '@/components/epidays-page/recent-epidays';
+import TodayEmotion from '@/components/epidays-page/today-emotion';
+import TodayEpiday from '@/components/epidays-page/today-epiday';
 import InnerLayout from '@/components/inner-layout';
-import RecentComments from '@/components/recent-comments';
-import RecentEpidays from '@/components/recent-epidays';
-import TodayEmotion from '@/components/today-emotion';
-import TodayEpiday from '@/components/today-epiday';
 
 export default function EpidaysPage() {
   return (
