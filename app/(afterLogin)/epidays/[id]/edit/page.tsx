@@ -18,7 +18,7 @@ export default function EditPage({ params: { id } }: Props) {
   const { data: session } = useSession();
 
   useEffect(() => {
-    if (id && session) {
+    if (id && session && !epidayData) {
       const handleLoadData = async () => {
         const response = await fetchWithToken('GET', `/epigrams/${id}`, session);
 
