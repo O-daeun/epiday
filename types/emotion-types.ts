@@ -1,6 +1,6 @@
 export type Emotion = 'MOVED' | 'HAPPY' | 'WORRIED' | 'SAD' | 'ANGRY';
 
-export interface GetTodayEmotionLog {
+export interface GetEmotionLog {
   id: number;
   userId: number;
   emotion: Emotion;

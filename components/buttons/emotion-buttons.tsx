@@ -3,7 +3,7 @@ import { fetchWithoutToken } from '@/api/fetch-without-token';
 import { EMOTIONS } from '@/constants/emotions';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
-import { Emotion, GetTodayEmotionLog } from '@/types/emotion-types';
+import { Emotion, GetEmotionLog } from '@/types/emotion-types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import EmotionImage from '../emotion-image';
@@ -19,7 +19,7 @@ export default function EmotionButtons() {
 
       if (response.ok) {
         if (response.status === 200) {
-          const data: GetTodayEmotionLog = await response.json();
+          const data: GetEmotionLog = await response.json();
           setActiveEmotion(data.emotion);
         } else {
           return;
@@ -47,7 +47,7 @@ export default function EmotionButtons() {
         } else {
           showToast({ message: TOAST_MESSAGES.emotion.createSuccess, type: 'success' });
         }
-        const data: GetTodayEmotionLog = await response.json();
+        const data: GetEmotionLog = await response.json();
         setActiveEmotion(data.emotion);
       } else {
         const { message } = await response.json();
