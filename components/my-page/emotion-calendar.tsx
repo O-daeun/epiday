@@ -1,11 +1,6 @@
-import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
-import { fetchWithoutToken } from '@/api/fetch-without-token';
-import { useToastStore } from '@/store/use-toast-store';
 import '@/styles/calendar.css';
 import { GetEmotionLog } from '@/types/emotion-types';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
 import EmotionImage from '../emotion-image';
 
 const getTheDateEmotionLog = (date: Date, emotionLogs: GetEmotionLog[]) => {
@@ -21,36 +16,12 @@ const getTheDateEmotionLog = (date: Date, emotionLogs: GetEmotionLog[]) => {
   return filteredLog;
 };
 
-export default function EmotionCalendar() {
-  const [emotionLogs, setEmotionLogs] = useState<GetEmotionLog[]>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showToast } = useToastStore();
-  const { data: session } = useSession();
+interface Props {
+  emotionLogs: GetEmotionLog[];
+  fetchEmotionLogs: (year: number, month: number) => void;
+}
 
-  const fetchEmotionLogs = async () => {
-    if (isLoading || !session) return;
-
-    setIsLoading(true);
-    const response = await fetchWithoutToken(
-      'GET',
-      `/emotionLogs/monthly?userId=${session.id}&year=${2024}&month=${10}`,
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setEmotionLogs(data);
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchEmotionLogs();
-  }, [session]);
-
-  if (!emotionLogs) return;
-
+export default function EmotionCalendar({ fetchEmotionLogs, emotionLogs }: Props) {
   return (
     <section>
       <Calendar
@@ -70,6 +41,11 @@ export default function EmotionCalendar() {
           ) : (
             <span className="date text-2xl">{date.getDate()}</span>
           );
+        }}
+        onActiveStartDateChange={({ activeStartDate }) => {
+          const year = activeStartDate.getFullYear();
+          const month = activeStartDate.getMonth() + 1;
+          fetchEmotionLogs(year, month);
         }}
       />
     </section>
