@@ -20,7 +20,7 @@ interface Props {
 export default function EmotionImage({ type, size }: Props) {
   return (
     <Image
-      src={`/${type}.svg`}
+      src={`/${type.toLowerCase()}.svg`}
       width={IMAGE_SIZE[size]}
       height={IMAGE_SIZE[size]}
       alt={type}
