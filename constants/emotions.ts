@@ -1,24 +1,24 @@
-import { Emotion } from '@/types/emotion-types';
+import { Emotion, EmotionKorean } from '@/types/emotion-types';
 
-export const EMOTIONS: { title: Emotion; text: string }[] = [
+export const EMOTIONS: { english: Emotion; korean: EmotionKorean }[] = [
   {
-    title: 'MOVED',
-    text: '감동',
+    english: 'MOVED',
+    korean: '감동',
   },
   {
-    title: 'HAPPY',
-    text: '기쁨',
+    english: 'HAPPY',
+    korean: '기쁨',
   },
   {
-    title: 'WORRIED',
-    text: '고민',
+    english: 'WORRIED',
+    korean: '고민',
   },
   {
-    title: 'SAD',
-    text: '슬픔',
+    english: 'SAD',
+    korean: '슬픔',
   },
   {
-    title: 'ANGRY',
-    text: '분노',
+    english: 'ANGRY',
+    korean: '분노',
   },
 ];

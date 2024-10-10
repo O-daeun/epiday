@@ -68,18 +68,18 @@ export default function EmotionButtons() {
   return (
     <ul className="flex justify-center gap-4">
       {EMOTIONS.map((emotion) => (
-        <li key={emotion.title} className="flex flex-col items-center gap-2">
+        <li key={emotion.english} className="flex flex-col items-center gap-2">
           <button
-            onClick={() => handleClick(emotion.title)}
-            disabled={emotion.title === activeEmotion}
-            className={`flex size-24 items-center justify-center rounded-2xl duration-100 ${emotion.title === activeEmotion ? 'border-4 border-var-illust-green bg-var-blue-100' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
+            onClick={() => handleClick(emotion.english)}
+            disabled={emotion.english === activeEmotion}
+            className={`flex size-24 items-center justify-center rounded-2xl duration-100 ${emotion.english === activeEmotion ? 'border-4 border-var-illust-green bg-var-blue-100' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
           >
-            <EmotionImage type={emotion.title} size="xl" />
+            <EmotionImage type={emotion.english} size="xl" />
           </button>
           <p
-            className={`text-xl font-semibold ${emotion.title === activeEmotion ? '' : 'text-[#999]'}`}
+            className={`text-xl font-semibold ${emotion.english === activeEmotion ? '' : 'text-[#999]'}`}
           >
-            {emotion.text}
+            {emotion.korean}
           </p>
         </li>
       ))}
