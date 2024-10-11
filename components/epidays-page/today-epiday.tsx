@@ -17,6 +17,9 @@ export default function TodayEpiday() {
     setIsLoading(true);
     const response = await fetchWithoutToken('GET', '/epigrams/today');
     if (response.ok) {
+      if (response.status === 204) {
+        return;
+      }
       const data = await response.json();
 
       setEpiday(data);
