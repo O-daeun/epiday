@@ -1,10 +1,25 @@
-import { useSession } from 'next-auth/react';
+import { TOAST_MESSAGES } from '@/constants/toast-messages';
+import { useToastStore } from '@/store/use-toast-store';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import ProfileImage from '../profile-image';
 
 export default function Profile() {
   const { data: session } = useSession();
+  const router = useRouter();
+  const { showToast } = useToastStore();
 
-  const handleLogout = () => {};
+  const handleLogout = async () => {
+    try {
+      const result = await signOut({ redirect: false });
+      if (result?.url) {
+        router.push('/login');
+      }
+    } catch (error) {
+      showToast({ message: TOAST_MESSAGES.error, type: 'error' });
+      console.error('로그아웃 중 예외 발생: ', error);
+    }
+  };
 
   if (!session) return;
   return (
