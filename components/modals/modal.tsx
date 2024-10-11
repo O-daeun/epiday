@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 export default function Modal() {
-  const { isOpen, content, closeModal } = useModalStore();
+  const { isOpen, content } = useModalStore();
 
   useEffect(() => {
     if (isOpen) {
@@ -22,8 +22,11 @@ export default function Modal() {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.6)]">
-      <div className="h-fit w-fit rounded-3xl bg-white">{content}</div>
+    <div className="fixed inset-0 z-50 h-full w-full overflow-auto bg-[rgba(0,0,0,0.6)]">
+      <div className="absolute inset-0 flex h-fit min-h-full w-full items-center justify-center py-10">
+        <div className="h-fit w-fit rounded-3xl bg-white">{content}</div>
+      </div>
+      ,
     </div>,
     document.body,
   );
