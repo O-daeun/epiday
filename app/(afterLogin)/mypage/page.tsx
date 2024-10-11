@@ -8,7 +8,7 @@ import TodayEmotion from '@/components/my-page/today-emotion';
 export default function MyPage() {
   return (
     <div className="bg-var-background pt-32">
-      <div className="shadow-big rounded-3xl bg-var-blue-100">
+      <div className="rounded-3xl bg-var-blue-100 pb-[87px] shadow-big">
         <InnerLayout>
           <Profile />
           <div className="flex flex-col gap-[165px]">

@@ -14,7 +14,7 @@ export default function EmotionCalendarChart() {
   const { data: session } = useSession();
 
   const updateFormattedYearMonth = (year: number, month: number) => {
-    setFormattedYearMonth(`${year}년 ${month}월`);
+    setFormattedYearMonth(`${year}.${month}`);
   };
 
   const fetchEmotionLogs = async (year: number, month: number) => {
