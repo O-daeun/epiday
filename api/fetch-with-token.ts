@@ -84,13 +84,16 @@ export async function fetchWithToken(
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
   url: string,
   token: Session,
-  data?: {},
+  data?: {} | FormData,
 ) {
-  const options = data && {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+  const isFormData = data instanceof FormData;
+  const options = {
+    headers: !isFormData
+      ? {
+          'Content-Type': 'application/json',
+        }
+      : {},
+    body: isFormData ? data : JSON.stringify(data),
   };
   const response = await apiWithToken(
     `${baseUrl}${url}`,
