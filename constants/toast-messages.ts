@@ -25,4 +25,7 @@ export const TOAST_MESSAGES = {
     createSuccess: '오늘의 감정 등록이 완료되었습니다.',
     updateSuccess: '오늘의 감정 변경이 완료되었습니다.',
   },
+  profile: {
+    updateSuccess: '프로필이 수정이 완료되었습니다.',
+  },
 };
