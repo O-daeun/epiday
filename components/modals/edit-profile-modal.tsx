@@ -2,7 +2,7 @@ import { fetchWithToken } from '@/api/fetch-with-token';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -16,15 +16,14 @@ export default function EditProfileModal() {
   const { showToast } = useToastStore();
   const { closeModal } = useModalStore();
   const [image, setImage] = useState<string | null>(null);
+  const [initialImage, setInitialImage] = useState<string | null>(null);
   const [scale, setScale] = useState<number>(1);
   const [nickname, setNickname] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const editorRef = useRef<AvatarEditor | null>(null);
-  const [testFile, setTestFile] = useState(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setTestFile(file);
     if (file) {
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
@@ -34,6 +33,7 @@ export default function EditProfileModal() {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => setImage(reader.result as string);
+      setInitialImage(null);
     }
   };
 
@@ -67,24 +67,8 @@ export default function EditProfileModal() {
     }
   };
 
-  const handleTest = async () => {
-    if (!testFile) return; // 파일이 없으면 반환
-
-    const formData = new FormData();
-    formData.append('file', testFile);
-
-    const response = await fetchWithToken('POST', '/images/upload', session, formData);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-  };
-
   const handleSave = async () => {
-    if (editorRef.current) {
+    if (editorRef.current && image) {
       const canvas = editorRef.current.getImageScaledToCanvas();
 
       canvas.toBlob(async (blob) => {
@@ -97,26 +81,38 @@ export default function EditProfileModal() {
         const imageUrl = await handleUploadImage(file);
 
         if (imageUrl) {
-          const response = await fetchWithToken('POST', '/users/me', session, {
+          const response = await fetchWithToken('PATCH', '/users/me', session, {
             nickname,
-            image: imageUrl,
+            image: imageUrl.url,
           });
 
           if (response.ok) {
             showToast({ message: TOAST_MESSAGES.profile.updateSuccess, type: 'success' });
+            await signIn('credentials', { redirect: false, accessToken: session.accessToken });
           } else {
             const { message } = await response.json();
             showToast({ message, type: 'error' });
           }
         }
-      }, 'image/png');
+      }, 'image/jpeg');
+    }
+
+    const response = await fetchWithToken('PATCH', '/users/me', session, {
+      nickname,
+    });
+    if (response.ok) {
+      showToast({ message: TOAST_MESSAGES.profile.updateSuccess, type: 'success' });
+      await signIn('credentials', { redirect: false, accessToken: session.accessToken });
+    } else {
+      const { message } = await response.json();
+      showToast({ message, type: 'error' });
     }
   };
 
   useEffect(() => {
     if (session && !nickname) {
-      setImage(session.image);
       setNickname(session.nickname);
+      setInitialImage(session.image);
     }
   }, [session]);
 
@@ -159,6 +155,15 @@ export default function EditProfileModal() {
           </div>
         )}
       </div>
+      {initialImage && (
+        <Image
+          src={session.image}
+          width={375}
+          height={375}
+          alt="프로필 사진"
+          className="mt-3 rounded-full"
+        />
+      )}
       {image && (
         <div className="mx-auto mt-3 size-fit overflow-hidden rounded-xl">
           <AvatarEditor
@@ -180,7 +185,6 @@ export default function EditProfileModal() {
           저장
         </ModalButton>
       </div>
-      <button onClick={handleTest}>클릭</button>
     </div>
   );
 }
