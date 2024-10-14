@@ -2,7 +2,7 @@ import { fetchWithToken } from '@/api/fetch-with-token';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
@@ -12,7 +12,7 @@ import Input from '../inputs/input';
 import Label from '../inputs/label';
 
 export default function EditProfileModal() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const { showToast } = useToastStore();
   const { closeModal } = useModalStore();
   const [image, setImage] = useState<string | null>(null);
@@ -58,8 +58,6 @@ export default function EditProfileModal() {
     const response = await fetchWithToken('POST', '/images/upload', session, formData);
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
-
       return data;
     } else {
       const { message } = await response.json();
@@ -68,41 +66,35 @@ export default function EditProfileModal() {
   };
 
   const handleSave = async () => {
-    if (editorRef.current && image) {
-      const canvas = editorRef.current.getImageScaledToCanvas();
+    const updatedProfile: { nickname: string; image?: string } = { nickname };
 
-      canvas.toBlob(async (blob) => {
-        if (!blob) {
-          console.error('blob 생성 실패');
-          return;
-        }
-        const file = new File([blob], 'profile_image.png', { type: 'image/jpeg' });
+    if (editorRef.current && image) {
+      const imageBlob = await new Promise<Blob | null>((resolve) => {
+        const canvas = editorRef.current.getImageScaledToCanvas();
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            console.error('blob 생성 실패');
+            resolve(null);
+          } else {
+            resolve(blob);
+          }
+        }, 'image/jpeg');
+      });
+      if (imageBlob) {
+        const file = new File([imageBlob], 'profile_image.png', { type: 'image/jpeg' });
 
         const imageUrl = await handleUploadImage(file);
-
         if (imageUrl) {
-          const response = await fetchWithToken('PATCH', '/users/me', session, {
-            nickname,
-            image: imageUrl.url,
-          });
-
-          if (response.ok) {
-            showToast({ message: TOAST_MESSAGES.profile.updateSuccess, type: 'success' });
-            await signIn('credentials', { redirect: false, accessToken: session.accessToken });
-          } else {
-            const { message } = await response.json();
-            showToast({ message, type: 'error' });
-          }
+          updatedProfile.image = imageUrl.url;
         }
-      }, 'image/jpeg');
+      }
     }
+    const response = await fetchWithToken('PATCH', '/users/me', session, updatedProfile);
 
-    const response = await fetchWithToken('PATCH', '/users/me', session, {
-      nickname,
-    });
     if (response.ok) {
       showToast({ message: TOAST_MESSAGES.profile.updateSuccess, type: 'success' });
-      await signIn('credentials', { redirect: false, accessToken: session.accessToken });
+      update(updatedProfile);
+      closeModal();
     } else {
       const { message } = await response.json();
       showToast({ message, type: 'error' });

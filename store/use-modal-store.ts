@@ -8,6 +8,11 @@ interface ModalStore {
   closeModal: () => void;
 }
 
+/**
+ * 모달을 열고 닫는 훅
+ * @example1 const {openModal} = useModalStore();
+ * @example2 openModal(<DeleteModal />)
+ */
 export const useModalStore = create<ModalStore>((set) => ({
   isOpen: false,
   content: null,

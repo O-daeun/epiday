@@ -71,7 +71,7 @@ const handler = NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, trigger, user, session }) {
       if (user) {
         return {
           ...token,
@@ -83,13 +83,20 @@ const handler = NextAuth({
           refreshToken: user.refreshToken,
         };
       }
+      if (trigger === 'update') {
+        return {
+          ...token,
+          nickname: session.nickname || token.nickname,
+          image: session.image || token.image,
+        };
+      }
 
       return refreshAccessToken(token as Token);
     },
     async session({ session, token }) {
       const typedToken = token as Token;
       if (token) {
-        session.id = typedToken.id as string;
+        session.id = typedToken.id as number;
         session.nickname = typedToken.nickname as string;
         session.email = typedToken.email as string;
         session.image = typedToken.image as string | null;

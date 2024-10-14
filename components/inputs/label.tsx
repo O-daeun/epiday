@@ -15,12 +15,12 @@ export default function Label({
   ...rest
 }: Props) {
   return (
-    <label className={`block ${className}`} {...rest}>
-      <h2 className="mb-5 flex gap-[6px]">
-        <span className="text-xl font-semibold text-var-black-600">{label}</span>
+    <div className={`block ${className}`}>
+      <label className="mb-5 flex gap-[6px]" {...rest}>
+        <h2 className="text-xl font-semibold text-var-black-600">{label}</h2>
         <b className="pt-[1px] text-2xl font-medium text-var-error">{required && '*'}</b>
-      </h2>
+      </label>
       {children}
-    </label>
+    </div>
   );
 }
