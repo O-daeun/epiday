@@ -66,13 +66,13 @@ export default function EmotionButtons() {
   }, [session]);
 
   return (
-    <ul className="flex justify-center gap-4">
+    <ul className="mx-auto flex w-full max-w-[350px] justify-between sm:max-w-full sm:justify-center sm:gap-4">
       {EMOTIONS.map((emotion) => (
         <li key={emotion.english} className="flex flex-col items-center gap-2">
           <button
             onClick={() => handleClick(emotion.english)}
             disabled={emotion.english === activeEmotion}
-            className={`flex size-24 items-center justify-center rounded-2xl duration-100 ${emotion.english === activeEmotion ? 'border-4 border-var-illust-green bg-var-blue-100' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
+            className={`flex size-14 items-center justify-center rounded-2xl duration-100 sm:size-24 ${emotion.english === activeEmotion ? 'border-4 border-var-illust-green bg-var-blue-100' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
           >
             <EmotionImage type={emotion.english} size="xl" />
           </button>
