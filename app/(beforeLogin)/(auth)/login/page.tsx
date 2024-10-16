@@ -4,7 +4,7 @@ import Button from '@/components/buttons/button';
 import AuthInput from '@/components/inputs/auth-input';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,6 +27,7 @@ export default function LoginPage() {
   });
   const router = useRouter();
   const { showToast } = useToastStore();
+  const { data: session } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -94,6 +95,12 @@ export default function LoginPage() {
       );
     }
   }, [errors]);
+
+  useEffect(() => {
+    if (session) {
+      router.push('/epidays');
+    }
+  }, [session]);
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
