@@ -5,10 +5,10 @@ import { useObserver } from '@/hooks/use-observer';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import Comment from '../comment';
 import InnerLayout from '../inner-layout';
+import NoContents from '../no-contents';
 import WriteComment from '../write-comment';
 
 interface Props {
@@ -86,15 +86,7 @@ export default function EpidayDetailComments({ id }: Props) {
           ))}
         </ul>
       )}
-      {comments?.totalCount === 0 && (
-        <div className="flex min-h-[488px] flex-col items-center justify-center gap-6">
-          <Image src="/no-data.svg" width={144} height={144} alt="데이터 없음" />
-          <p className="text-center text-xl leading-8">
-            아직 댓글이 없어요! <br />
-            댓글을 달고 다른 사람들과 교류해보세요.
-          </p>
-        </div>
-      )}
+      {comments?.totalCount === 0 && <NoContents type="댓글" />}
       <div ref={observerRef} className="h-10" />
       {isLoading && <p>Loading</p>}
     </section>
