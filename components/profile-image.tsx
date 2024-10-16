@@ -33,12 +33,13 @@ interface Props {
   nickname: string;
   imageUrl: string | null;
   size: 's' | 'm' | 'l';
+  priority?: boolean;
 }
 
 /**
  * @param size s = 24, m = 48, l = 120
  */
-export default function ProfileImage({ nickname, imageUrl, size }: Props) {
+export default function ProfileImage({ nickname, imageUrl, size, priority }: Props) {
   const style = {
     width: SIZES[size].circle,
     height: SIZES[size].circle,
@@ -69,6 +70,7 @@ export default function ProfileImage({ nickname, imageUrl, size }: Props) {
       alt="프로필이미지"
       className="shrink-0 rounded-full object-cover shadow-md"
       style={style}
+      priority={priority}
     />
   );
 }
