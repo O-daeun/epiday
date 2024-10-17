@@ -1,8 +1,12 @@
 import Image from 'next/image';
 
-export default function EpidayDetailLine() {
+interface Props {
+  isInvert?: boolean;
+}
+
+export default function ZigzagLine({ isInvert }: Props) {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className={`w-full overflow-x-hidden ${isInvert ? 'rotate-180' : ''}`}>
       <Image
         src="/detail-line.png"
         width={2640}
