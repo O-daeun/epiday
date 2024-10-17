@@ -1,9 +1,18 @@
-export default function Test() {
+import EpidaysSection from '@/components/landing-page/epidays-section';
+import IntroSection from '@/components/landing-page/intro-section';
+import LastSection from '@/components/landing-page/last-section';
+import MainSection from '@/components/landing-page/main-section';
+import ZigzagLine from '@/components/zigzag-line';
+
+export default function LandingPage() {
   return (
-    <div className="text-2xl">
-      test
-      <p className="font-bold">test 홓핳힣켘케케</p>
-      <p className="text-ellipsis bg-var-black-100 font-iropke font-thin">얇은 글씨</p>
-    </div>
+    <>
+      <MainSection />
+      <ZigzagLine />
+      <IntroSection />
+      <EpidaysSection />
+      <ZigzagLine isInvert />
+      <LastSection />
+    </>
   );
 }
