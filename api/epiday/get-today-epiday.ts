@@ -2,10 +2,9 @@ import { GetEpidayData } from '@/types/epiday-types';
 import { fetchWithoutToken } from '../fetch-without-token';
 
 export const getTodayEpiday = async (): Promise<GetEpidayData | null> => {
-  console.log('getTodayEpiday 호출됨');
   const response = await fetchWithoutToken('GET', '/epigrams/today');
-  console.log('잘 되고 있나?', response);
   if (response.ok) {
+    // No document일 경우 컴포넌트 자체가 안 보이도록 함
     if (response.status === 204) return null;
 
     return response.json();
