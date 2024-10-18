@@ -1,3 +1,8 @@
 export const queryKeys = {
-  todayEpiday: ['todayEpiday'],
+  epiday: {
+    todayEpiday: ['todayEpiday'],
+  },
+  emotionLog: {
+    todayEmotionLog: (sessionId: number) => ['todayEmotionLog', sessionId],
+  },
 };

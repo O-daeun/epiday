@@ -16,10 +16,9 @@ export default function TodayEpiday() {
     isError,
     error,
   } = useQuery<GetEpidayData>({
-    queryKey: queryKeys.todayEpiday,
+    queryKey: queryKeys.epiday.todayEpiday,
     queryFn: getTodayEpiday,
   });
-  console.log(epiday);
 
   if (isError && error instanceof Error) {
     showToast({ message: error.message, type: 'error' });
