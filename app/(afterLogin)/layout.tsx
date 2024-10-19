@@ -1,5 +1,6 @@
 'use client';
 
+import SideButtons from '@/components/buttons/side-buttons';
 import NavHeader from '@/components/headers/nav-header';
 import Modal from '@/components/modals/modal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -19,6 +20,7 @@ export default function Layout({ children }: Props) {
       <QueryClientProvider client={queryClient}>
         <NavHeader />
         {children}
+        <SideButtons />
         <Modal />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

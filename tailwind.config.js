@@ -89,6 +89,7 @@ module.exports = {
         custom: '0px 3px 12px 0px rgba(0, 0, 0, 0.04)',
         hover: '0px 3px 12px 0px rgba(0, 0, 0, 0.1)',
         big: '0px 0px 36px 0px rgba(0, 0, 0, 0.05)',
+        side: '0px 4px 4px rgba(172, 172, 172, 0.20)',
       },
       animation: {
         progress: 'progress 3s linear',
