@@ -1,61 +1,53 @@
 'use client';
 
-import { fetchWithoutToken } from '@/api/fetch-without-token';
+import { getRecentEpidays } from '@/api/epiday/get-recent-epidays';
 import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';
-import { useToastStore } from '@/store/use-toast-store';
+import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+
+const limit = 8;
 
 export default function FeedPage() {
-  const [epidaysData, setEpidaysData] = useState<GetEpidaysData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showToast } = useToastStore();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
+    useInfiniteQuery<GetEpidaysData>({
+      queryKey: queryKeys.epiday.recentEpidays(limit),
+      queryFn: async ({ pageParam = '' }) => getRecentEpidays(limit, pageParam),
+      getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
+      staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
+      refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
+      refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+      initialPageParam: '',
+    });
 
-  const fetchEpidays = async () => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-    const cursorParams = epidaysData ? `&cursor=${epidaysData.nextCursor}` : '';
-    const response = await fetchWithoutToken('GET', `/epigrams?limit=8${cursorParams}`);
-    if (response.ok) {
-      const data = await response.json();
-
-      if (epidaysData) {
-        setEpidaysData((prev) => ({
-          ...data,
-          list: [...prev.list, ...data.list],
-        }));
-      } else {
-        setEpidaysData(data);
-      }
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchEpidays();
-  }, []);
+  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
+  if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
     <div className="bg-var-background py-[120px]">
       <div className="mx-auto w-full max-w-[1248px] px-6">
         <h1 className="text-2xl font-semibold">피드</h1>
         <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
-          {epidaysData?.list.map((epiday) => (
-            <li key={epiday.id}>
-              <Link href={`/epidays/${epiday.id}`}>
-                <EpidayBox epiday={epiday} isContentLimit />
-              </Link>
-            </li>
-          ))}
+          {data?.pages.map((page) =>
+            page.list.map((epiday) => (
+              <li key={epiday.id}>
+                <Link href={`/epidays/${epiday.id}`}>
+                  <EpidayBox epiday={epiday} isContentLimit />
+                </Link>
+              </li>
+            )),
+          )}
         </ul>
-        {(!epidaysData || epidaysData?.nextCursor) && (
-          <SeeMoreButton onClick={fetchEpidays}>에피데이 더보기</SeeMoreButton>
+        {hasNextPage && (
+          <SeeMoreButton
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            isLoading={isFetchingNextPage}
+          >
+            에피데이 더보기
+          </SeeMoreButton>
         )}
       </div>
     </div>
