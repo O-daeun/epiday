@@ -1,58 +1,55 @@
-import { fetchWithoutToken } from '@/api/fetch-without-token';
-import { useToastStore } from '@/store/use-toast-store';
+import { getRecentEpidays } from '@/api/epiday/get-recent-epidays';
+import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import RefetchButton from '../buttons/refetch-button';
 import SeeMoreButton from '../buttons/see-more-button';
 import EpidayBox from '../epiday-box';
+import Title from '../my-page/title';
 import Section from './section';
 
 export default function RecentEpidays() {
-  const [epidays, setEpidays] = useState<GetEpidaysData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showToast } = useToastStore();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
+    useInfiniteQuery<GetEpidaysData>({
+      queryKey: queryKeys.epiday.recentEpidays,
+      queryFn: async ({ pageParam = '' }) => getRecentEpidays(pageParam),
+      getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
+      staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
+      refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
+      refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+      initialPageParam: '',
+    });
 
-  const fetchEpidays = async () => {
-    if (isLoading) return;
+  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
+  if (isError) return <p>Error</p>; // note: 에러 구현
 
-    setIsLoading(true);
-    const cursorParams = epidays ? `&cursor=${epidays.nextCursor}` : '';
-    const response = await fetchWithoutToken('GET', `/epigrams?limit=3${cursorParams}`);
-    if (response.ok) {
-      const data = await response.json();
-
-      if (epidays) {
-        setEpidays((prev) => ({
-          ...data,
-          list: [...prev.list, ...data.list],
-        }));
-      } else {
-        setEpidays(data);
-      }
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchEpidays();
-  }, []);
   return (
-    <Section title="최신 에피데이">
+    <Section>
+      <div className="flex items-center justify-between">
+        <Title>최신 에피데이</Title>
+        <RefetchButton refetch={refetch} />
+      </div>
       <ul className="flex flex-col gap-4">
-        {epidays?.list.map((epiday) => (
-          <li key={epiday.id}>
-            <Link href={`/epidays/${epiday.id}`}>
-              <EpidayBox epiday={epiday} />
-            </Link>
-          </li>
-        ))}
-        {(!epidays || epidays?.nextCursor) && (
-          <SeeMoreButton onClick={fetchEpidays}>에피데이 더보기</SeeMoreButton>
+        {data?.pages.map((page) =>
+          page.list.map((epiday) => (
+            <li key={epiday.id}>
+              <Link href={`/epidays/${epiday.id}`}>
+                <EpidayBox epiday={epiday} />
+              </Link>
+            </li>
+          )),
         )}
       </ul>
+      {hasNextPage && (
+        <SeeMoreButton
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          isLoading={isFetchingNextPage}
+        >
+          에피데이 더보기
+        </SeeMoreButton>
+      )}
     </Section>
   );
 }
