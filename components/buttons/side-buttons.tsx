@@ -41,7 +41,13 @@ export default function SideButtons() {
         </SideButton>
       )}
       <SideButton onClick={scrollToTop} isVisible={isTopButtonVisible}>
-        <Image src="/arrow-top.svg" width={22} height={12} alt="맨 위로 스크롤" />
+        <Image
+          src="/arrow-top.svg"
+          width={22}
+          height={14}
+          alt="맨 위로 스크롤"
+          className="h-auto w-[22px]"
+        />
       </SideButton>
     </div>
   );
