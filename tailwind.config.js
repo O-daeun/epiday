@@ -96,6 +96,7 @@ module.exports = {
         progress: 'progress 2s linear',
         slideIn: 'slideIn 0.3s ease-out',
         slideOut: 'slideOut 0.3s ease-in',
+        spinFast: 'spin 0.4s linear infinite',
       },
     },
   },
