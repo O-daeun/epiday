@@ -29,7 +29,7 @@ export default function EmotionButtons() {
           : TOAST_MESSAGES.emotion.createSuccess,
         type: 'success',
       });
-      queryClient.invalidateQueries({ queryKey: queryKeys.emotionLog.todayEmotionLog(session.id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.emotionLog.allEmotionLogs });
     },
     onError: (error: Error) => {
       showToast({ message: error.message, type: 'error' });
