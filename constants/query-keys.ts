@@ -1,9 +1,15 @@
 export const queryKeys = {
   epiday: {
-    todayEpiday: ['todayEpiday'],
-    recentEpidays: ['recentEpidays'],
+    allEpidays: ['epidays'],
+    todayEpiday: ['epidays', 'todayEpiday'],
+    recentEpidays: ['epidays', 'recentEpidays'],
   },
   emotionLog: {
-    todayEmotionLog: (sessionId: number) => ['todayEmotionLog', sessionId],
+    allEmotionLogs: ['emotionLogs'],
+    todayEmotionLog: (sessionId: number) => ['emotionLogs', 'todayEmotionLog', sessionId],
+  },
+  comment: {
+    allComments: ['comments'],
+    recentComments: ['comments', 'recentComments'],
   },
 };

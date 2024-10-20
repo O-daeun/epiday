@@ -1,11 +1,11 @@
 import { useModalStore } from '@/store/use-modal-store';
-import { GetCommentData, GetCommentsData } from '@/types/comment-types';
+import { GetCommentData } from '@/types/comment-types';
 import { timeAgo } from '@/utils/time-ago';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import CommentButton from './buttons/comment-button';
 import CommentForm from './forms/comment-form';
 import InnerLayout from './inner-layout';
@@ -14,7 +14,7 @@ import ProfileImage from './profile-image';
 
 interface Props {
   comment: GetCommentData;
-  onChangeComments: Dispatch<SetStateAction<GetCommentsData>>;
+  onChangeComments: () => void;
   isMyPage?: boolean;
 }
 

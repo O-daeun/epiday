@@ -1,7 +1,7 @@
-import { fetchWithoutToken } from '@/api/fetch-without-token';
-import { useToastStore } from '@/store/use-toast-store';
+import { getRecentComments } from '@/api/comment/get-recent-comments';
+import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import SeeMoreButton from '../buttons/see-more-button';
 import Comment from '../comment';
 import InnerLayout from '../inner-layout';
@@ -9,37 +9,25 @@ import Title from '../my-page/title';
 import Section from './section';
 
 export default function RecentComments() {
-  const [comments, setComments] = useState<GetCommentsData>();
-  const [isLoading, setIsLoading] = useState(false);
-  const { showToast } = useToastStore();
+  const queryClient = useQueryClient();
 
-  const fetchComments = async () => {
-    if (isLoading) return;
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
+    useInfiniteQuery<GetCommentsData>({
+      queryKey: queryKeys.comment.recentComments,
+      queryFn: async ({ pageParam = '' }) => getRecentComments(pageParam),
+      getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
+      staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
+      refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
+      refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+      initialPageParam: '',
+    });
 
-    setIsLoading(true);
-    const cursorParams = comments ? `&cursor=${comments.nextCursor}` : '';
-    const response = await fetchWithoutToken('GET', `/comments?limit=4${cursorParams}`);
-    if (response.ok) {
-      const data: GetCommentsData = await response.json();
-
-      if (comments) {
-        setComments((prev) => ({
-          ...data,
-          list: [...prev.list, ...data.list],
-        }));
-      } else {
-        setComments(data);
-      }
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-    setIsLoading(false);
+  const handleChangeComments = () => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
   };
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
+  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
+  if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
     <Section className="mt-[160px]">
@@ -47,13 +35,21 @@ export default function RecentComments() {
         <Title>최신 댓글</Title>
       </InnerLayout>
       <ul>
-        {comments?.list.map((comment: GetCommentData) => (
-          <li key={comment.id}>
-            <Comment comment={comment} onChangeComments={setComments} />
-          </li>
-        ))}
-        {(!comments || comments?.nextCursor) && (
-          <SeeMoreButton onClick={fetchComments}>최신 댓글 더보기</SeeMoreButton>
+        {data?.pages.map((page) =>
+          page.list.map((comment: GetCommentData) => (
+            <li key={comment.id}>
+              <Comment comment={comment} onChangeComments={handleChangeComments} />
+            </li>
+          )),
+        )}
+        {hasNextPage && (
+          <SeeMoreButton
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            isLoading={isFetchingNextPage}
+          >
+            최신 댓글 더보기
+          </SeeMoreButton>
         )}
       </ul>
     </Section>
