@@ -1,18 +1,16 @@
-import { GetEpidaysData } from '@/types/epiday-types';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { InfiniteData, QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 import { useState } from 'react';
 
-interface Props {
-  refetch: (
-    options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<InfiniteData<GetEpidaysData, unknown>, Error>>;
+interface Props<T> {
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<InfiniteData<T>, Error>>;
 }
+
 /**
  * 새로고침 버튼
  * @param refetch react-query의 refetch함수
  */
-export default function RefetchButton({ refetch }: Props) {
+export default function RefetchButton<T>({ refetch }: Props<T>) {
   const [isRefetching, setIsRefetching] = useState(false);
 
   const handleRefetch = async () => {
