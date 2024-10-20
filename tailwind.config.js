@@ -66,21 +66,21 @@ module.exports = {
         },
         slideIn: {
           '0%': {
-            transform: 'translateY(20px)',
+            transform: 'translate(-50%, -10px)',
             opacity: '0',
           },
           '100%': {
-            transform: 'translateY(0)',
+            transform: 'translate(-50%, 0)',
             opacity: '1',
           },
         },
         slideOut: {
           '0%': {
-            transform: 'translateY(0)',
+            transform: 'translate(-50%, 0)',
             opacity: '1',
           },
           '100%': {
-            transform: 'translateY(20px)',
+            transform: 'translate(-50%, -10px)',
             opacity: '0',
           },
         },
@@ -89,10 +89,11 @@ module.exports = {
         custom: '0px 3px 12px 0px rgba(0, 0, 0, 0.04)',
         hover: '0px 3px 12px 0px rgba(0, 0, 0, 0.1)',
         big: '0px 0px 36px 0px rgba(0, 0, 0, 0.05)',
-        side: '0px 4px 4px rgba(172, 172, 172, 0.20)',
+        side: '0px 4px 4px rgba(172, 172, 172, 0.2)',
+        sideHover: '2px 3px 10px 1px rgba(172, 172, 172, 1)',
       },
       animation: {
-        progress: 'progress 3s linear',
+        progress: 'progress 2s linear',
         slideIn: 'slideIn 0.3s ease-out',
         slideOut: 'slideOut 0.3s ease-in',
       },

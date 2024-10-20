@@ -14,7 +14,7 @@ export default function Toast() {
       const timer = setTimeout(() => {
         setIsVisible(false);
         setTimeout(() => hideToast(), 300);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [toast, hideToast]);
@@ -22,7 +22,7 @@ export default function Toast() {
   if (!toast) return null;
   return (
     <div
-      className={`fixed bottom-4 right-4 z-50 flex items-center gap-1 overflow-hidden rounded-lg p-4 text-white shadow-lg ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} ${isVisible ? 'animate-slideIn' : 'animate-slideOut'}`}
+      className={`fixed left-[50vw] top-[85px] z-50 flex -translate-x-1/2 items-center gap-1 overflow-hidden rounded-lg p-4 text-white shadow-lg ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} ${isVisible ? 'animate-slideIn' : 'animate-slideOut'}`}
     >
       {toast.type === 'error' ? (
         <ExclamationCircleIcon className="size-5 stroke-white" />
