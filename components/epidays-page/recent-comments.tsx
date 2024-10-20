@@ -4,6 +4,8 @@ import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useEffect, useState } from 'react';
 import SeeMoreButton from '../buttons/see-more-button';
 import Comment from '../comment';
+import InnerLayout from '../inner-layout';
+import Title from '../my-page/title';
 import Section from './section';
 
 export default function RecentComments() {
@@ -40,7 +42,10 @@ export default function RecentComments() {
   }, []);
 
   return (
-    <Section title="최신 댓글" isResponsive className="mt-[160px]">
+    <Section className="mt-[160px]">
+      <InnerLayout>
+        <Title>최신 댓글</Title>
+      </InnerLayout>
       <ul>
         {comments?.list.map((comment: GetCommentData) => (
           <li key={comment.id}>
