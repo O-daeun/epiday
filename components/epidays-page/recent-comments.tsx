@@ -2,19 +2,22 @@ import { getRecentComments } from '@/api/comment/get-recent-comments';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import RefetchButton from '../buttons/refetch-button';
 import SeeMoreButton from '../buttons/see-more-button';
 import Comment from '../comment';
 import InnerLayout from '../inner-layout';
 import Title from '../my-page/title';
 import Section from './section';
 
+const limit = 3;
+
 export default function RecentComments() {
   const queryClient = useQueryClient();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery<GetCommentsData>({
-      queryKey: queryKeys.comment.recentComments,
-      queryFn: async ({ pageParam = '' }) => getRecentComments(pageParam),
+      queryKey: queryKeys.comment.recentComments(limit),
+      queryFn: async ({ pageParam = '' }) => getRecentComments(limit, pageParam),
       getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
       staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
       refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
@@ -31,8 +34,9 @@ export default function RecentComments() {
 
   return (
     <Section className="mt-[160px]">
-      <InnerLayout>
+      <InnerLayout className="flex items-center justify-between">
         <Title>최신 댓글</Title>
+        <RefetchButton refetch={refetch} />
       </InnerLayout>
       <ul>
         {data?.pages.map((page) =>
