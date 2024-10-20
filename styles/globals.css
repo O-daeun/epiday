@@ -21,3 +21,8 @@
     @apply font-pretendard text-var-black-600;
   }
 }
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
