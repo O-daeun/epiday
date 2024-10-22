@@ -1,6 +1,7 @@
 'use client';
 
 import { getRecentEpidays } from '@/api/epiday/get-recent-epidays';
+import RefetchButton from '@/components/buttons/refetch-button';
 import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';
 import { queryKeys } from '@/constants/query-keys';
@@ -28,7 +29,10 @@ export default function FeedPage() {
   return (
     <div className="bg-var-background py-[120px]">
       <div className="mx-auto w-full max-w-[1248px] px-6">
-        <h1 className="text-2xl font-semibold">피드</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-semibold">피드</h1>
+          <RefetchButton refetch={refetch} />
+        </div>
         <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
           {data?.pages.map((page) =>
             page.list.map((epiday) => (
