@@ -1,9 +1,23 @@
 import { GetEpidaysData } from '@/types/epiday-types';
 import { fetchWithoutToken } from '../fetch-without-token';
 
-export const getEpidays = async (limit: number, { pageParam = '' }): Promise<GetEpidaysData> => {
+interface GetEpidaysParams {
+  limit: number;
+  pageParam?: string | unknown;
+  keyword?: string;
+}
+
+export const getEpidays = async ({
+  limit,
+  pageParam = '',
+  keyword = '',
+}: GetEpidaysParams): Promise<GetEpidaysData> => {
+  const keywordParams = keyword ? `&keyword=${keyword}` : '';
   const cursorParams = pageParam ? `&cursor=${pageParam}` : '';
-  const response = await fetchWithoutToken('GET', `/epigrams?limit=${limit}${cursorParams}`);
+  const response = await fetchWithoutToken(
+    'GET',
+    `/epigrams?limit=${limit}${keywordParams}${cursorParams}`,
+  );
 
   if (response.ok) {
     return response.json();
