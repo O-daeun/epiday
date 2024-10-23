@@ -3,10 +3,13 @@ import { queryKeys } from '@/constants/query-keys';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidayData } from '@/types/epiday-types';
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
 import Link from 'next/link';
 import EpidayBox from '../../epiday-box';
 import Title from '../my-page/title';
 import Section from './section';
+
+const todayDate = format(new Date(), 'yyyy-MM-dd');
 
 export default function TodayEpidaySection() {
   const { showToast } = useToastStore();
@@ -17,7 +20,7 @@ export default function TodayEpidaySection() {
     isError,
     error,
   } = useQuery<GetEpidayData>({
-    queryKey: queryKeys.epiday.todayEpiday,
+    queryKey: queryKeys.epiday.todayEpiday(todayDate),
     queryFn: getTodayEpiday,
   });
 

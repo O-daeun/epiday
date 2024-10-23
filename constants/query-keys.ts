@@ -1,15 +1,16 @@
 export const queryKeys = {
   epiday: {
     allEpidays: ['epidays'],
-    todayEpiday: ['epidays', 'todayEpiday'],
-    recentEpidays: (limit: number) => ['epidays', 'recentEpidays', { limit }],
+    todayEpiday: (date: string) => ['epidays', 'today', { date }],
+    recentEpidays: (limit: number) => ['epidays', 'recent', { limit }],
+    searchedEpidays: (keyword: string) => ['epidays', 'search', { keyword }],
   },
   emotionLog: {
     allEmotionLogs: ['emotionLogs'],
-    todayEmotionLog: (sessionId: number) => ['emotionLogs', 'todayEmotionLog', { sessionId }],
+    todayEmotionLog: (sessionId: number) => ['emotionLogs', 'today', { sessionId }],
   },
   comment: {
     allComments: ['comments'],
-    recentComments: (limit: number) => ['comments', 'recentComments', { limit }],
+    recentComments: (limit: number) => ['comments', 'recent', { limit }],
   },
 };
