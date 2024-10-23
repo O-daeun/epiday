@@ -1,6 +1,6 @@
 'use client';
 
-import { getRecentEpidays } from '@/api/epiday/get-recent-epidays';
+import { getEpidays } from '@/api/epiday/get-epidays';
 import RefetchButton from '@/components/buttons/refetch-button';
 import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';
@@ -15,7 +15,7 @@ export default function FeedPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery<GetEpidaysData>({
       queryKey: queryKeys.epiday.recentEpidays(limit),
-      queryFn: async ({ pageParam = '' }) => getRecentEpidays(limit, pageParam),
+      queryFn: async ({ pageParam = '' }) => getEpidays(limit, pageParam),
       getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
       staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
       refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
