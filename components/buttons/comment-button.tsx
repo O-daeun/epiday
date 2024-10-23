@@ -4,6 +4,11 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   color: 'black' | 'red';
   children: ReactNode;
 }
+
+/**
+ * 댓글의 수정, 삭제 버튼
+ * note: 기능까지 수행할 수 있게 리팩하기
+ */
 export default function CommentButton({ color, children, ...rest }: Props) {
   return (
     <button
