@@ -4,11 +4,11 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidayData } from '@/types/epiday-types';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import EpidayBox from '../epiday-box';
+import EpidayBox from '../../epiday-box';
 import Title from '../my-page/title';
 import Section from './section';
 
-export default function TodayEpiday() {
+export default function TodayEpidaySection() {
   const { showToast } = useToastStore();
 
   const {

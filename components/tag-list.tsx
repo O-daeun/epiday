@@ -1,5 +1,5 @@
 import { TagData } from '@/types/epiday-types';
-import HighlightKeyword from './highlight-keyword';
+import HighlightKeyword from './pages/search-page/highlight-keyword';
 
 interface Props {
   tags: TagData[] | null;

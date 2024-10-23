@@ -4,7 +4,7 @@ import { useModalStore } from '@/store/use-modal-store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import DeleteModal from '../modals/delete-modal';
+import DeleteModal from '../../modals/delete-modal';
 
 interface Props {
   id: number;

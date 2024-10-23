@@ -3,7 +3,7 @@ import tailwindConfig from '@/tailwind.config';
 import { GetEmotionLog } from '@/types/emotion-types';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import resolveConfig from 'tailwindcss/resolveConfig';
-import EmotionImage from '../emotion-image';
+import EmotionImage from '../../emotion-image';
 import Section from './section';
 import Title from './title';
 

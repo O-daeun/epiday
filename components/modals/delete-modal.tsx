@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Dispatch, SetStateAction } from 'react';
-import ModalButton from '../buttons/modal-button';
+import ModalButton from './modal-button';
 
 interface Props {
   id: number;

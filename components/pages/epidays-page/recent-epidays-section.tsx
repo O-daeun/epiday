@@ -3,15 +3,15 @@ import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import RefetchButton from '../buttons/refetch-button';
-import SeeMoreButton from '../buttons/see-more-button';
-import EpidayBox from '../epiday-box';
+import RefetchButton from '../../buttons/refetch-button';
+import SeeMoreButton from '../../buttons/see-more-button';
+import EpidayBox from '../../epiday-box';
 import Title from '../my-page/title';
 import Section from './section';
 
 const limit = 3;
 
-export default function RecentEpidays() {
+export default function RecentEpidaysSection() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery<GetEpidaysData>({
       queryKey: queryKeys.epiday.recentEpidays(limit),

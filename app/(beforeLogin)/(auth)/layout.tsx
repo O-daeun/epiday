@@ -1,8 +1,8 @@
 'use client';
 
-import SnsLogin from '@/components/auth/sns-login';
 import AuthHeader from '@/components/headers/auth-header';
 import LogoLink from '@/components/logo-link';
+import SnsLogin from '@/components/pages/auth-page/sns-login';
 import { SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

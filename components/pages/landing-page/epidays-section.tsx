@@ -1,7 +1,7 @@
 import { fetchWithoutToken } from '@/api/fetch-without-token';
 import Image from 'next/image';
-import EpidayBox from '../epiday-box';
-import InnerLayout from '../inner-layout';
+import EpidayBox from '../../epiday-box';
+import InnerLayout from '../../inner-layout';
 import Title from './title';
 
 export default async function EpidaysSection() {

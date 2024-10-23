@@ -2,16 +2,16 @@ import { getRecentComments } from '@/api/comment/get-recent-comments';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import RefetchButton from '../buttons/refetch-button';
-import SeeMoreButton from '../buttons/see-more-button';
-import Comment from '../comment';
-import InnerLayout from '../inner-layout';
+import RefetchButton from '../../buttons/refetch-button';
+import SeeMoreButton from '../../buttons/see-more-button';
+import Comment from '../../comment';
+import InnerLayout from '../../inner-layout';
 import Title from '../my-page/title';
 import Section from './section';
 
 const limit = 3;
 
-export default function RecentComments() {
+export default function RecentCommentsSection() {
   const queryClient = useQueryClient();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =

@@ -1,17 +1,17 @@
-import EpidayDetailComments from '@/components/epiday-detail/epiday-detail-comments';
-import EpidayDetailContents from '@/components/epiday-detail/epiday-detail-contents';
+import CommentsSection from '@/components/pages/epiday-detail-page/comments-section';
+import ContentsSection from '@/components/pages/epiday-detail-page/contents-section';
 import ZigzagLine from '@/components/zigzag-line';
 
 interface Props {
   params: { id: number };
 }
 
-export default function DetailPage({ params: { id } }: Props) {
+export default function EpidayDetailPage({ params: { id } }: Props) {
   return (
     <div className="flex min-h-[calc(100vh-80px)] flex-col bg-var-background pb-32">
-      <EpidayDetailContents id={id} />
+      <ContentsSection id={id} />
       <ZigzagLine />
-      <EpidayDetailComments id={id} />
+      <CommentsSection id={id} />
     </div>
   );
 }

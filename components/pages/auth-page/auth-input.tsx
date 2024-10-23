@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
-import ErrorMessage from './error-message';
+import ErrorMessage from '../../inputs/error-message';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;

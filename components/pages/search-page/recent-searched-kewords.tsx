@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react';
-import KeywordButton from './buttons/keyword-button';
+import KeywordButton from './keyword-button';
+
+const LOCAL_STORAGE_KEYWORDS_NAME = 'searchKeywords';
 
 interface Props {
   keyword: string;
 }
 
-export default function RecentSearch({ keyword }: Props) {
+export default function RecentSearchedKewords({ keyword }: Props) {
   const [keywords, setKeywords] = useState<string[]>([]);
 
   const handleDelete = () => {
-    localStorage.setItem('searchKeywords', JSON.stringify([]));
+    localStorage.setItem(LOCAL_STORAGE_KEYWORDS_NAME, JSON.stringify([]));
     setKeywords([]);
   };
 
   useEffect(() => {
-    const storedKeywords = localStorage.getItem('searchKeywords');
+    const storedKeywords = localStorage.getItem(LOCAL_STORAGE_KEYWORDS_NAME);
     setKeywords(JSON.parse(storedKeywords));
   }, [keyword]);
 
   if (keywords.length === 0) return null;
 
   return (
-    <div className="mt-10">
+    <section className="mt-10">
       <div className="flex justify-between">
         <h2 className="text-2xl font-medium">최근 검색어</h2>
         <button type="button" onClick={handleDelete} className="font-semibold text-var-error">
@@ -35,6 +37,6 @@ export default function RecentSearch({ keyword }: Props) {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }

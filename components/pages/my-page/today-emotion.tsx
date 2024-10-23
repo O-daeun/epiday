@@ -1,5 +1,5 @@
 import { getTodayDate } from '@/utils/get-today-date';
-import EmotionButtons from '../buttons/emotion-buttons';
+import EmotionButtons from '../../buttons/emotion-buttons';
 import Section from './section';
 import Title from './title';
 

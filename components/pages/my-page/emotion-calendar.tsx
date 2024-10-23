@@ -1,7 +1,7 @@
 import '@/styles/calendar.css';
 import { GetEmotionLog } from '@/types/emotion-types';
 import Calendar from 'react-calendar';
-import EmotionImage from '../emotion-image';
+import EmotionImage from '../../emotion-image';
 
 const getTheDateEmotionLog = (date: Date, emotionLogs: GetEmotionLog[]) => {
   const month = date.getMonth() + 1;

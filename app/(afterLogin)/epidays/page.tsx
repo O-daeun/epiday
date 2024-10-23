@@ -1,10 +1,10 @@
 'use client';
 
-import RecentComments from '@/components/epidays-page/recent-comments';
-import RecentEpidays from '@/components/epidays-page/recent-epidays';
-import TodayEmotion from '@/components/epidays-page/today-emotion';
-import TodayEpiday from '@/components/epidays-page/today-epiday';
 import InnerLayout from '@/components/inner-layout';
+import RecentCommentsSection from '@/components/pages/epidays-page/recent-comments-section';
+import RecentEpidays from '@/components/pages/epidays-page/recent-epidays-section';
+import TodayEmotion from '@/components/pages/epidays-page/today-emotion-section';
+import TodayEpiday from '@/components/pages/epidays-page/today-epiday-section';
 
 export default function EpidaysPage() {
   return (
@@ -14,7 +14,7 @@ export default function EpidaysPage() {
         <TodayEmotion />
         <RecentEpidays />
       </InnerLayout>
-      <RecentComments />
+      <RecentCommentsSection />
     </div>
   );
 }

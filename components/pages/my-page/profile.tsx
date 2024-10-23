@@ -3,9 +3,9 @@ import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import GrayRoundedButton from '../buttons/gray-rounded-button';
-import EditProfileModal from '../modals/edit-profile-modal';
-import ProfileImage from '../profile-image';
+import GrayRoundedButton from '../../buttons/gray-rounded-button';
+import EditProfileModal from '../../modals/edit-profile-modal';
+import ProfileImage from '../../profile-image';
 
 export default function Profile() {
   const { data: session } = useSession();

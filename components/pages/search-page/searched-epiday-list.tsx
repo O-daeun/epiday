@@ -4,15 +4,15 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidaysData } from '@/types/epiday-types';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import EpidayPhrase from './epiday-phrase';
+import EpidayPhrase from '../../epiday-phrase';
+import TagList from '../../tag-list';
 import HighlightKeyword from './highlight-keyword';
-import TagList from './tag-list';
 
 interface Props {
   keyword: string;
 }
 
-export default function SearchEpidayList({ keyword }: Props) {
+export default function SearchedEpidayList({ keyword }: Props) {
   const [epidaysData, setEpidaysData] = useState<GetEpidaysData>();
   const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);

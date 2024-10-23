@@ -7,9 +7,9 @@ import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import Button from '../buttons/button';
-import ModalButton from '../buttons/modal-button';
 import Input from '../inputs/input';
 import Label from '../inputs/label';
+import ModalButton from './modal-button';
 
 export default function EditProfileModal() {
   const { data: session, update } = useSession();

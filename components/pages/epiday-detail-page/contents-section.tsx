@@ -7,18 +7,18 @@ import { GetEpidayData } from '@/types/epiday-types';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import KebabButton from '../buttons/kebab-button';
-import LikeButton from '../buttons/like-button';
-import ShareButton from '../buttons/share-button';
-import EpidayPhrase from '../epiday-phrase';
-import InnerLayout from '../inner-layout';
-import TagList from '../tag-list';
+import EpidayPhrase from '../../epiday-phrase';
+import InnerLayout from '../../inner-layout';
+import TagList from '../../tag-list';
+import KebabButton from './kebab-button';
+import LikeButton from './like-button';
+import ShareButton from './share-button';
 
 interface Props {
   id: number;
 }
 
-export default function EpidayDetailContents({ id }: Props) {
+export default function ContentsSection({ id }: Props) {
   const [epiday, setEpiday] = useState<GetEpidayData>();
   const { data: session } = useSession();
   const { showToast } = useToastStore();

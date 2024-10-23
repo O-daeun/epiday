@@ -1,8 +1,8 @@
 'use client';
 
 import Button from '@/components/buttons/button';
-import AuthInput from '@/components/inputs/auth-input';
-import AuthLabel from '@/components/inputs/auth-label';
+import AuthInput from '@/components/pages/auth-page/auth-input';
+import AuthLabel from '@/components/pages/auth-page/auth-label';
 import { baseUrl } from '@/constants/api-constants';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';

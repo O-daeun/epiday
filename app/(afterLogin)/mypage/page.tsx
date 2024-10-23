@@ -1,10 +1,10 @@
 'use client';
 
 import InnerLayout from '@/components/inner-layout';
-import EmotionCalendarChart from '@/components/my-page/emotion-calendar-chart';
-import MyWriting from '@/components/my-page/my-writing';
-import Profile from '@/components/my-page/profile';
-import TodayEmotion from '@/components/my-page/today-emotion';
+import EmotionCalendarChart from '@/components/pages/my-page/emotion-calendar-chart';
+import MyWriting from '@/components/pages/my-page/my-writing';
+import Profile from '@/components/pages/my-page/profile';
+import TodayEmotion from '@/components/pages/my-page/today-emotion';
 
 export default function MyPage() {
   return (

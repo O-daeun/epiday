@@ -5,11 +5,11 @@ import { GetEpidaysData } from '@/types/epiday-types';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import SeeMoreButton from '../buttons/see-more-button';
-import Comment from '../comment';
-import EpidayBox from '../epiday-box';
-import InnerLayout from '../inner-layout';
-import NoContents from '../no-contents';
+import SeeMoreButton from '../../buttons/see-more-button';
+import Comment from '../../comment';
+import EpidayBox from '../../epiday-box';
+import InnerLayout from '../../inner-layout';
+import NoContents from '../../no-contents';
 
 type ActiveNav = 'epiday' | 'comment';
 

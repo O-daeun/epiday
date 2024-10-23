@@ -1,8 +1,8 @@
 import { GetCommentsData } from '@/types/comment-types';
 import { useSession } from 'next-auth/react';
 import { Dispatch, SetStateAction } from 'react';
-import CommentForm from './forms/comment-form';
-import ProfileImage from './profile-image';
+import CommentForm from '../../forms/comment-form';
+import ProfileImage from '../../profile-image';
 
 interface Props {
   id: number;

@@ -6,16 +6,16 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
-import Comment from '../comment';
-import InnerLayout from '../inner-layout';
-import NoContents from '../no-contents';
-import WriteComment from '../write-comment';
+import Comment from '../../comment';
+import InnerLayout from '../../inner-layout';
+import NoContents from '../../no-contents';
+import WriteComment from './write-comment';
 
 interface Props {
   id: number;
 }
 
-export default function EpidayDetailComments({ id }: Props) {
+export default function CommentsSection({ id }: Props) {
   const [comments, setComments] = useState<GetCommentsData>();
   const [cursor, setCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
