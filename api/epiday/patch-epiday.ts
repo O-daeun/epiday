@@ -1,5 +1,4 @@
-import { GetCommentData } from '@/types/comment-types';
-import { PostEpidayData } from '@/types/epiday-types';
+import { GetEpidayData, PostEpidayData } from '@/types/epiday-types';
 import { Session } from 'next-auth/core/types';
 import { fetchWithToken } from '../fetch-with-token';
 
@@ -7,7 +6,7 @@ export const patchEpiday = async (
   session: Session,
   id: number,
   data: PostEpidayData,
-): Promise<GetCommentData> => {
+): Promise<GetEpidayData> => {
   const response = await fetchWithToken('PATCH', `/epigrams/${id}`, session, data);
 
   if (!response.ok) {

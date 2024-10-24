@@ -9,7 +9,7 @@ import TodayEmotion from '@/components/pages/my-page/today-emotion';
 export default function MyPage() {
   return (
     <div className="bg-var-background pt-32">
-      <div className="rounded-3xl bg-var-blue-100 shadow-big">
+      <div className="relative rounded-3xl bg-var-blue-100 shadow-big">
         <InnerLayout>
           <Profile />
           <div className="flex flex-col gap-[165px] pb-[88px]">
@@ -17,8 +17,8 @@ export default function MyPage() {
             <EmotionCalendarChart />
           </div>
         </InnerLayout>
-        <MyWriting />
       </div>
+      <MyWriting />
     </div>
   );
 }

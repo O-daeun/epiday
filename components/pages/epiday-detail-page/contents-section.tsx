@@ -31,7 +31,7 @@ export default function ContentsSection({ id }: Props) {
   });
 
   if (isLoading) return <div>로딩 중...</div>;
-  if (isError) return <div>오늘의 에피데이를 불러올 수 없습니다.</div>;
+  if (isError) return <div>에피데이를 불러올 수 없습니다.</div>;
 
   return (
     <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">

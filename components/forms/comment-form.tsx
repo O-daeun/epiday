@@ -26,13 +26,11 @@ interface Props {
 export default function CommentForm({ id, comment, onEdit, className = '' }: Props) {
   const [content, setContent] = useState(comment?.content || '');
   const [isPrivate, setIsPrivate] = useState(comment?.isPrivate || false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isOpenButton, setIsOpenButton] = useState(false);
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
-  console.log(id);
 
   const mutation = useMutation({
     mutationFn: () => {
@@ -96,14 +94,14 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
             {comment && (
               <SmallButton
                 type="button"
-                disabled={isLoading}
+                disabled={mutation.status === 'pending'}
                 onClick={() => onEdit(false)}
                 className="!bg-var-gray-100 !text-var-black-300"
               >
                 취소
               </SmallButton>
             )}
-            <SmallButton type="submit" disabled={isLoading}>
+            <SmallButton type="submit" disabled={mutation.status === 'pending'}>
               저장
             </SmallButton>
           </div>
