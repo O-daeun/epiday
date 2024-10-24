@@ -1,4 +1,5 @@
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { patchUser } from '@/api/profile/patch-user';
+import { postImage } from '@/api/profile/post-image';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
@@ -51,20 +52,6 @@ export default function EditProfileModal() {
     }
   };
 
-  const handleUploadImage = async (imageFile: File) => {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-
-    const response = await fetchWithToken('POST', '/images/upload', session, formData);
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-  };
-
   const handleSave = async () => {
     const updatedProfile: { nickname: string; image?: string } = { nickname };
 
@@ -83,21 +70,18 @@ export default function EditProfileModal() {
       if (imageBlob) {
         const file = new File([imageBlob], 'profile_image.png', { type: 'image/jpeg' });
 
-        const imageUrl = await handleUploadImage(file);
+        const imageUrl = await postImage(session, file);
         if (imageUrl) {
           updatedProfile.image = imageUrl.url;
         }
       }
     }
-    const response = await fetchWithToken('PATCH', '/users/me', session, updatedProfile);
+    const newProfile = await patchUser(session, updatedProfile);
 
-    if (response.ok) {
+    if (newProfile) {
       showToast({ message: TOAST_MESSAGES.profile.updateSuccess, type: 'success' });
-      update(updatedProfile);
+      update({ nickname: newProfile.nickname, image: newProfile.image });
       closeModal();
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
     }
   };
 
