@@ -15,7 +15,7 @@ export default function EmotionButtons() {
   const queryClient = useQueryClient();
 
   const { data: emotionLog } = useQuery<GetEmotionLog>({
-    queryKey: session ? queryKeys.emotionLog.todayEmotionLog(session.id) : null,
+    queryKey: session ? queryKeys.emotionLog.emotionLogForToday(session.id) : null,
     queryFn: () => getTodayEmotionLog(session.id),
     enabled: !!session,
   });

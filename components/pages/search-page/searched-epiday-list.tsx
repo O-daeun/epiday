@@ -18,9 +18,9 @@ interface Props {
 export default function SearchedEpidayList({ keyword }: Props) {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
     useInfiniteQuery<GetEpidaysData>({
-      queryKey: queryKeys.epiday.searchedEpidays(keyword),
+      queryKey: queryKeys.epiday.epidaysBySearchKeyword(keyword),
       queryFn: ({ pageParam = '' }) => getEpidays({ limit, pageParam, keyword }),
       getNextPageParam: (lastPage) =>
         lastPage.list.length > 0 ? lastPage.list[lastPage.list.length - 1].id : null,

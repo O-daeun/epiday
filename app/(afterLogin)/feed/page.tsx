@@ -14,7 +14,7 @@ const limit = 8;
 export default function FeedPage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery<GetEpidaysData>({
-      queryKey: queryKeys.epiday.recentEpidays(limit),
+      queryKey: queryKeys.epiday.epidays(limit),
       queryFn: async ({ pageParam = '' }) => getEpidays({ limit, pageParam }),
       getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
       staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
