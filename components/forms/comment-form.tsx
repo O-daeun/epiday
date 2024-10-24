@@ -19,7 +19,7 @@ interface Props {
 /**
  * 댓글 작성 및 수정 폼
  * @param id 에피데이 id (댓글 생성일 때만 필요)
- * @param comment 댓글 기존 내용 (댓글 수정일 때만 필요)
+ * @param comment 기존 댓글 (댓글 수정일 때만 필요)
  * @param onEdit 프론트단 comment setter 함수 (댓글 수정일 때만 필요)
  * @returns
  */
@@ -32,11 +32,12 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
   const { showToast } = useToastStore();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  console.log(id);
 
   const mutation = useMutation({
     mutationFn: () => {
       if (comment) {
-        return patchComment(session, id, { isPrivate, content });
+        return patchComment(session, comment.id, { isPrivate, content });
       } else {
         return postComment(session, { epigramId: id, isPrivate, content });
       }
