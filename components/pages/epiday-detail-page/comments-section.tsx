@@ -1,93 +1,70 @@
 'use client';
 
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { getCommentsForEpiday } from '@/api/comment/get-comments-for-epiday';
+import { queryKeys } from '@/constants/query-keys';
 import { useObserver } from '@/hooks/use-observer';
-import { useToastStore } from '@/store/use-toast-store';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Comment from '../../comment';
 import InnerLayout from '../../inner-layout';
 import NoContents from '../../no-contents';
 import WriteComment from './write-comment';
+
+const limit = 7;
 
 interface Props {
   id: number;
 }
 
 export default function CommentsSection({ id }: Props) {
-  const [comments, setComments] = useState<GetCommentsData>();
-  const [cursor, setCursor] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const { showToast } = useToastStore();
   const { data: session } = useSession();
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchNextCursor = async () => {
-    if (!hasMore || isLoading || !session) return;
-
-    setIsLoading(true);
-    const cursorQuery = cursor ? `&cursor=${cursor}` : '';
-    const response = await fetchWithToken(
-      'GET',
-      `/epigrams/${id}/comments/?limit=7${cursorQuery}`,
-      session,
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      if (comments) {
-        setComments((prev) => ({
-          ...data,
-          list: [...prev.list, ...data.list],
-        }));
-      } else {
-        setComments(data);
-      }
-      if (data.list.length > 0) {
-        const lastComment = data.list[data.list.length - 1];
-        setCursor(lastComment.id);
-      } else {
-        setHasMore(false);
-      }
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    if (id && session) {
-      fetchNextCursor();
-    }
-  }, [id, session]);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
+    useInfiniteQuery<GetCommentsData>({
+      queryKey: queryKeys.comment.commentsForEpiday(id),
+      queryFn: ({ pageParam = '' }) => getCommentsForEpiday({ limit, pageParam, id, session }),
+      getNextPageParam: (lastPage) =>
+        lastPage.list.length > 0 ? lastPage.list[lastPage.list.length - 1].id : null,
+      staleTime: 1000 * 60 * 10,
+      refetchOnWindowFocus: false,
+      initialPageParam: '',
+    });
 
   useObserver({
-    isLoading,
+    isLoading: isFetchingNextPage,
     ref: observerRef,
-    fetchNextCursor,
+    fetchNextCursor: () => {
+      if (hasNextPage) fetchNextPage();
+    },
   });
+
+  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
+  if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
     <section className="mt-10">
       <InnerLayout>
-        {comments && <span className="text-xl font-medium">댓글 ({comments.totalCount})</span>}{' '}
-        <WriteComment id={id} onChangeComments={setComments} />
+        <span className="text-xl font-medium">댓글 ({data?.pages[0].totalCount})</span>
+        <WriteComment id={id} />
       </InnerLayout>
 
-      {comments?.totalCount > 0 && (
+      {data?.pages[0].totalCount > 0 && (
         <ul>
-          {comments.list.map((comment: GetCommentData) => (
-            <li key={comment.id}>
-              <Comment comment={comment} onChangeComments={setComments} />
-            </li>
-          ))}
+          {data.pages.map((page) =>
+            page.list.map((comment: GetCommentData) => (
+              <li key={comment.id}>
+                <Comment comment={comment} />
+              </li>
+            )),
+          )}
         </ul>
       )}
-      {comments?.totalCount === 0 && <NoContents type="댓글" />}
+      {data?.pages[0].totalCount === 0 && <NoContents type="댓글" />}
       <div ref={observerRef} className="h-10" />
+      {/* note: 추후 loading ui 구현 */}
       {isLoading && <p>Loading</p>}
     </section>
   );

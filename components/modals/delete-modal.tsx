@@ -1,25 +1,25 @@
 import { fetchWithToken } from '@/api/fetch-with-token';
+import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
-import { GetCommentData, GetCommentsData } from '@/types/comment-types';
+import { useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
 import ModalButton from './modal-button';
 
 interface Props {
   id: number;
   type: 'comment' | 'epiday';
-  onChangeComments?: Dispatch<SetStateAction<GetCommentsData>>;
 }
 
-export default function DeleteModal({ id, type, onChangeComments }: Props) {
+export default function DeleteModal({ id, type }: Props) {
   const { closeModal } = useModalStore();
   const { showToast } = useToastStore();
   const { data: session } = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleDelete = async () => {
     let response;
@@ -31,11 +31,7 @@ export default function DeleteModal({ id, type, onChangeComments }: Props) {
     if (response.ok) {
       if (type === 'comment') {
         showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
-        onChangeComments((prev) => ({
-          ...prev,
-          totalCount: prev.totalCount - 1,
-          list: prev.list.filter((item: GetCommentData) => item.id !== id),
-        }));
+        queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
       } else {
         showToast({ message: TOAST_MESSAGES.epiday.deleteSuccess, type: 'success' });
         router.push('/mypage');

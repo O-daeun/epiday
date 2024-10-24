@@ -14,11 +14,10 @@ import ProfileImage from './profile-image';
 
 interface Props {
   comment: GetCommentData;
-  onChangeComments: () => void;
   isMyPage?: boolean;
 }
 
-export default function Comment({ comment, onChangeComments, isMyPage }: Props) {
+export default function Comment({ comment, isMyPage }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const { data: session } = useSession();
   const { openModal } = useModalStore();
@@ -44,15 +43,7 @@ export default function Comment({ comment, onChangeComments, isMyPage }: Props) 
               </CommentButton>
               <CommentButton
                 color="red"
-                onClick={() =>
-                  openModal(
-                    <DeleteModal
-                      id={comment.id}
-                      type="comment"
-                      onChangeComments={onChangeComments}
-                    />,
-                  )
-                }
+                onClick={() => openModal(<DeleteModal id={comment.id} type="comment" />)}
               >
                 삭제
               </CommentButton>
@@ -60,12 +51,7 @@ export default function Comment({ comment, onChangeComments, isMyPage }: Props) 
           )}
         </div>
         {isEdit ? (
-          <CommentForm
-            onChangeComments={onChangeComments}
-            comment={comment}
-            onEdit={setIsEdit}
-            className="mt-4"
-          />
+          <CommentForm comment={comment} onEdit={setIsEdit} className="mt-4" />
         ) : (
           <p className="mt-4 w-full whitespace-pre-line break-all text-xl leading-8">
             {comment.content}

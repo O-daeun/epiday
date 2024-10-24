@@ -16,6 +16,7 @@ export const TOAST_MESSAGES = {
     createSuccess: '댓글 작성이 완료되었습니다.',
     updateSuccess: '댓글 수정이 완료되었습니다.',
     deleteSuccess: '댓글 삭제가 완료되었습니다.',
+    emptyContentError: '댓글을 입력해 주세요.',
   },
   urlCopy: {
     copySuccess: 'URL 복사가 완료되었습니다.',

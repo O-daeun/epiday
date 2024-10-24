@@ -1,13 +1,15 @@
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { patchComment } from '@/api/comment/patch-comment';
+import { postComment } from '@/api/comment/post-comment';
+import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
-import { GetCommentData, GetCommentsData } from '@/types/comment-types';
+import { GetCommentData } from '@/types/comment-types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
 import SmallButton from '../buttons/small-button';
 
 interface Props {
-  onChangeComments: Dispatch<SetStateAction<GetCommentsData>>;
   id?: number;
   comment?: GetCommentData;
   onEdit?: Dispatch<SetStateAction<boolean>>;
@@ -16,19 +18,12 @@ interface Props {
 
 /**
  * 댓글 작성 및 수정 폼
- * @param onChangeComments 프론트단 comments setter 함수
  * @param id 에피데이 id (댓글 생성일 때만 필요)
  * @param comment 댓글 기존 내용 (댓글 수정일 때만 필요)
  * @param onEdit 프론트단 comment setter 함수 (댓글 수정일 때만 필요)
  * @returns
  */
-export default function CommentForm({
-  onChangeComments,
-  id,
-  comment,
-  onEdit,
-  className = '',
-}: Props) {
+export default function CommentForm({ id, comment, onEdit, className = '' }: Props) {
   const [content, setContent] = useState(comment?.content || '');
   const [isPrivate, setIsPrivate] = useState(comment?.isPrivate || false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,61 +31,40 @@ export default function CommentForm({
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      if (comment) {
+        return patchComment(session, id, { isPrivate, content });
+      } else {
+        return postComment(session, { epigramId: id, isPrivate, content });
+      }
+    },
+    onSuccess: () => {
+      if (comment) {
+        showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
+        onEdit(false);
+      } else {
+        setContent('');
+        setIsPrivate(false);
+        showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
+      }
+      queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
+    },
+    onError: (error) => {
+      console.error('작성완료 중 예외 발생: ', error);
+      showToast({ message: TOAST_MESSAGES.error, type: 'error' });
+    },
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (content.trim() === '') {
-      showToast({ message: '댓글을 입력해 주세요.', type: 'error' });
+      showToast({ message: TOAST_MESSAGES.comment.emptyContentError, type: 'error' });
       return;
     }
-    try {
-      setIsLoading(true);
-      let response: Response;
-
-      if (comment) {
-        response = await fetchWithToken('PATCH', `/comments/${comment.id}`, session, {
-          isPrivate,
-          content,
-        });
-      } else {
-        response = await fetchWithToken('POST', '/comments', session, {
-          epigramId: id,
-          isPrivate,
-          content,
-        });
-      }
-      if (response.ok) {
-        if (comment) {
-          showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
-          onEdit(false);
-          onChangeComments((prev) => ({
-            ...prev,
-            list: prev.list.map((item: GetCommentData) =>
-              item.id === comment.id ? { ...item, content, isPrivate } : item,
-            ),
-          }));
-        } else {
-          const newComment = await response.json();
-
-          setContent('');
-          setIsPrivate(false);
-          showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
-          onChangeComments((prev) => ({
-            ...prev,
-            totalCount: prev.totalCount + 1,
-            list: [newComment, ...prev.list],
-          }));
-        }
-      } else {
-        const { message } = await response.json();
-        showToast({ message, type: 'error' });
-      }
-    } catch (error) {
-      console.error('작성완료 중 예외 발생: ', error);
-      showToast({ message: TOAST_MESSAGES.error, type: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
+    mutation.mutate();
   };
 
   return (
