@@ -1,12 +1,12 @@
 'use client';
 
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { getEpidayDetails } from '@/api/epiday/get-epiday-details';
 import { REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
-import { useToastStore } from '@/store/use-toast-store';
+import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
+import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import EpidayPhrase from '../../epiday-phrase';
 import InnerLayout from '../../inner-layout';
 import TagList from '../../tag-list';
@@ -19,35 +19,26 @@ interface Props {
 }
 
 export default function ContentsSection({ id }: Props) {
-  const [epiday, setEpiday] = useState<GetEpidayData>();
   const { data: session } = useSession();
-  const { showToast } = useToastStore();
 
-  useEffect(() => {
-    if (id && session) {
-      const handleLoadData = async () => {
-        const response = await fetchWithToken('GET', `/epigrams/${id}`, session);
+  const {
+    data: epiday,
+    isLoading,
+    isError,
+  } = useQuery<GetEpidayData>({
+    queryKey: queryKeys.epiday.epidayDetails(id),
+    queryFn: () => getEpidayDetails(session, id),
+  });
 
-        if (response.ok) {
-          const data = await response.json();
-          setEpiday(data);
-        } else {
-          const { message } = await response.json();
-          showToast({ message, type: 'error' });
-        }
-      };
-      handleLoadData();
-    }
-  }, [id, session]);
-
-  if (!epiday) return <p>로딩중</p>; // note: 추후 로딩 구현
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError) return <div>오늘의 에피데이를 불러올 수 없습니다.</div>;
 
   return (
     <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">
       <InnerLayout>
         <div className="flex items-center justify-between">
           <TagList tags={epiday.tags} />
-          {epiday.writerId === session.id && <KebabButton id={id} />}
+          {session && epiday.writerId === session.id && <KebabButton id={id} />}
         </div>
         <EpidayPhrase content={epiday.content} author={epiday.author} className="mt-8" />
         <div className="mt-9 flex justify-center gap-[18px]">
