@@ -1,10 +1,13 @@
 'use client';
 
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { patchEpiday } from '@/api/epiday/patch-epiday';
+import { postEpiday } from '@/api/epiday/post-epiday';
 import { AUTHOR_VALUE, REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
+import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidayData, PostEpidayData } from '@/types/epiday-types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -17,12 +20,20 @@ import RadioInput from '../inputs/radio-input';
 import TagsInput from '../inputs/tags-input';
 import Textarea from '../inputs/textarea';
 
+const AUTHOR_RADIOS = [AUTHOR_VALUE.writtenByUser, AUTHOR_VALUE.unknown, AUTHOR_VALUE.myself];
+
 interface Props {
   data?: GetEpidayData;
   id?: number;
 }
 
-export default function EpidayForm({ data, id }: Props) {
+export default function EpidayForm({ data: formData, id }: Props) {
+  const [selectedAuthor, setSelectedAuthor] = useState(AUTHOR_VALUE.writtenByUser);
+  const router = useRouter();
+  const { showToast } = useToastStore();
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
@@ -34,88 +45,72 @@ export default function EpidayForm({ data, id }: Props) {
     criteriaMode: 'all',
   });
 
-  const router = useRouter();
-  const { showToast } = useToastStore();
-  const { data: session } = useSession();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedAuthor, setSelectedAuthor] = useState(AUTHOR_VALUE.writtenByUser);
-
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedValue = e.target.value;
-    setSelectedAuthor(selectedValue);
-    trigger('author');
-    if (selectedValue === AUTHOR_VALUE.writtenByUser) {
-      setValue('author', '');
-    } else if (selectedValue === AUTHOR_VALUE.myself) {
-      setValue('author', `${AUTHOR_VALUE.myself}:${session.nickname}`);
-    } else {
-      setValue('author', selectedValue);
-    }
+  const setFormData = (data: GetEpidayData) => {
+    const { content, author, referenceTitle, referenceUrl, tags } = data;
+    setValue('content', content);
+    setValue('author', author);
+    setValue('referenceTitle', referenceTitle);
+    setValue('referenceUrl', referenceUrl === REFERENCE_URL_DEFAULT_VALUE ? '' : referenceUrl);
     trigger();
   };
 
-  const handlePost = async (data: PostEpidayData) => {
-    setIsLoading(true);
-    try {
-      const updatedData = {
-        ...data,
-        referenceUrl: !data.referenceUrl ? REFERENCE_URL_DEFAULT_VALUE : data.referenceUrl,
-        referenceTitle: !data.referenceTitle ? '' : data.referenceTitle,
-      };
-      let response: Response;
-      if (id) {
-        response = await fetchWithToken('PATCH', `/epigrams/${id}`, session, updatedData);
-      } else {
-        response = await fetchWithToken('POST', '/epigrams', session, updatedData);
-      }
-      if (response.ok) {
-        if (id) {
-          showToast({ message: TOAST_MESSAGES.epiday.updateSuccess, type: 'success' });
-          router.push(`/epidays/${id}`);
-        } else {
-          showToast({ message: TOAST_MESSAGES.epiday.createSuccess, type: 'success' });
-          const data = await response.json();
-          router.push(`/epidays/${data.id}`);
-        }
-      } else {
-        const { message } = await response.json();
-        showToast({ message, type: 'error' });
-      }
-    } catch (error) {
-      console.error('작성완료 중 예외 발생: ', error);
-      showToast({ message: TOAST_MESSAGES.error, type: 'error' });
-    } finally {
-      setIsLoading(false);
-    }
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSelectedAuthor(value);
+    const authorValue =
+      value === AUTHOR_VALUE.myself ? `${AUTHOR_VALUE.myself}:${session.nickname}` : value;
+    setValue('author', value === AUTHOR_VALUE.writtenByUser ? '' : authorValue);
+    trigger();
   };
 
-  useEffect(() => {
-    if (data) {
-      setValue('content', data.content);
-      setValue('author', data.author);
-      setValue('referenceTitle', data.referenceTitle);
-      setValue(
-        'referenceUrl',
-        data.referenceUrl === REFERENCE_URL_DEFAULT_VALUE ? '' : data.referenceUrl,
-      );
-
-      trigger();
-
-      if (data.author === AUTHOR_VALUE.unknown) {
-        setSelectedAuthor(AUTHOR_VALUE.unknown);
-      } else if (data.author.startsWith(AUTHOR_VALUE.myself)) {
-        setSelectedAuthor(AUTHOR_VALUE.myself);
+  const mutation = useMutation({
+    mutationFn: async (formData: PostEpidayData) => {
+      const updatedData = {
+        ...formData,
+        referenceUrl: !formData.referenceUrl ? REFERENCE_URL_DEFAULT_VALUE : formData.referenceUrl,
+        referenceTitle: !formData.referenceTitle ? '' : formData.referenceTitle,
+      };
+      if (id) {
+        return patchEpiday(session, id, updatedData);
       } else {
-        setSelectedAuthor(AUTHOR_VALUE.writtenByUser);
+        return postEpiday(session, updatedData);
       }
+    },
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.epiday.allEpidays });
+      if (id) {
+        showToast({ message: TOAST_MESSAGES.epiday.updateSuccess, type: 'success' });
+        router.push(`/epidays/${id}`);
+      } else {
+        showToast({ message: TOAST_MESSAGES.epiday.createSuccess, type: 'success' });
+        router.push(`/epidays/${result.id}`);
+      }
+    },
+    onError: (error: Error) => {
+      showToast({ message: error.message || TOAST_MESSAGES.error, type: 'error' });
+    },
+  });
+
+  useEffect(() => {
+    if (formData) {
+      setFormData(formData);
+      setSelectedAuthor(
+        formData.author === AUTHOR_VALUE.unknown
+          ? AUTHOR_VALUE.unknown
+          : formData.author.startsWith(AUTHOR_VALUE.myself)
+            ? AUTHOR_VALUE.myself
+            : AUTHOR_VALUE.writtenByUser,
+      );
     }
-  }, [data]);
+  }, [formData]);
 
   return (
     <InnerLayout className="py-14">
       <h1 className="mb-10 text-2xl font-semibold text-black">에피데이 만들기</h1>
-      <form onSubmit={handleSubmit(handlePost)} className="flex flex-col gap-[54px]">
+      <form
+        onSubmit={handleSubmit((formData) => mutation.mutate(formData))}
+        className="flex flex-col gap-[54px]"
+      >
         <Label label="내용" required>
           <Textarea
             error={errors.content?.message}
@@ -129,27 +124,16 @@ export default function EpidayForm({ data, id }: Props) {
         </Label>
         <Label label="저자" required>
           <div className="mb-4 flex gap-6">
-            <RadioInput
-              name="author"
-              value={AUTHOR_VALUE.writtenByUser}
-              label={AUTHOR_VALUE.writtenByUser}
-              checked={selectedAuthor === AUTHOR_VALUE.writtenByUser}
-              onChange={handleRadioChange}
-            />
-            <RadioInput
-              name="author"
-              value={AUTHOR_VALUE.unknown}
-              label={AUTHOR_VALUE.unknown}
-              checked={selectedAuthor === AUTHOR_VALUE.unknown}
-              onChange={handleRadioChange}
-            />
-            <RadioInput
-              name="author"
-              value={AUTHOR_VALUE.myself}
-              label={AUTHOR_VALUE.myself}
-              checked={selectedAuthor === AUTHOR_VALUE.myself}
-              onChange={handleRadioChange}
-            />
+            {AUTHOR_RADIOS.map((authorValue) => (
+              <RadioInput
+                key={authorValue}
+                name="author"
+                value={authorValue}
+                label={authorValue}
+                checked={selectedAuthor === authorValue}
+                onChange={handleRadioChange}
+              />
+            ))}
           </div>
           {selectedAuthor === AUTHOR_VALUE.writtenByUser && (
             <Input
@@ -193,7 +177,7 @@ export default function EpidayForm({ data, id }: Props) {
           <TagsInput
             setValue={setValue}
             register={register}
-            initialTags={data?.tags}
+            initialTags={formData?.tags}
             onFocus={() => {
               trigger('content');
               trigger('author');
@@ -201,7 +185,7 @@ export default function EpidayForm({ data, id }: Props) {
             error={errors.tags?.message}
           />
         </Label>
-        <Button type="submit" design="wide" disabled={isLoading || !isValid}>
+        <Button type="submit" design="wide" disabled={mutation.status === 'pending' || !isValid}>
           {id ? '수정 완료' : '작성 완료'}
         </Button>
       </form>

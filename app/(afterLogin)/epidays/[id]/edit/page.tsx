@@ -1,42 +1,34 @@
 'use client';
 
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { getEpidayDetails } from '@/api/epiday/get-epiday-details';
 import EpidayForm from '@/components/forms/epiday-form';
-import { useToastStore } from '@/store/use-toast-store';
+import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
+import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 
 interface Props {
   params: { id: number };
 }
 
-export default function EditPage({ params: { id } }: Props) {
-  const [epidayData, setEpidayData] = useState<GetEpidayData>();
-
-  const { showToast } = useToastStore();
+export default function EpidayEditPage({ params: { id } }: Props) {
   const { data: session } = useSession();
 
-  useEffect(() => {
-    if (id && session && !epidayData) {
-      const handleLoadData = async () => {
-        const response = await fetchWithToken('GET', `/epigrams/${id}`, session);
+  const {
+    data: epiday,
+    isLoading,
+    isError,
+  } = useQuery<GetEpidayData>({
+    queryKey: queryKeys.epiday.epidayDetails(id),
+    queryFn: () => getEpidayDetails(session, id),
+  });
 
-        if (response.ok) {
-          const data = await response.json();
-          setEpidayData(data);
-        } else {
-          const { message } = await response.json();
-          showToast({ message, type: 'error' });
-        }
-      };
-      handleLoadData();
-    }
-  }, [id, session]);
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError) return <div>에피데이를 불러올 수 없습니다.</div>;
 
   return (
     <div>
-      <EpidayForm data={epidayData} id={id} />
+      <EpidayForm data={epiday} id={id} />
     </div>
   );
 }
