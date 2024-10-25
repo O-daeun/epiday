@@ -5,18 +5,21 @@ interface GetEpidaysParams {
   limit: number;
   pageParam?: string | unknown;
   keyword?: string;
+  writerId?: number;
 }
 
 export const getEpidays = async ({
   limit,
   pageParam = '',
   keyword = '',
+  writerId,
 }: GetEpidaysParams): Promise<GetEpidaysData> => {
-  const keywordParams = keyword ? `&keyword=${keyword}` : '';
   const cursorParams = pageParam ? `&cursor=${pageParam}` : '';
+  const keywordParams = keyword ? `&keyword=${keyword}` : '';
+  const writerIdParams = writerId ? `&writerId=${writerId}` : '';
   const response = await fetchWithoutToken(
     'GET',
-    `/epigrams?limit=${limit}${keywordParams}${cursorParams}`,
+    `/epigrams?limit=${limit}${cursorParams}${keywordParams}${writerIdParams}`,
   );
 
   if (response.ok) {

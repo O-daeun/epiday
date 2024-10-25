@@ -5,6 +5,7 @@ export const queryKeys = {
     epidayForToday: (date: string) => ['epidays', 'today', { date }],
     epidaysBySearchKeyword: (keyword: string) => ['epidays', 'search', { keyword }],
     epidayDetails: (id: number) => ['epidays', 'detail', { id }],
+    myEpidays: ['epidays', 'my'],
   },
   emotionLog: {
     allEmotionLogs: ['emotionLogs'],
@@ -15,5 +16,6 @@ export const queryKeys = {
     allComments: ['comments'],
     comments: (limit: number) => ['comments', { limit }],
     commentsForEpiday: (epidayId: number) => ['comments', 'epiday', { epidayId }],
+    myComments: ['comments', 'my'],
   },
 };
