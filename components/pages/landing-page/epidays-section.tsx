@@ -1,12 +1,13 @@
-import { fetchWithoutToken } from '@/api/fetch-without-token';
+import { getEpidays } from '@/api/epiday/get-epidays';
+import EpidayBox from '@/components/epiday-box';
 import Image from 'next/image';
-import EpidayBox from '../../epiday-box';
 import InnerLayout from '../../inner-layout';
 import Title from './title';
 
+const limit = 3;
+
 export default async function EpidaysSection() {
-  const response = await fetchWithoutToken('GET', '/epigrams?limit=3');
-  const { list: epidays } = await response.json();
+  const epidays = await getEpidays({ limit });
 
   return (
     <section className="-mb-[30px] bg-var-background pb-16">
@@ -17,7 +18,7 @@ export default async function EpidaysSection() {
           인용한 에피그램들
         </Title>
         <ul className="mt-[100px] flex flex-col gap-[60px]">
-          {epidays.map((epiday) => (
+          {epidays.list.map((epiday) => (
             <li key={epiday.id}>
               <EpidayBox epiday={epiday} />
             </li>
