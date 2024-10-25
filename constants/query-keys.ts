@@ -8,7 +8,8 @@ export const queryKeys = {
   },
   emotionLog: {
     allEmotionLogs: ['emotionLogs'],
-    emotionLogForToday: (sessionId: number) => ['emotionLogs', 'today', { sessionId }],
+    emotionLogForToday: ['emotionLogs', 'today'],
+    emotionLogsForMonth: ['emotionLogs', 'month'],
   },
   comment: {
     allComments: ['comments'],
