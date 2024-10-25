@@ -1,9 +1,10 @@
-import { fetchWithToken } from '@/api/fetch-with-token';
+import { deleteComment } from '@/api/comment/delete-comment';
+import { deleteEpiday } from '@/api/epiday/delete-epiday';
 import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -21,14 +22,11 @@ export default function DeleteModal({ id, type }: Props) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const handleDelete = async () => {
-    let response;
-    if (type === 'comment') {
-      response = await fetchWithToken('DELETE', `/comments/${id}`, session);
-    } else {
-      response = await fetchWithToken('DELETE', `/epigrams/${id}`, session);
-    }
-    if (response.ok) {
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      type === 'comment' ? deleteComment(session, id) : deleteEpiday(session, id);
+    },
+    onSuccess: () => {
       if (type === 'comment') {
         showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
         queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
@@ -37,11 +35,16 @@ export default function DeleteModal({ id, type }: Props) {
         router.push('/mypage');
       }
       closeModal();
-    } else {
-      const { message } = await response.json();
-      showToast({ message, type: 'error' });
-    }
+    },
+    onError: (error: Error) => {
+      showToast({ message: error.message, type: 'error' });
+    },
+  });
+
+  const handleDelete = () => {
+    deleteMutation.mutate();
   };
+
   return (
     <div className="w-[calc(100vw-40px)] max-w-[452px] px-[38px] py-10">
       <div className="flex flex-col items-center">
