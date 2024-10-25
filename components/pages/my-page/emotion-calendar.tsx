@@ -18,10 +18,10 @@ const getTheDateEmotionLog = (date: Date, emotionLogs: GetEmotionLog[]) => {
 
 interface Props {
   emotionLogs: GetEmotionLog[];
-  fetchEmotionLogs: (year: number, month: number) => void;
+  refetch: (year: number, month: number) => void;
 }
 
-export default function EmotionCalendar({ fetchEmotionLogs, emotionLogs }: Props) {
+export default function EmotionCalendar({ refetch, emotionLogs }: Props) {
   return (
     <section>
       <Calendar
@@ -45,7 +45,7 @@ export default function EmotionCalendar({ fetchEmotionLogs, emotionLogs }: Props
         onActiveStartDateChange={({ activeStartDate }) => {
           const year = activeStartDate.getFullYear();
           const month = activeStartDate.getMonth() + 1;
-          fetchEmotionLogs(year, month);
+          refetch(year, month);
         }}
       />
     </section>
