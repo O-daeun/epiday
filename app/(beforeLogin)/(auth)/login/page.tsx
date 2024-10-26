@@ -27,7 +27,7 @@ export default function LoginPage() {
   });
   const router = useRouter();
   const { showToast } = useToastStore();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -45,9 +45,9 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
-        router.push('/epidays');
+        router.replace('/epidays');
       } else {
-        showToast({ message: response.error, type: 'error' });
+        showToast({ message: response?.error || TOAST_MESSAGES.auth.loginError, type: 'error' });
         if (response.error.includes('이메일') && emailRef.current) {
           emailRef.current.focus();
           emailRef.current.setSelectionRange(
@@ -97,10 +97,10 @@ export default function LoginPage() {
   }, [errors]);
 
   useEffect(() => {
-    if (session) {
-      router.push('/epidays');
+    if (status === 'authenticated' && session) {
+      router.replace('/epidays');
     }
-  }, [session]);
+  }, [status, session, router]);
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>

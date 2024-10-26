@@ -15,6 +15,7 @@ interface Props {
 export default function Layout({ children }: Props) {
   const pathname = usePathname();
   const isLoginPage = pathname === '/login';
+
   return (
     <SessionProvider>
       <AuthHeader />

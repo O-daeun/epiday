@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const SIZES = {
   s: { width: 114, height: 36 },
@@ -11,8 +12,10 @@ interface Props {
 }
 
 export default function LogoLink({ className = '', size = 's' }: Props) {
+  const pathname = usePathname();
+  const isBeforeLogin = pathname === ('/login' || '/signup' || '/');
   return (
-    <Link href="/epidays" className={className}>
+    <Link href={isBeforeLogin ? '/' : '/epidays'} className={className}>
       <Image
         src="/logo.svg"
         alt="Epiday logo"

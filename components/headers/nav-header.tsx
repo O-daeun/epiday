@@ -1,9 +1,6 @@
-import { TOAST_MESSAGES } from '@/constants/toast-messages';
-import { useToastStore } from '@/store/use-toast-store';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import LoginLink from '../login-link';
 import LogoLink from '../logo-link';
 import ProfileLink from '../profile-link';
 import HeaderLayout from './header-layout';
@@ -20,16 +17,7 @@ const NAV_LIST = [
 ];
 
 export default function NavHeader() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { showToast } = useToastStore();
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login');
-      showToast({ message: TOAST_MESSAGES.auth.afterLogin, type: 'error' });
-    }
-  }, [status, router]);
+  const { data: session } = useSession();
 
   return (
     <HeaderLayout>
@@ -44,7 +32,7 @@ export default function NavHeader() {
             ))}
           </nav>
         </div>
-        {session && <ProfileLink src={session.image} nickname={session.nickname} />}
+        {session ? <ProfileLink src={session.image} nickname={session.nickname} /> : <LoginLink />}
       </div>
     </HeaderLayout>
   );

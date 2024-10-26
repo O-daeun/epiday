@@ -17,7 +17,7 @@ export default function Profile() {
     try {
       const result = await signOut({ redirect: false });
       if (result?.url) {
-        router.push('/login');
+        router.replace('/login');
       }
     } catch (error) {
       showToast({ message: TOAST_MESSAGES.error, type: 'error' });
