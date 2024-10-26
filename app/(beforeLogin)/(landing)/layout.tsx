@@ -1,5 +1,6 @@
 'use client';
 
+import SideButtons from '@/components/buttons/side-buttons';
 import LandingHeader from '@/components/headers/landing-header';
 import { usePathname } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -14,6 +15,7 @@ export default function Layout({ children }: Props) {
     <>
       <LandingHeader />
       {children}
+      <SideButtons />
     </>
   );
 }

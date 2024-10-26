@@ -9,9 +9,9 @@ export default function SideButtons() {
   const pathname = usePathname();
 
   const checkScrollTop = () => {
-    if (!isTopButtonVisible && window.pageYOffset > 300) {
+    if (!isTopButtonVisible && window.scrollY > 300) {
       setIsTopButtonVisible(true);
-    } else if (isTopButtonVisible && window.pageYOffset <= 300) {
+    } else if (isTopButtonVisible && window.scrollY <= 300) {
       setIsTopButtonVisible(false);
     }
   };
@@ -32,9 +32,9 @@ export default function SideButtons() {
 
   return (
     <div
-      className={`fixed right-6 flex flex-col items-end gap-2 duration-300 sm:right-10 ${isTopButtonVisible ? 'bottom-10' : '-bottom-8'}`}
+      className={`fixed right-6 flex flex-col items-end gap-2 duration-100 sm:right-10 ${isTopButtonVisible ? 'bottom-10' : '-bottom-8'}`}
     >
-      {pathname !== '/addepiday' && (
+      {pathname !== '/addepiday' && pathname !== '/' && (
         <SideButton onClick={() => router.push('/addepiday')}>
           <Image src="/plus-white.svg" width={24} height={24} alt="+" />
           에피데이 만들기
