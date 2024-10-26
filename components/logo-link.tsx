@@ -13,7 +13,7 @@ interface Props {
 
 export default function LogoLink({ className = '', size = 's' }: Props) {
   const pathname = usePathname();
-  const isBeforeLogin = pathname === ('/login' || '/signup' || '/');
+  const isBeforeLogin = pathname === '/login' || pathname === '/signup' || pathname === '/';
   return (
     <Link href={isBeforeLogin ? '/' : '/epidays'} className={className}>
       <Image
