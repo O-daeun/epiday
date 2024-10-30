@@ -1,4 +1,4 @@
-import { getEpidays } from '@/api/epiday/get-epidays';
+import { getEpidays } from '@/apis/epiday/get-epidays';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
 import { useInfiniteQuery } from '@tanstack/react-query';

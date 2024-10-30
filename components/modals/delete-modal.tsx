@@ -1,5 +1,5 @@
-import { deleteComment } from '@/api/comment/delete-comment';
-import { deleteEpiday } from '@/api/epiday/delete-epiday';
+import { deleteComment } from '@/apis/comment/delete-comment';
+import { deleteEpiday } from '@/apis/epiday/delete-epiday';
 import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';

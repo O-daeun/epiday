@@ -1,7 +1,7 @@
 'use client';
 
-import { deleteLike } from '@/api/epiday/delete-like';
-import { postLike } from '@/api/epiday/post-like';
+import { deleteLike } from '@/apis/epiday/delete-like';
+import { postLike } from '@/apis/epiday/post-like';
 import { queryKeys } from '@/constants/query-keys';
 import { useToastStore } from '@/store/use-toast-store';
 import { GetEpidayData } from '@/types/epiday-types';

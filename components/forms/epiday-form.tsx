@@ -1,7 +1,7 @@
 'use client';
 
-import { patchEpiday } from '@/api/epiday/patch-epiday';
-import { postEpiday } from '@/api/epiday/post-epiday';
+import { patchEpiday } from '@/apis/epiday/patch-epiday';
+import { postEpiday } from '@/apis/epiday/post-epiday';
 import { AUTHOR_VALUE, REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
 import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';

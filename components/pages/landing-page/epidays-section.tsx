@@ -1,4 +1,4 @@
-import { getEpidays } from '@/api/epiday/get-epidays';
+import { getEpidays } from '@/apis/epiday/get-epidays';
 import EpidayBox from '@/components/epiday-box';
 import Image from 'next/image';
 import InnerLayout from '../../inner-layout';

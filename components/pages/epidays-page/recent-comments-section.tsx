@@ -1,4 +1,4 @@
-import { getComments } from '@/api/comment/get-comments';
+import { getComments } from '@/apis/comment/get-comments';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';

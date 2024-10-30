@@ -1,4 +1,4 @@
-import { getMonthEmotionLogs } from '@/api/emotion-log/get-month-emotion-logs';
+import { getMonthEmotionLogs } from '@/apis/emotion-log/get-month-emotion-logs';
 import { queryKeys } from '@/constants/query-keys';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';

@@ -1,5 +1,5 @@
-import { patchComment } from '@/api/comment/patch-comment';
-import { postComment } from '@/api/comment/post-comment';
+import { patchComment } from '@/apis/comment/patch-comment';
+import { postComment } from '@/apis/comment/post-comment';
 import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useToastStore } from '@/store/use-toast-store';

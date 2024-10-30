@@ -1,6 +1,6 @@
 'use client';
 
-import { getCommentsForEpiday } from '@/api/comment/get-comments-for-epiday';
+import { getCommentsForEpiday } from '@/apis/comment/get-comments-for-epiday';
 import { queryKeys } from '@/constants/query-keys';
 import { useObserver } from '@/hooks/use-observer';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';

@@ -1,5 +1,5 @@
-import { getTodayEmotionLog } from '@/api/emotion-log/get-today-emotion-log';
-import { postTodayEmotionLog } from '@/api/emotion-log/post-today-emotion-log';
+import { getTodayEmotionLog } from '@/apis/emotion-log/get-today-emotion-log';
+import { postTodayEmotionLog } from '@/apis/emotion-log/post-today-emotion-log';
 import { EMOTIONS } from '@/constants/emotions';
 import { queryKeys } from '@/constants/query-keys';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';

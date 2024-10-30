@@ -1,6 +1,6 @@
 'use client';
 
-import { getEpidayDetails } from '@/api/epiday/get-epiday-details';
+import { getEpidayDetails } from '@/apis/epiday/get-epiday-details';
 import EpidayForm from '@/components/forms/epiday-form';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';

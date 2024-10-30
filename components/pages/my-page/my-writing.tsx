@@ -1,5 +1,5 @@
-import { getMyComments } from '@/api/comment/get-my-comments';
-import { getEpidays } from '@/api/epiday/get-epidays';
+import { getMyComments } from '@/apis/comment/get-my-comments';
+import { getEpidays } from '@/apis/epiday/get-epidays';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { GetEpidaysData } from '@/types/epiday-types';

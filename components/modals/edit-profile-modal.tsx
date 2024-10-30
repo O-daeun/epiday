@@ -1,5 +1,5 @@
-import { patchUser } from '@/api/profile/patch-user';
-import { postImage } from '@/api/profile/post-image';
+import { patchUser } from '@/apis/profile/patch-user';
+import { postImage } from '@/apis/profile/post-image';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';

@@ -1,6 +1,6 @@
 'use client';
 
-import { getEpidays } from '@/api/epiday/get-epidays';
+import { getEpidays } from '@/apis/epiday/get-epidays';
 import RefetchButton from '@/components/buttons/refetch-button';
 import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';

@@ -1,6 +1,6 @@
 'use client';
 
-import { getEpidayDetails } from '@/api/epiday/get-epiday-details';
+import { getEpidayDetails } from '@/apis/epiday/get-epiday-details';
 import { REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
