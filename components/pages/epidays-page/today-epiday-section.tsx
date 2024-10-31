@@ -2,13 +2,12 @@ import { getTodayEpiday } from '@/apis/epiday/get-today-epiday';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
 import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
 import Link from 'next/link';
 import EpidayBox from '../../epiday-box';
 import Title from '../my-page/title';
 import Section from './section';
 
-const todayDate = format(new Date(), 'yyyy-MM-dd');
+const todayDate = new Date().toLocaleDateString('en-CA');
 
 export default function TodayEpidaySection() {
   const {
