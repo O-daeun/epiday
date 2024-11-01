@@ -2,7 +2,6 @@
 
 import AuthHeader from '@/components/headers/auth-header';
 import LogoLink from '@/components/logo-link';
-import SnsLogin from '@/components/pages/auth-page/sns-login';
 import { SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -34,7 +33,7 @@ export default function Layout({ children }: Props) {
               {isLoginPage ? '가입하기' : '로그인하기'}
             </Link>
           </div>
-          <SnsLogin />
+          {/* <SnsLogin /> // 추후 기능 추가 */}
         </div>
       </div>
     </SessionProvider>
