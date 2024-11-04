@@ -1,3 +1,5 @@
+import ProfileImageSkeleton from '@/components/skeletons/profile-image-skeleton';
+import TextSkeleton from '@/components/skeletons/text-skeleton';
 import { TOAST_MESSAGES } from '@/constants/toast-messages';
 import { useModalStore } from '@/store/use-modal-store';
 import { useToastStore } from '@/store/use-toast-store';
@@ -25,11 +27,20 @@ export default function Profile() {
     }
   };
 
-  if (!session) return;
   return (
     <div className="mx-auto flex translate-y-[-60px] transform flex-col items-center">
-      <ProfileImage nickname={session.nickname} imageUrl={session.image} size="l" priority />
-      <h1 className="mt-4 text-2xl font-medium text-var-black-950">{session.nickname}</h1>
+      {session ? (
+        <>
+          <ProfileImage nickname={session.nickname} imageUrl={session.image} size="l" priority />
+          <h1 className="mt-4 text-2xl font-medium text-var-black-950">{session.nickname}</h1>
+        </>
+      ) : (
+        <>
+          <ProfileImageSkeleton size="l" />
+          <TextSkeleton width="w-16" height="h-8" className="mt-4" />
+        </>
+      )}
+
       <div className="mx-auto mt-6 flex gap-4">
         <GrayRoundedButton onClick={() => openModal(<EditProfileModal />)}>
           프로필 편집

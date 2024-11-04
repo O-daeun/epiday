@@ -1,6 +1,7 @@
 'use client';
 
 import { getCommentsForEpiday } from '@/apis/comment/get-comments-for-epiday';
+import CommentSkeleton from '@/components/skeletons/comment-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { useObserver } from '@/hooks/use-observer';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
@@ -41,16 +42,22 @@ export default function CommentsSection({ id }: Props) {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
     <section className="mt-10">
       <InnerLayout>
-        <span className="text-xl font-medium">댓글 ({data?.pages[0].totalCount})</span>
+        <span className="text-xl font-medium">
+          댓글 {data && <>({data.pages[0].totalCount})</>}{' '}
+        </span>
         <WriteComment id={id} />
       </InnerLayout>
-
+      {isLoading && (
+        <div className="flex flex-col">
+          <CommentSkeleton />
+          <CommentSkeleton />
+        </div>
+      )}
       {data?.pages[0].totalCount > 0 && (
         <ul>
           {data.pages.map((page) =>
@@ -64,8 +71,6 @@ export default function CommentsSection({ id }: Props) {
       )}
       {data?.pages[0].totalCount === 0 && <NoContents type="댓글" />}
       <div ref={observerRef} className="h-10" />
-      {/* note: 추후 loading ui 구현 */}
-      {isLoading && <p>Loading</p>}
     </section>
   );
 }

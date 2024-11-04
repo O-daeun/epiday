@@ -1,4 +1,5 @@
 import { getEpidays } from '@/apis/epiday/get-epidays';
+import EpidayBoxSkeleton from '@/components/skeletons/epiday-box-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -23,7 +24,6 @@ export default function RecentEpidaysSection() {
       initialPageParam: '',
     });
 
-  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
@@ -33,6 +33,7 @@ export default function RecentEpidaysSection() {
         <RefetchButton refetch={refetch} />
       </div>
       <ul className="flex flex-col gap-4">
+        {isLoading && [...Array(3)].map((_, index) => <EpidayBoxSkeleton key={index} />)}
         {data?.pages.map((page) =>
           page.list.map((epiday) => (
             <li key={epiday.id}>

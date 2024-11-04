@@ -1,13 +1,22 @@
 {
   "name": "epiday",
   "version": "1.0.0",
-  "description": "",
+  "description": "자신의 감정상태를 기록하고, 유저들과 명언과 글귀들을 공유하는 서비스",
   "main": "index.js",
   "scripts": {
     "dev": "next dev"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "에피데이",
+    "감정공유",
+    "문구공유",
+    "글귀공유",
+    "감정기록",
+    "emotion sharing",
+    "quote sharing",
+    "daily emotions"
+  ],
+  "author": "오다은",
   "license": "MIT",
   "dependencies": {
     "@heroicons/react": "^2.1.5",

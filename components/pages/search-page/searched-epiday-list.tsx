@@ -1,4 +1,6 @@
 import { getEpidays } from '@/apis/epiday/get-epidays';
+import NoContents from '@/components/no-contents';
+import SearchEpidayBoxSkeleton from '@/components/skeletons/search-epiday-box-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { useObserver } from '@/hooks/use-observer';
 import { GetEpidaysData } from '@/types/epiday-types';
@@ -33,15 +35,21 @@ export default function SearchedEpidayList({ keyword }: Props) {
     isLoading: isFetchingNextPage,
     ref: observerRef,
     fetchNextCursor: () => {
-      if (hasNextPage) fetchNextPage(); // 다음 페이지가 존재하면 추가로 데이터 로드
+      if (hasNextPage) fetchNextPage();
     },
   });
 
-  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
     <ul className="mx-auto mt-10 max-w-[640px]">
+      {isLoading && (
+        <>
+          <SearchEpidayBoxSkeleton />
+          <SearchEpidayBoxSkeleton />
+          <SearchEpidayBoxSkeleton />
+        </>
+      )}
       {data?.pages.map((page) =>
         page.list.map((epiday) => (
           <li key={epiday.id} className="border-b border-var-gray-100">
@@ -59,6 +67,7 @@ export default function SearchedEpidayList({ keyword }: Props) {
           </li>
         )),
       )}
+      {data?.pages[0].list.length === 0 && <NoContents type="에피데이" />}
       <div ref={observerRef} />
     </ul>
   );
