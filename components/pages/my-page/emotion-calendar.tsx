@@ -19,14 +19,16 @@ const getTheDateEmotionLog = (date: Date, emotionLogs: GetEmotionLog[]) => {
 interface Props {
   emotionLogs: GetEmotionLog[];
   refetch: (year: number, month: number) => void;
+  activeStartDate: Date;
 }
 
-export default function EmotionCalendar({ refetch, emotionLogs }: Props) {
+export default function EmotionCalendar({ refetch, emotionLogs, activeStartDate }: Props) {
   return (
     <section>
       <Calendar
         locale="ko-KR"
         calendarType="gregory"
+        activeStartDate={activeStartDate}
         tileDisabled={({ view }) => {
           return view === 'month' ? true : false;
         }}

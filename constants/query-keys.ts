@@ -10,7 +10,7 @@ export const queryKeys = {
   emotionLog: {
     allEmotionLogs: ['emotionLogs'],
     emotionLogForToday: ['emotionLogs', 'today'],
-    emotionLogsForMonth: ['emotionLogs', 'month'],
+    emotionLogsForMonth: (year: number, month: number) => ['emotionLogs', 'month', { year, month }],
   },
   comment: {
     allComments: ['comments'],
