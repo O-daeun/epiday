@@ -1,4 +1,5 @@
 import { getComments } from '@/apis/comment/get-comments';
+import CommentSkeleton from '@/components/skeletons/comment-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
@@ -25,7 +26,6 @@ export default function RecentCommentsSection() {
       initialPageParam: '',
     });
 
-  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
@@ -35,6 +35,13 @@ export default function RecentCommentsSection() {
         <RefetchButton refetch={refetch} />
       </InnerLayout>
       <ul>
+        {isLoading && (
+          <>
+            <CommentSkeleton />
+            <CommentSkeleton />
+            <CommentSkeleton />
+          </>
+        )}
         {data?.pages.map((page) =>
           page.list.map((comment: GetCommentData) => (
             <li key={comment.id}>

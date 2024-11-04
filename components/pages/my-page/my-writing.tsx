@@ -1,5 +1,6 @@
 import { getMyComments } from '@/apis/comment/get-my-comments';
 import { getEpidays } from '@/apis/epiday/get-epidays';
+import CommentSkeleton from '@/components/skeletons/comment-skeleton';
 import EpidayBoxSkeleton from '@/components/skeletons/epiday-box-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
@@ -116,27 +117,42 @@ export default function MyWriting() {
         </InnerLayout>
       )}
 
-      {activeNav === 'comment' && comments && (
+      {activeNav === 'comment' && (
         <>
-          {comments.pages[0].totalCount > 0 ? (
-            <>
-              <ul className="flex flex-col">
-                {comments.pages.map((page) =>
-                  page.list.map((comment: GetCommentData) => (
-                    <li key={comment.id}>
-                      <Comment comment={comment} isMyPage />
-                    </li>
-                  )),
-                )}
-              </ul>
-              {hasNextCommentPage && (
-                <SeeMoreButton onClick={fetchNextCommentPage} disabled={isFetchingNextCommentPage}>
-                  내 댓글 더보기
-                </SeeMoreButton>
+          {comments && (
+            <ul className="flex flex-col">
+              {(!session || isLoadingComments) && (
+                <>
+                  <CommentSkeleton />
+                  <CommentSkeleton />
+                  <CommentSkeleton />
+                </>
               )}
-            </>
-          ) : (
-            <NoContents type="댓글" />
+              {comments &&
+                (comments.pages[0].totalCount > 0 ? (
+                  <>
+                    <ul className="flex flex-col">
+                      {comments.pages.map((page) =>
+                        page.list.map((comment: GetCommentData) => (
+                          <li key={comment.id}>
+                            <Comment comment={comment} isMyPage />
+                          </li>
+                        )),
+                      )}
+                    </ul>
+                    {hasNextCommentPage && (
+                      <SeeMoreButton
+                        onClick={fetchNextCommentPage}
+                        disabled={isFetchingNextCommentPage}
+                      >
+                        내 댓글 더보기
+                      </SeeMoreButton>
+                    )}
+                  </>
+                ) : (
+                  <NoContents type="댓글" />
+                ))}
+            </ul>
           )}
         </>
       )}
