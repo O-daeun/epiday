@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function BoxSkeleton({ width = 'w-full', height, className = '' }: Props) {
-  return <div className={`rounded-sm bg-var-gray-100/40 ${width} ${height} ${className}`} />;
+  return <div className={`rounded-sm bg-var-gray-100/50 ${width} ${height} ${className}`} />;
 }

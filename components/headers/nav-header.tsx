@@ -38,7 +38,7 @@ export default function NavHeader() {
         ) : (
           <div className="flex items-center gap-[6px]">
             <ProfileImageSkeleton size="s" />
-            <TextSkeleton width="w-10" />
+            <TextSkeleton width="w-10 " className="hidden sm:block" />
           </div>
         )}
       </div>
