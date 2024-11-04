@@ -19,7 +19,7 @@ export default function TodayEpidaySection() {
     queryFn: getTodayEpiday,
   });
 
-  if (isLoading) return <div>로딩 중...</div>; // note: 추후 로딩 구현
+  if (isLoading) return;
   if (isError) return <div>오늘의 에피데이를 불러올 수 없습니다.</div>; // note: 추후 에러 구현
   if (!epiday) return null; // 오늘의 에피데이가 없으면 아무것도 보여주지 않기
 
