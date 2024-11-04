@@ -1,6 +1,8 @@
 'use client';
 
 import { getEpidayDetails } from '@/apis/epiday/get-epiday-details';
+import BoxSkeleton from '@/components/skeletons/box-skeleton';
+import TextSkeleton from '@/components/skeletons/text-skeleton';
 import { REFERENCE_URL_DEFAULT_VALUE } from '@/constants/api-constants';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
@@ -31,9 +33,27 @@ export default function ContentsSection({ id }: Props) {
     enabled: !!session,
   });
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading || !epiday)
+    return (
+      <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">
+        <InnerLayout>
+          <div className="flex items-center gap-4">
+            {[...Array(2)].map((_, index) => (
+              <TextSkeleton key={index} width="w-10" height="h-5" />
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col gap-3">
+            <TextSkeleton height="h-8" />
+            <TextSkeleton width="w-3/4" height="h-8" />
+          </div>
+          <div className="mt-9 flex justify-center gap-[18px]">
+            <BoxSkeleton width="w-20" height="h-12" />
+            <BoxSkeleton width="w-28" height="h-12" />
+          </div>
+        </InnerLayout>
+      </section>
+    );
   if (isError) return <div>에피데이를 불러올 수 없습니다.</div>;
-  if (!epiday) return;
 
   return (
     <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">
