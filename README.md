@@ -51,5 +51,5 @@
 ### 버전 정보
 
 - 현재 버전: 1.0.1
-  - 로딩 스켈레톤 추가 구현
+  - 로딩 스켈레톤 추가 구현 (<a href='https://github.com/O-daeun/epiday/pull/1'>관련 PR 페이지</a>)
 
