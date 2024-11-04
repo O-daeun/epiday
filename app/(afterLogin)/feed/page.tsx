@@ -4,6 +4,7 @@ import { getEpidays } from '@/apis/epiday/get-epidays';
 import RefetchButton from '@/components/buttons/refetch-button';
 import SeeMoreButton from '@/components/buttons/see-more-button';
 import EpidayBox from '@/components/epiday-box';
+import EpidayBoxSkeleton from '@/components/skeletons/epiday-box-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidaysData } from '@/types/epiday-types';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -23,7 +24,6 @@ export default function FeedPage() {
       initialPageParam: '',
     });
 
-  if (isLoading) return <p>Loading...</p>; // note: 로딩구현
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
@@ -34,6 +34,8 @@ export default function FeedPage() {
           <RefetchButton refetch={refetch} />
         </div>
         <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
+          {isLoading &&
+            [...Array(8)].map((_, index) => <EpidayBoxSkeleton key={index} isContentLimit />)}
           {data?.pages.map((page) =>
             page.list.map((epiday) => (
               <li key={epiday.id}>

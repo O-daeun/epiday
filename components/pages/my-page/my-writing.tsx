@@ -1,5 +1,6 @@
 import { getMyComments } from '@/apis/comment/get-my-comments';
 import { getEpidays } from '@/apis/epiday/get-epidays';
+import EpidayBoxSkeleton from '@/components/skeletons/epiday-box-skeleton';
 import { queryKeys } from '@/constants/query-keys';
 import { GetCommentData, GetCommentsData } from '@/types/comment-types';
 import { GetEpidaysData } from '@/types/epiday-types';
@@ -26,6 +27,7 @@ export default function MyWriting() {
     fetchNextPage: fetchNextEpidayPage,
     hasNextPage: hasNextEpidayPage,
     isFetchingNextPage: isFetchingNextEpidayPage,
+    isLoading: isLoadingEpidays,
   } = useInfiniteQuery<GetEpidaysData>({
     queryKey: queryKeys.epiday.myEpidays,
     queryFn: async ({ pageParam = '' }) => getEpidays({ limit, pageParam, writerId: session.id }),
@@ -42,6 +44,7 @@ export default function MyWriting() {
     fetchNextPage: fetchNextCommentPage,
     hasNextPage: hasNextCommentPage,
     isFetchingNextPage: isFetchingNextCommentPage,
+    isLoading: isLoadingComments,
   } = useInfiniteQuery<GetCommentsData>({
     queryKey: queryKeys.comment.myComments,
     queryFn: async ({ pageParam = '' }) =>
@@ -80,32 +83,39 @@ export default function MyWriting() {
           </button>
         ))}
       </InnerLayout>
-      {activeNav === 'epiday' && epidays && (
-        <>
-          {epidays.pages[0].totalCount > 0 ? (
-            <InnerLayout>
-              <ul className="flex flex-col gap-12">
-                {epidays.pages.map((page) =>
-                  page.list.map((epiday) => (
-                    <li key={epiday.id}>
-                      <Link href={`/epidays/${epiday.id}`}>
-                        <EpidayBox epiday={epiday} />
-                      </Link>
-                    </li>
-                  )),
-                )}
-              </ul>
-              {hasNextEpidayPage && (
-                <SeeMoreButton onClick={fetchNextEpidayPage} disabled={isFetchingNextEpidayPage}>
-                  에피데이 더보기
-                </SeeMoreButton>
-              )}
-            </InnerLayout>
-          ) : (
-            <NoContents type="에피데이" />
-          )}
-        </>
+      {activeNav === 'epiday' && (
+        <InnerLayout>
+          <ul className="flex flex-col gap-12">
+            {(!session || isLoadingEpidays) &&
+              [...Array(3)].map((_, index) => <EpidayBoxSkeleton key={index} />)}
+            {epidays &&
+              (epidays.pages[0].totalCount > 0 ? (
+                <>
+                  {epidays.pages.map((page) =>
+                    page.list.map((epiday) => (
+                      <li key={epiday.id}>
+                        <Link href={`/epidays/${epiday.id}`}>
+                          <EpidayBox epiday={epiday} />
+                        </Link>
+                      </li>
+                    )),
+                  )}
+                  {hasNextEpidayPage && (
+                    <SeeMoreButton
+                      onClick={fetchNextEpidayPage}
+                      disabled={isFetchingNextEpidayPage}
+                    >
+                      에피데이 더보기
+                    </SeeMoreButton>
+                  )}
+                </>
+              ) : (
+                <NoContents type="에피데이" />
+              ))}
+          </ul>
+        </InnerLayout>
       )}
+
       {activeNav === 'comment' && comments && (
         <>
           {comments.pages[0].totalCount > 0 ? (
