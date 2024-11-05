@@ -1,7 +1,7 @@
 import { EMOTIONS } from '@/constants/emotions';
 import tailwindConfig from '@/tailwind.config';
 import { GetEmotionLog } from '@/types/emotion-types';
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import EmotionImage from '../../emotion-image';
 import Section from './section';
@@ -47,10 +47,17 @@ export default function EmotionChart({ formattedYearMonth, emotionLogs }: Props)
     fill: chartColors[index % chartColors.length], // 색상
   }));
 
-  const mostFrequentEmotion =
-    data.length !== 0
-      ? data.reduce((prev, current) => (current.value > prev.value ? current : prev))
-      : null;
+  // 가장 많이 느낀 감정
+  const mostFrequentEmotion = data.reduce((prev, current) =>
+    current.value > prev.value ? current : prev,
+  );
+
+  const isNoData = mostFrequentEmotion.value === 0;
+
+  // 데이터 없을 때 대체 데이터
+  const noDataFallback = [
+    { name: 'No Data', value: 100, fill: fullConfig.theme.colors['var-gray-200'] },
+  ];
 
   return (
     <Section>
@@ -64,24 +71,22 @@ export default function EmotionChart({ formattedYearMonth, emotionLogs }: Props)
             <ResponsiveContainer>
               <PieChart>
                 <Pie
-                  data={data}
+                  data={isNoData ? noDataFallback : data}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
                   cy="50%"
                   innerRadius="85%" // 도넛 모양으로 만듦
                   outerRadius="100%"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
+                />
               </PieChart>
             </ResponsiveContainer>
-            <div className="absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2">
-              <EmotionImage type={getEnglishEmotion(mostFrequentEmotion.name)} size="l" />
-              <span className="font-bold">{mostFrequentEmotion.name}</span>
-            </div>
+            {!isNoData && (
+              <div className="absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-2">
+                <EmotionImage type={getEnglishEmotion(mostFrequentEmotion.name)} size="l" />
+                <span className="font-bold">{mostFrequentEmotion.name}</span>
+              </div>
+            )}
           </div>
           <div className="flex flex-col justify-center gap-2">
             {data.map((entry, index) => (

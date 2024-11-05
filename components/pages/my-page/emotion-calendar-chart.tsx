@@ -2,9 +2,9 @@ import { getMonthEmotionLogs } from '@/apis/emotion-log/get-month-emotion-logs';
 import BoxSkeleton from '@/components/skeletons/box-skeleton';
 import TextSkeleton from '@/components/skeletons/text-skeleton';
 import { queryKeys } from '@/constants/query-keys';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import EmotionCalendar from './emotion-calendar';
 import EmotionChart from './emotion-chart';
 import Section from './section';
@@ -14,31 +14,27 @@ const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 export default function EmotionCalendarChart() {
-  const [year, setYear] = useState<number | null>(null);
-  const [month, setMonth] = useState<number | null>(null);
   const { data: session } = useSession();
+  const [year, setYear] = useState(currentYear);
+  const [month, setMonth] = useState(currentMonth);
+  const [displayStartDate, setDisplayStartDate] = useState(new Date(currentYear, currentMonth - 1));
 
   const {
     data: emotionLogs,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: queryKeys.emotionLog.emotionLogsForMonth,
+    queryKey: queryKeys.emotionLog.emotionLogsForMonth(year, month),
     queryFn: () => getMonthEmotionLogs(session.id, year, month),
     enabled: !!session && year !== null && month !== null,
+    placeholderData: keepPreviousData,
   });
 
   const handleRefetch = (newYear: number, newMonth: number) => {
     setYear(newYear);
     setMonth(newMonth);
+    setDisplayStartDate(new Date(newYear, newMonth - 1));
   };
-
-  useEffect(() => {
-    if (!year && !month) {
-      setYear(currentYear);
-      setMonth(currentMonth);
-    }
-  }, [year, month]);
 
   if (!emotionLogs || isLoading)
     return (
@@ -62,7 +58,11 @@ export default function EmotionCalendarChart() {
 
   return (
     <>
-      <EmotionCalendar emotionLogs={emotionLogs} refetch={handleRefetch} />
+      <EmotionCalendar
+        emotionLogs={emotionLogs}
+        refetch={handleRefetch}
+        activeStartDate={displayStartDate}
+      />
       <EmotionChart formattedYearMonth={`${year}.${month}`} emotionLogs={emotionLogs} />
     </>
   );
