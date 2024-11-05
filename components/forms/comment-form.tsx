@@ -6,7 +6,7 @@ import { useToastStore } from '@/store/use-toast-store';
 import { GetCommentData } from '@/types/comment-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
 import SmallButton from '../buttons/small-button';
 
 interface Props {
@@ -18,15 +18,12 @@ interface Props {
 
 /**
  * 댓글 작성 및 수정 폼
- * @param id 에피데이 id (댓글 생성일 때만 필요)
- * @param comment 기존 댓글 (댓글 수정일 때만 필요)
- * @param onEdit 프론트단 comment setter 함수 (댓글 수정일 때만 필요)
- * @returns
  */
 export default function CommentForm({ id, comment, onEdit, className = '' }: Props) {
   const [content, setContent] = useState(comment?.content || '');
   const [isPrivate, setIsPrivate] = useState(comment?.isPrivate || false);
   const [isOpenButton, setIsOpenButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
@@ -40,10 +37,24 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
         return postComment(session, { epigramId: id, isPrivate, content });
       }
     },
-
     onError: (error) => {
       console.error('작성완료 중 예외 발생: ', error);
       showToast({ message: TOAST_MESSAGES.error, type: 'error' });
+    },
+    onSuccess: () => {
+      setIsLoading(true);
+      queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
+      setTimeout(() => {
+        if (comment) {
+          showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
+          onEdit(false);
+        } else {
+          setContent('');
+          setIsPrivate(false);
+          showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
+        }
+        setIsLoading(false);
+      }, 300);
     },
   });
 
@@ -53,44 +64,8 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
       showToast({ message: TOAST_MESSAGES.comment.emptyContentError, type: 'error' });
       return;
     }
-    // 최종 업데이트될 데이터 임시 캐싱
-    const tempUpdatedComment = { ...comment, content, isPrivate };
-
-    // 캐시된 데이터 업데이트 (즉시 UI 반영)
-    queryClient.setQueryData(
-      [queryKeys.comment.allComments],
-      (oldComments: GetCommentData[] = []) =>
-        oldComments.map((c) => (c.id === comment.id ? tempUpdatedComment : c)),
-    );
-
-    await mutation.mutateAsync();
-
-    // `invalidateQueries`로 최신 데이터를 가져옴
-    await queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
-
-    // 성공 토스트 메시지
-    if (comment) {
-      showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
-      onEdit(false);
-    } else {
-      setContent('');
-      setIsPrivate(false);
-      showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
-    }
+    mutation.mutate();
   };
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      if (comment) {
-        showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
-        onEdit(false);
-      } else {
-        setContent('');
-        setIsPrivate(false);
-        showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
-      }
-    }
-  }, [mutation.isSuccess]);
 
   return (
     <form onSubmit={handleSubmit} className={className}>
@@ -120,15 +95,15 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
             {comment && (
               <SmallButton
                 type="button"
-                disabled={mutation.isPending}
+                disabled={mutation.status === 'pending'}
                 onClick={() => onEdit(false)}
                 className="!bg-var-gray-100 !text-var-black-300"
               >
                 취소
               </SmallButton>
             )}
-            <SmallButton type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? '저장 중...' : '저장'}
+            <SmallButton type="submit" disabled={mutation.isPending || isLoading}>
+              {mutation.isPending || isLoading ? '저장 중...' : '저장'}
             </SmallButton>
           </div>
         </div>
