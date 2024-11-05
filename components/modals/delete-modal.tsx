@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import ModalButton from './modal-button';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function DeleteModal({ id, type }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useModalStore();
   const { showToast } = useToastStore();
   const { data: session } = useSession();
@@ -26,17 +28,34 @@ export default function DeleteModal({ id, type }: Props) {
     mutationFn: async () => {
       return type === 'comment' ? deleteComment(session, id) : deleteEpiday(session, id);
     },
+    onMutate: async () => {
+      const previousComments = queryClient.getQueryData(queryKeys.comment.allComments);
+
+      queryClient.setQueryData(queryKeys.comment.allComments, (old: any) =>
+        old ? old.filter((item: any) => item.id !== id) : [],
+      );
+
+      return { previousComments };
+    },
     onSuccess: () => {
       if (type === 'comment') {
-        showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
+        setIsLoading(true);
         queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
+        setTimeout(() => {
+          showToast({ message: TOAST_MESSAGES.comment.deleteSuccess, type: 'success' });
+          closeModal();
+          setIsLoading(false);
+        }, 300);
       } else {
         showToast({ message: TOAST_MESSAGES.epiday.deleteSuccess, type: 'success' });
         router.push('/mypage');
+        closeModal();
       }
-      closeModal();
     },
-    onError: (error: Error) => {
+    onError: (error: Error, _, context) => {
+      if (context?.previousComments) {
+        queryClient.setQueryData(queryKeys.comment.allComments, context.previousComments);
+      }
       showToast({ message: error.message, type: 'error' });
     },
   });
@@ -60,8 +79,12 @@ export default function DeleteModal({ id, type }: Props) {
         <ModalButton design="gray" onClick={() => closeModal()}>
           취소
         </ModalButton>
-        <ModalButton design="black" onClick={handleDelete}>
-          삭제하기
+        <ModalButton
+          design="black"
+          onClick={handleDelete}
+          disabled={deleteMutation.isPending || isLoading}
+        >
+          {deleteMutation.isPending || isLoading ? '삭제 중...' : '삭제하기'}
         </ModalButton>
       </div>
     </div>
