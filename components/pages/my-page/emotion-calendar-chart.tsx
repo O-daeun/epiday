@@ -2,7 +2,7 @@ import { getMonthEmotionLogs } from '@/apis/emotion-log/get-month-emotion-logs';
 import BoxSkeleton from '@/components/skeletons/box-skeleton';
 import TextSkeleton from '@/components/skeletons/text-skeleton';
 import { queryKeys } from '@/constants/query-keys';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import EmotionCalendar from './emotion-calendar';
@@ -27,6 +27,7 @@ export default function EmotionCalendarChart() {
     queryKey: queryKeys.emotionLog.emotionLogsForMonth(year, month),
     queryFn: () => getMonthEmotionLogs(session.id, year, month),
     enabled: !!session && year !== null && month !== null,
+    placeholderData: keepPreviousData,
   });
 
   const handleRefetch = (newYear: number, newMonth: number) => {
