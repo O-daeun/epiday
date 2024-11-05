@@ -24,7 +24,7 @@ export default function DeleteModal({ id, type }: Props) {
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      type === 'comment' ? deleteComment(session, id) : deleteEpiday(session, id);
+      return type === 'comment' ? deleteComment(session, id) : deleteEpiday(session, id);
     },
     onSuccess: () => {
       if (type === 'comment') {
