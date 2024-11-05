@@ -18,15 +18,12 @@ interface Props {
 
 /**
  * 댓글 작성 및 수정 폼
- * @param id 에피데이 id (댓글 생성일 때만 필요)
- * @param comment 기존 댓글 (댓글 수정일 때만 필요)
- * @param onEdit 프론트단 comment setter 함수 (댓글 수정일 때만 필요)
- * @returns
  */
 export default function CommentForm({ id, comment, onEdit, className = '' }: Props) {
   const [content, setContent] = useState(comment?.content || '');
   const [isPrivate, setIsPrivate] = useState(comment?.isPrivate || false);
   const [isOpenButton, setIsOpenButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { showToast } = useToastStore();
   const { data: session } = useSession();
@@ -40,20 +37,24 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
         return postComment(session, { epigramId: id, isPrivate, content });
       }
     },
-    onSuccess: () => {
-      if (comment) {
-        showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
-        onEdit(false);
-      } else {
-        setContent('');
-        setIsPrivate(false);
-        showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
-      }
-      queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
-    },
     onError: (error) => {
       console.error('작성완료 중 예외 발생: ', error);
       showToast({ message: TOAST_MESSAGES.error, type: 'error' });
+    },
+    onSuccess: () => {
+      setIsLoading(true);
+      queryClient.invalidateQueries({ queryKey: queryKeys.comment.allComments });
+      setTimeout(() => {
+        if (comment) {
+          showToast({ message: TOAST_MESSAGES.comment.updateSuccess, type: 'success' });
+          onEdit(false);
+        } else {
+          setContent('');
+          setIsPrivate(false);
+          showToast({ message: TOAST_MESSAGES.comment.createSuccess, type: 'success' });
+        }
+        setIsLoading(false);
+      }, 300);
     },
   });
 
@@ -101,8 +102,8 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
                 취소
               </SmallButton>
             )}
-            <SmallButton type="submit" disabled={mutation.status === 'pending'}>
-              저장
+            <SmallButton type="submit" disabled={mutation.isPending || isLoading}>
+              {mutation.isPending || isLoading ? '저장 중...' : '저장'}
             </SmallButton>
           </div>
         </div>
