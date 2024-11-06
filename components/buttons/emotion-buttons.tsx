@@ -20,8 +20,27 @@ export default function EmotionButtons() {
     enabled: !!session,
   });
 
-  const mutation = useMutation<GetEmotionLog, Error, Emotion>({
+  // note: 추후 autoUpdate 구현
+  const mutation = useMutation<
+    GetEmotionLog,
+    Error,
+    Emotion,
+    { previousEmotionLog?: GetEmotionLog }
+  >({
     mutationFn: (emotion) => postTodayEmotionLog(session, emotion),
+    onMutate: async (emotion) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.emotionLog.allEmotionLogs });
+      const previousEmotionLog = queryClient.getQueryData<GetEmotionLog>(
+        queryKeys.emotionLog.emotionLogForToday,
+      );
+
+      queryClient.setQueryData<GetEmotionLog>(queryKeys.emotionLog.emotionLogForToday, (old) => ({
+        ...old,
+        emotion,
+      }));
+
+      return { previousEmotionLog };
+    },
     onSuccess: () => {
       showToast({
         message: emotionLog
@@ -31,8 +50,15 @@ export default function EmotionButtons() {
       });
       queryClient.invalidateQueries({ queryKey: queryKeys.emotionLog.allEmotionLogs });
     },
-    onError: (error: Error) => {
+    onError: (error: Error, _, context) => {
       showToast({ message: error.message, type: 'error' });
+
+      if (context?.previousEmotionLog) {
+        queryClient.setQueryData(
+          queryKeys.emotionLog.emotionLogForToday,
+          context.previousEmotionLog,
+        );
+      }
     },
   });
 
