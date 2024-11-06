@@ -2,11 +2,19 @@
 
 #### Epiday는 감정 상태를 기록하고, 사용자들 간에 명언과 글귀를 공유할 수 있는 서비스입니다.
 
+
 <br />
 
 ### 배포 URL
 
 - <a href='https://epiday.vercel.app/'>Epiday 배포 링크</a>
+
+
+<br />
+
+### 포트폴리오 URL
+
+- <a href='https://ohdaeun.vercel.app/epiday'>Epiday 포트폴리오 링크</a>
 
 <br />
 
