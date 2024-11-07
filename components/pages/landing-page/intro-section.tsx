@@ -3,7 +3,7 @@ import IntroArticle from './intro-article';
 export default function IntroSection() {
   return (
     <div className="-mt-10 w-full bg-var-background py-[240px]">
-      <div className="mx-auto flex w-full max-w-[688px] flex-col gap-[196px] px-6 sm:gap-[220px] md:max-w-[1968px] md:gap-[380px]">
+      <div className="mx-auto flex w-full max-w-[688px] flex-col gap-[196px] px-6 sm:gap-[220px] md:max-w-[1268px] md:gap-[380px]">
         <IntroArticle
           title={
             <>
