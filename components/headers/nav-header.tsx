@@ -23,11 +23,11 @@ export default function NavHeader() {
   return (
     <HeaderLayout>
       <div className="mx-auto flex w-full max-w-[1248px] items-center justify-between px-6">
-        <div className="flex items-center gap-9">
+        <div className="flex items-center gap-6 sm:gap-9">
           <LogoLink />
-          <nav className="flex gap-6">
+          <nav className="flex gap-4 sm:gap-6">
             {NAV_LIST.map((nav) => (
-              <Link href={nav.link} key={nav.title}>
+              <Link href={nav.link} key={nav.title} className="text-sm sm:text-base">
                 {nav.title}
               </Link>
             ))}

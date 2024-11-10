@@ -65,17 +65,17 @@ export default function DeleteModal({ id, type }: Props) {
   };
 
   return (
-    <div className="w-[calc(100vw-40px)] max-w-[452px] px-[38px] py-10">
+    <div className="w-[calc(100vw-40px)] max-w-[350px] px-4 py-6 sm:max-w-[452px] sm:px-[38px] sm:py-10">
       <div className="flex flex-col items-center">
-        <Image src="/bang.svg" width={56} height={56} alt="느낌표" />
-        <p className="mt-6 text-2xl font-semibold">
+        <Image src="/bang.svg" width={56} height={56} alt="느낌표" className="size-11 sm:size-14" />
+        <p className="mt-4 font-semibold sm:mt-6 sm:text-2xl">
           {type === 'comment' ? '댓글' : '게시물'}을 삭제하시겠어요?
         </p>
-        <p className="mt-4 text-lg text-var-gray-400">
+        <p className="mt-2 text-sm text-var-gray-400 sm:mt-4 sm:text-lg">
           {type === 'comment' ? '댓글' : '게시물'}은 삭제 후 복구할 수 없어요.
         </p>
       </div>
-      <div className="mt-10 flex gap-4">
+      <div className="mt-6 flex gap-2 sm:mt-10 sm:gap-4">
         <ModalButton design="gray" onClick={() => closeModal()}>
           취소
         </ModalButton>

@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function Title({ children }: Props) {
-  return <h2 className="text-2xl font-semibold">{children}</h2>;
+  return <h2 className="font-semibold sm:text-2xl">{children}</h2>;
 }
