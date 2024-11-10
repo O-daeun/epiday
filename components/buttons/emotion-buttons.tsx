@@ -73,12 +73,12 @@ export default function EmotionButtons() {
           <button
             onClick={() => handleClick(emotion.english)}
             disabled={emotion.english === emotionLog?.emotion}
-            className={`flex size-14 items-center justify-center rounded-2xl duration-100 sm:size-24 ${emotion.english === emotionLog?.emotion ? 'border-4 border-var-illust-green bg-var-blue-100' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
+            className={`flex size-14 items-center justify-center rounded-2xl duration-100 sm:size-24 ${emotion.english === emotionLog?.emotion ? 'border-2 border-var-illust-green bg-var-blue-100 sm:border-4' : 'bg-[rgba(175,186,205,0.15)] hover:shadow-md'}`}
           >
             <EmotionImage type={emotion.english} size="xl" />
           </button>
           <p
-            className={`text-xl font-semibold ${emotion.english === emotionLog?.emotion ? '' : 'text-[#999]'}`}
+            className={`text-xs font-semibold sm:text-xl ${emotion.english === emotionLog?.emotion ? '' : 'text-[#999]'}`}
           >
             {emotion.korean}
           </p>

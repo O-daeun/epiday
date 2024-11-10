@@ -73,21 +73,21 @@ export default function CommentForm({ id, comment, onEdit, className = '' }: Pro
         value={content}
         onFocus={() => setIsOpenButton(true)}
         onChange={(e) => setContent(e.target.value)}
-        className="h-[104px] w-full grow rounded-lg border border-var-line-200 px-4 py-3 text-xl outline-none placeholder:text-var-blue-400 focus:border-var-black-600"
+        className="h-[66px] w-full grow rounded-lg border border-var-line-200 px-4 py-3 text-base outline-none placeholder:text-var-blue-400 focus:border-var-black-600 sm:h-[104px] sm:text-xl"
         placeholder="100자 이내로 입력해주세요."
         maxLength={100}
       />
       {(isOpenButton || comment) && (
-        <div className="mt-3 flex items-center justify-between">
+        <div className="mt-2 flex items-center justify-between sm:mt-3">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-var-gray-400">공개</span>
+            <span className="text-xs font-semibold text-var-gray-400 sm:text-base">공개</span>
             <button
               type="button"
               onClick={() => setIsPrivate(!isPrivate)}
-              className={`relative h-[24px] w-[42px] rounded-full ${isPrivate ? 'bg-var-gray-300' : 'bg-var-black-600'}`}
+              className={`relative h-4 w-8 rounded-full sm:h-[24px] sm:w-[42px] ${isPrivate ? 'bg-var-gray-300' : 'bg-var-black-600'}`}
             >
               <div
-                className={`absolute top-1 size-[16px] rounded-full bg-white duration-100 ${isPrivate ? 'left-1' : 'left-[22px]'}`}
+                className={`absolute top-[3px] size-[10px] rounded-full bg-white duration-100 sm:size-[16px] ${isPrivate ? 'left-1' : 'left-[19px]'}`}
               />
             </button>
           </div>

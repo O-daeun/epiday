@@ -7,7 +7,9 @@ interface Props {
 
 export default function Title({ children, className }: Props) {
   return (
-    <h2 className={`text-[32px] font-bold leading-[143.75%] text-var-black-950 ${className}`}>
+    <h2
+      className={`text-2xl font-bold leading-[143.75%] text-var-black-950 sm:text-[32px] ${className}`}
+    >
       {children}
     </h2>
   );

@@ -17,14 +17,20 @@ export default async function EpidaysSection() {
           <br />
           인용한 에피그램들
         </Title>
-        <ul className="mt-[100px] flex flex-col gap-[60px]">
+        <ul className="mt-10 flex flex-col gap-4 sm:mt-[100px] sm:gap-[60px]">
           {epidays.list.map((epiday) => (
             <li key={epiday.id}>
               <EpidayBox epiday={epiday} />
             </li>
           ))}
         </ul>
-        <Image src="/kebab-blue.svg" width={36} height={36} alt="etc" className="mx-auto mt-10" />
+        <Image
+          src="/kebab-blue.svg"
+          width={36}
+          height={36}
+          alt="etc"
+          className="mx-auto mt-10 size-6 sm:size-9"
+        />
       </InnerLayout>
     </section>
   );

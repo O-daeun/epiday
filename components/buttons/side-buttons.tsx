@@ -37,7 +37,7 @@ export default function SideButtons() {
       {pathname !== '/addepiday' && pathname !== '/' && (
         <SideButton onClick={() => router.push('/addepiday')}>
           <Image src="/plus-white.svg" width={24} height={24} alt="+" />
-          에피데이 만들기
+          <span className="text-var-blue-100">에피데이 만들기</span>
         </SideButton>
       )}
       <SideButton onClick={scrollToTop} isVisible={isTopButtonVisible}>
@@ -46,7 +46,7 @@ export default function SideButtons() {
           width={22}
           height={14}
           alt="맨 위로 스크롤"
-          className="h-auto w-[22px]"
+          className="h-auto w-4 sm:w-[22px]"
         />
       </SideButton>
     </div>

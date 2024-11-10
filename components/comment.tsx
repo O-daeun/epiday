@@ -23,11 +23,11 @@ export default function Comment({ comment, isMyPage }: Props) {
   const { openModal } = useModalStore();
 
   return (
-    <InnerLayout className="group relative flex gap-[13px] border-t border-var-line-200 py-[35px]">
+    <InnerLayout className="group relative flex gap-[13px] border-t border-var-line-200 py-4 sm:py-[35px]">
       <ProfileImage nickname={comment.writer.nickname} imageUrl={comment.writer.image} size="m" />
       <div className="grow">
         <div className="flex justify-between">
-          <div className="flex items-center gap-2 leading-6">
+          <div className="flex items-center gap-2 text-xs sm:text-base sm:leading-6">
             <span className="text-var-black-300">{comment.writer.nickname}</span>
             <span className="text-var-black-300">{timeAgo(comment.createdAt)}</span>
             {comment.isPrivate && (
@@ -51,9 +51,9 @@ export default function Comment({ comment, isMyPage }: Props) {
           )}
         </div>
         {isEdit ? (
-          <CommentForm comment={comment} onEdit={setIsEdit} className="mt-4" />
+          <CommentForm comment={comment} onEdit={setIsEdit} className="mt-2 sm:mt-4" />
         ) : (
-          <p className="mt-4 w-full whitespace-pre-line break-all text-xl leading-8">
+          <p className="mt-2 w-full whitespace-pre-line break-all text-sm leading-6 sm:mt-4 sm:text-xl sm:leading-8">
             {comment.content}
           </p>
         )}

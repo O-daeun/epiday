@@ -8,8 +8,8 @@ import TodayEpiday from '@/components/pages/epidays-page/today-epiday-section';
 
 export default function EpidaysPage() {
   return (
-    <div className="bg-var-background py-[120px]">
-      <InnerLayout className="flex flex-col gap-[140px]">
+    <div className="bg-var-background pb-[150px] pt-[84px] sm:pt-[200px]">
+      <InnerLayout className="flex flex-col gap-14 sm:gap-[140px]">
         <TodayEpiday />
         <TodayEmotion />
         <RecentEpidays />

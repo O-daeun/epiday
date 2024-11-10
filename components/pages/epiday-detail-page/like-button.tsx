@@ -50,10 +50,10 @@ export default function LikeButton({ id, likeCount, isLiked }: Props) {
     <button
       type="button"
       onClick={() => likeMutation.mutate()}
-      className={`flex h-12 w-fit items-center gap-[6px] rounded-full pl-[14px] pr-5 duration-100 ease-in-out hover:shadow-md ${isLiked ? 'bg-var-illust-purple' : 'bg-var-black-600'}`}
+      className={`flex h-9 w-fit items-center gap-[6px] rounded-full pl-[14px] pr-5 duration-100 ease-in-out hover:shadow-md sm:h-12 ${isLiked ? 'bg-var-illust-purple' : 'bg-var-black-600'}`}
     >
-      <Image src="/like.svg" width={36} height={36} alt="좋아요" />
-      <span className="text-xl font-medium text-var-blue-100">{likeCount}</span>
+      <Image src="/like.svg" width={36} height={36} alt="좋아요" className="w-5 sm:w-9" />
+      <span className="text-sm font-medium text-var-blue-100 sm:text-xl">{likeCount}</span>
     </button>
   );
 }

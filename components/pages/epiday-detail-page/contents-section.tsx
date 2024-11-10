@@ -35,7 +35,7 @@ export default function ContentsSection({ id }: Props) {
 
   if (isLoading || !epiday)
     return (
-      <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">
+      <section className="bg-[repeating-linear-gradient(white,white_24px,#F2F2F2_26px)] py-[42px] sm:bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)]">
         <InnerLayout>
           <div className="flex items-center gap-4">
             {[...Array(2)].map((_, index) => (
@@ -56,19 +56,24 @@ export default function ContentsSection({ id }: Props) {
   if (isError) return <div>에피데이를 불러올 수 없습니다.</div>;
 
   return (
-    <section className="bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)] py-[42px]">
+    <section className="bg-[repeating-linear-gradient(white,white_24px,#F2F2F2_26px)] py-[42px] sm:bg-[repeating-linear-gradient(white,white_35px,#F2F2F2_37px)]">
       <InnerLayout>
         <div className="flex items-center justify-between">
           <TagList tags={epiday.tags} />
           {session && epiday.writerId === session.id && <KebabButton id={id} />}
         </div>
-        <EpidayPhrase content={epiday.content} author={epiday.author} className="mt-8" />
-        <div className="mt-9 flex justify-center gap-[18px]">
+        <EpidayPhrase
+          content={epiday.content}
+          author={epiday.author}
+          isDetailPage
+          className="mt-4 sm:mt-8"
+        />
+        <div className="mt-8 flex justify-center gap-4 sm:mt-9 sm:gap-[18px]">
           <LikeButton id={id} likeCount={epiday.likeCount} isLiked={epiday.isLiked} />
           <ShareButton />
         </div>
         {epiday.referenceTitle && (
-          <div className="mt-5 flex justify-end gap-1">
+          <div className="mt-5 flex justify-end gap-1 text-sm sm:text-base">
             <span className="shrink-0 font-iropke text-var-gray-300">출처:</span>
             <div>
               <span className="font-iropke text-var-gray-300">{epiday.referenceTitle}</span>

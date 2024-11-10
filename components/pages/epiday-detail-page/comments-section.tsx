@@ -45,9 +45,9 @@ export default function CommentsSection({ id }: Props) {
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
-    <section className="mt-10">
+    <section className="mt-4 sm:mt-10">
       <InnerLayout>
-        <span className="text-xl font-medium">
+        <span className="font-medium sm:text-xl">
           댓글 {data && <>({data.pages[0].totalCount})</>}{' '}
         </span>
         <WriteComment id={id} />

@@ -29,7 +29,7 @@ export default function RecentCommentsSection() {
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
-    <Section className="mt-[160px]">
+    <Section className="mt-[72px] sm:mt-[160px]">
       <InnerLayout className="flex items-center justify-between">
         <Title>최신 댓글</Title>
         <RefetchButton refetch={refetch} />

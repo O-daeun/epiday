@@ -25,7 +25,7 @@ export default function RefetchButton<T>({ refetch }: Props<T>) {
   return (
     <button onClick={handleRefetch}>
       <ArrowPathIcon
-        className={`size-6 stroke-var-blue-500 ${isRefetching ? 'animate-spinFast' : ''}`}
+        className={`size-4 stroke-var-blue-500 sm:size-6 ${isRefetching ? 'animate-spinFast' : ''}`}
       />
     </button>
   );

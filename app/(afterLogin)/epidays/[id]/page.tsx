@@ -8,7 +8,7 @@ interface Props {
 
 export default function EpidayDetailPage({ params: { id } }: Props) {
   return (
-    <div className="flex min-h-[calc(100vh-80px)] flex-col bg-var-background pb-32">
+    <div className="mt-[52px] flex min-h-[calc(100vh-80px)] flex-col bg-var-background pb-32 sm:mt-20">
       <ContentsSection id={id} />
       <ZigzagLine />
       <CommentsSection id={id} />

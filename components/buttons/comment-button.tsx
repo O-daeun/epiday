@@ -13,7 +13,7 @@ export default function CommentButton({ color, children, ...rest }: Props) {
   return (
     <button
       type="button"
-      className={`h-[22px] border-b-[1.5px] ${color === 'black' ? 'border-var-black-600' : 'border-var-error text-var-error'}`}
+      className={`h-4 border-b text-xs sm:h-[22px] sm:border-b-[1.5px] sm:text-base ${color === 'black' ? 'border-var-black-600' : 'border-var-error text-var-error'}`}
       {...rest}
     >
       {children}

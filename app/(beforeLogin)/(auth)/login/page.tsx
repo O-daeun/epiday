@@ -113,7 +113,7 @@ export default function LoginPage() {
           },
         })}
         placeholder="이메일"
-        className="mb-4"
+        className="mb-2 sm:mb-4"
         error={errors.email?.message}
         ref={emailRef}
         onChange={(e) => setValue('email', e.target.value, { shouldValidate: true })}
@@ -132,7 +132,7 @@ export default function LoginPage() {
         })}
         type="password"
         placeholder="비밀번호"
-        className="mb-6"
+        className="mb-5 sm:mb-6"
         error={errors.password?.message}
         ref={passwordRef}
         onChange={(e) => setValue('password', e.target.value, { shouldValidate: true })}
