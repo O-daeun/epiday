@@ -22,7 +22,7 @@ export default function Toast() {
   if (!toast) return null;
   return (
     <div
-      className={`fixed left-[50vw] top-[85px] z-50 flex -translate-x-1/2 items-center gap-1 overflow-hidden rounded-lg p-4 text-white shadow-lg ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} ${isVisible ? 'animate-slideIn' : 'animate-slideOut'}`}
+      className={`fixed left-[50vw] top-[60px] z-50 flex flex-shrink-0 -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-lg p-4 text-sm text-white shadow-lg sm:top-[85px] sm:text-base ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'} ${isVisible ? 'animate-slideIn' : 'animate-slideOut'}`}
     >
       {toast.type === 'error' ? (
         <ExclamationCircleIcon className="size-5 stroke-white" />

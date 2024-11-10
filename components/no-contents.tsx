@@ -6,9 +6,15 @@ interface Props {
 
 export default function NoContents({ type }: Props) {
   return (
-    <div className="flex min-h-[488px] flex-col items-center justify-center gap-6">
-      <Image src="/no-data.svg" width={144} height={144} alt="데이터 없음" />
-      <p className="text-center text-xl leading-8">
+    <div className="flex min-h-[300px] flex-col items-center justify-center gap-2 sm:min-h-[488px] sm:gap-6">
+      <Image
+        src="/no-data.svg"
+        width={144}
+        height={144}
+        alt="데이터 없음"
+        className="size-24 sm:size-36"
+      />
+      <p className="text-center text-sm leading-6 sm:text-xl sm:leading-8">
         아직 {type}
         {type === '에피데이' ? '가' : '이'} 없어요! <br />
         {type}

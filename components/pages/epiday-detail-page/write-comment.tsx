@@ -11,7 +11,7 @@ export default function WriteComment({ id }: Props) {
   const { data: session } = useSession();
 
   return (
-    <div className="mb-10 mt-6 flex gap-6">
+    <div className="mb-3 mt-4 flex gap-4 sm:mb-10 sm:mt-6 sm:gap-6">
       {session ? (
         <ProfileImage nickname={session.nickname} imageUrl={session.image} size="m" />
       ) : (
