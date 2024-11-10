@@ -8,8 +8,8 @@ interface Props extends LabelHTMLAttributes<HTMLLabelElement> {
 
 export default function AuthLabel({ htmlFor, label, className = '', children }: Props) {
   return (
-    <label htmlFor={htmlFor} className={`flex flex-col gap-5 ${className}`}>
-      <span className="text-xl font-medium text-var-blue-900">{label}</span>
+    <label htmlFor={htmlFor} className={`flex flex-col gap-4 sm:gap-5 ${className}`}>
+      <span className="text-sm font-medium text-var-blue-900 sm:text-xl">{label}</span>
       {children}
     </label>
   );

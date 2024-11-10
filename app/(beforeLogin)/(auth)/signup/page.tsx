@@ -60,7 +60,7 @@ export default function SignUpPage() {
     }
   };
   return (
-    <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-10">
+    <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-5 sm:gap-10">
       <AuthLabel htmlFor="email" label="이메일">
         <AuthInput
           {...register('email', {

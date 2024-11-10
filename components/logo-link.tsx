@@ -22,6 +22,7 @@ export default function LogoLink({ className = '', size = 's' }: Props) {
         width={SIZES[size].width}
         height={SIZES[size].height}
         priority
+        className={`${size === 's' ? 'w-[100px] sm:w-[114px]' : ''}`}
       />
     </Link>
   );
