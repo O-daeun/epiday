@@ -11,7 +11,7 @@ export default function EpidayBox({ epiday, isContentLimit = false }: Props) {
   return (
     <div>
       <div
-        className={`flex rounded-2xl border border-var-line-100 bg-var-blue-100 bg-[repeating-linear-gradient(white,white_25px,#F2F2F2_27px)] p-6 shadow-custom duration-100 hover:shadow-hover ${isContentLimit ? 'h-[260px]' : ''}`}
+        className={`flex rounded-2xl border border-var-line-100 bg-var-blue-100 bg-[repeating-linear-gradient(white,white_18px,#F2F2F2_20px)] p-6 shadow-custom duration-100 hover:shadow-hover sm:bg-[repeating-linear-gradient(white,white_25px,#F2F2F2_27px)] ${isContentLimit ? 'h-[140px] sm:h-[260px]' : ''}`}
       >
         <EpidayPhrase
           content={epiday.content}

@@ -8,7 +8,7 @@ interface Props {
 export default function HeaderLayout({ children, className = '' }: Props) {
   return (
     <header
-      className={`sticky left-0 top-0 z-50 flex h-20 w-full items-center border-b border-var-gray-150 bg-white ${className}`}
+      className={`sticky left-0 top-0 z-50 flex h-[52px] w-full items-center border-b border-var-gray-150 bg-white sm:h-20 ${className}`}
     >
       {children}
     </header>
