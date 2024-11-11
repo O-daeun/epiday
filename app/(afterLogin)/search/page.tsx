@@ -11,7 +11,7 @@ interface Props {
 
 export default function Page({ searchParams: { keyword } }: Props) {
   return (
-    <div className="pt-12">
+    <div className="pt-[60px] sm:pt-[104px]">
       <InnerLayout>
         <SearchForm keyword={keyword} />
         <RecentSearchedKewords keyword={keyword} />

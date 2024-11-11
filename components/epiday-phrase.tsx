@@ -48,7 +48,7 @@ export default function EpidayPhrase({
       </q>
       {authorName !== AUTHOR_VALUE.unknown && (
         <cite
-          className={`font-iropke not-italic text-var-blue-400 sm:text-2xl ${isDetailPage ? 'text-base' : 'text-sm'} ${authorPositionStyle}`}
+          className={`font-iropke not-italic leading-8 text-var-blue-400 sm:text-2xl ${isDetailPage ? 'text-base' : 'text-sm'} ${authorPositionStyle}`}
         >
           - {authorName} -
         </cite>
