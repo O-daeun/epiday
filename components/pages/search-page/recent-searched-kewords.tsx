@@ -23,8 +23,6 @@ export default function RecentSearchedKewords({ keyword }: Props) {
     setIsLoading(false);
   }, [keyword]);
 
-  if (keywords?.length === 0) return;
-
   return (
     <section className="mt-6 sm:mt-10">
       <div className="flex justify-between">
