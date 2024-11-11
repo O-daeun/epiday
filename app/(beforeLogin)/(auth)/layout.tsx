@@ -18,7 +18,7 @@ export default function Layout({ children }: Props) {
   return (
     <SessionProvider>
       <AuthHeader />
-      <div className="flex min-h-dvh items-center justify-center bg-var-background px-6 py-24">
+      <div className="flex min-h-dvh items-center justify-center bg-var-background px-6 py-[110px] sm:py-40">
         <div className="w-full max-w-[640px]">
           <LogoLink size="l" className="mx-auto mb-[50px] block w-fit sm:mb-[60px]" />
           {children}
