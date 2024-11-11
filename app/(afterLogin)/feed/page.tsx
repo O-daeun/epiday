@@ -27,13 +27,13 @@ export default function FeedPage() {
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
-    <div className="bg-var-background py-[120px]">
+    <div className="bg-var-background py-[84px] pb-[160px] sm:py-[200px]">
       <div className="mx-auto w-full max-w-[1248px] px-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">피드</h1>
+          <h1 className="font-semibold sm:text-2xl">피드</h1>
           <RefetchButton refetch={refetch} />
         </div>
-        <ul className="mt-10 grid grid-cols-1 gap-x-[30px] gap-y-10 sm:grid-cols-2">
+        <ul className="ss:grid-cols-2 mt-6 grid grid-cols-1 gap-x-4 gap-y-4 sm:mt-10 sm:gap-x-[30px] sm:gap-y-10">
           {isLoading &&
             [...Array(8)].map((_, index) => <EpidayBoxSkeleton key={index} isContentLimit />)}
           {data?.pages.map((page) =>
