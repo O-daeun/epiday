@@ -41,7 +41,7 @@ export default function EpidayPhrase({
       className={`flex w-full flex-col ${isDetailPage ? 'gap-4 sm:gap-6' : gapStyle} ${className}`}
     >
       <q
-        className={`whitespace-pre-line break-all font-iropke leading-normal ${isDetailPage ? 'text-2xl' : 'text-sm sm:text-2xl'} ${!isContentLimit ? '' : author === AUTHOR_VALUE.unknown ? 'line-clamp-4 sm:line-clamp-6' : 'line-clamp-2 sm:line-clamp-4'}`}
+        className={`whitespace-pre-line break-all font-iropke leading-normal sm:leading-10 ${isDetailPage ? 'text-2xl' : 'text-sm sm:text-2xl'} ${!isContentLimit ? '' : author === AUTHOR_VALUE.unknown ? 'line-clamp-4 sm:line-clamp-6' : 'line-clamp-2 sm:line-clamp-4'}`}
         style={{ quotes: 'none' }}
       >
         {content}

@@ -2,7 +2,6 @@ import { getTodayEpiday } from '@/apis/epiday/get-today-epiday';
 import { queryKeys } from '@/constants/query-keys';
 import { GetEpidayData } from '@/types/epiday-types';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import EpidayBox from '../../epiday-box';
 import Title from '../my-page/title';
 import Section from './section';
@@ -26,9 +25,7 @@ export default function TodayEpidaySection() {
   return (
     <Section>
       <Title>오늘의 에피데이</Title>
-      <Link href={`/epidays/${epiday.id}`}>
-        <EpidayBox epiday={epiday} />
-      </Link>
+      <EpidayBox epiday={epiday} isNoLink />
     </Section>
   );
 }
