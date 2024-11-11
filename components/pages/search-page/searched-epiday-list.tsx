@@ -42,7 +42,7 @@ export default function SearchedEpidayList({ keyword }: Props) {
   if (isError) return <p>Error</p>; // note: 에러 구현
 
   return (
-    <ul className="mx-auto mt-10 max-w-[640px]">
+    <ul className="mx-auto mt-6 max-w-[640px] sm:mt-10">
       {isLoading && (
         <>
           <SearchEpidayBoxSkeleton />
@@ -53,14 +53,14 @@ export default function SearchedEpidayList({ keyword }: Props) {
       {data?.pages.map((page) =>
         page.list.map((epiday) => (
           <li key={epiday.id} className="border-b border-var-gray-100">
-            <Link href={`/epidays/${epiday.id}`} className="block p-6">
+            <Link href={`/epidays/${epiday.id}`} className="block px-6 py-4 sm:py-6">
               <EpidayPhrase
                 content={<HighlightKeyword text={epiday.content} keyword={keyword} />}
                 author={epiday.author}
                 gap="m"
                 authorPosition="left"
               />
-              <div className="mt-4 flex justify-end">
+              <div className="flex justify-end sm:mt-4">
                 <TagList tags={epiday.tags} keyword={keyword} />
               </div>
             </Link>

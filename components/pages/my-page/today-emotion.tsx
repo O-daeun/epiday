@@ -5,10 +5,10 @@ import Title from './title';
 
 export default function TodayEmotion() {
   return (
-    <Section className="mt-9">
+    <Section className="sm:mt-9">
       <div className="flex items-center justify-between">
         <Title>오늘의 감정</Title>
-        <span className="text-xl text-var-blue-400">{getTodayDate()}</span>
+        <span className="text-var-blue-400 sm:text-xl">{getTodayDate()}</span>
       </div>
       <EmotionButtons />
     </Section>

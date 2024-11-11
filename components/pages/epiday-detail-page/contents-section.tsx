@@ -47,8 +47,8 @@ export default function ContentsSection({ id }: Props) {
             <TextSkeleton width="w-3/4" height="h-8" />
           </div>
           <div className="mt-9 flex justify-center gap-[18px]">
-            <BoxSkeleton width="w-20" height="h-12" />
-            <BoxSkeleton width="w-28" height="h-12" />
+            <BoxSkeleton width="w-16 sm:w-20" height="h-9 sm:h-12" />
+            <BoxSkeleton width="w-24 sm:w-28" height="h-9 sm:h-12" />
           </div>
         </InnerLayout>
       </section>

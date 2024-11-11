@@ -38,14 +38,17 @@ export default function SearchForm({ keyword }: Props) {
   }, [keyword]);
 
   return (
-    <form onSubmit={handleSubmit} className="flex h-20 items-center border-b-4 border-var-blue-800">
+    <form
+      onSubmit={handleSubmit}
+      className="flex h-[52px] items-center border-b-2 border-var-blue-800 sm:h-20 sm:border-b-4"
+    >
       <input
         onChange={(e) => setText(e.target.value)}
         value={text}
-        className="h-full grow text-2xl text-var-black-700 outline-none"
+        className="h-full grow text-var-black-700 outline-none sm:text-2xl"
       />
       <button type="submit">
-        <Image src="/search.svg" width={36} height={36} alt="검색" />
+        <Image src="/search.svg" width={36} height={36} alt="검색" className="size-6 sm:size-9" />
       </button>
     </form>
   );

@@ -26,7 +26,6 @@ export default function Modal() {
       <div className="absolute inset-0 flex h-fit min-h-full w-full items-center justify-center py-10">
         <div className="h-fit w-fit rounded-3xl bg-white">{content}</div>
       </div>
-      ,
     </div>,
     document.body,
   );

@@ -37,11 +37,11 @@ export default function EmotionCalendar({ refetch, emotionLogs, activeStartDate 
           if (view !== 'month') return null;
           return filteredLog ? (
             <>
-              <span className="date">{date.getDate()}</span>
+              <span className="date text-[8px] sm:text-base">{date.getDate()}</span>
               <EmotionImage type={filteredLog.emotion} size="l" />
             </>
           ) : (
-            <span className="date text-2xl">{date.getDate()}</span>
+            <span className="date sm:text-2xl">{date.getDate()}</span>
           );
         }}
         onActiveStartDateChange={({ activeStartDate }) => {

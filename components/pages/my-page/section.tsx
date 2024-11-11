@@ -5,6 +5,6 @@ interface Props {
   className?: string;
 }
 
-export default function Section({ children, className }: Props) {
-  return <section className={`flex flex-col gap-12 ${className}`}>{children}</section>;
+export default function Section({ children, className = '' }: Props) {
+  return <section className={`flex flex-col gap-6 sm:gap-12 ${className}`}>{children}</section>;
 }

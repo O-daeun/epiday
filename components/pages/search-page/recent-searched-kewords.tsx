@@ -10,7 +10,7 @@ interface Props {
 
 export default function RecentSearchedKewords({ keyword }: Props) {
   const [isLoading, setIsLoading] = useState(true);
-  const [keywords, setKeywords] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>();
 
   const handleDelete = () => {
     localStorage.setItem(LOCAL_STORAGE_KEYWORDS_NAME, JSON.stringify([]));
@@ -23,22 +23,28 @@ export default function RecentSearchedKewords({ keyword }: Props) {
     setIsLoading(false);
   }, [keyword]);
 
+  if (keywords?.length === 0) return;
+
   return (
-    <section className="mt-10">
+    <section className="mt-6 sm:mt-10">
       <div className="flex justify-between">
-        <h2 className="text-2xl font-medium">최근 검색어</h2>
-        <button type="button" onClick={handleDelete} className="font-semibold text-var-error">
+        <h2 className="font-medium sm:text-2xl">최근 검색어</h2>
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="text-xs font-semibold text-var-error sm:text-base"
+        >
           모두 지우기
         </button>
       </div>
-      <ul className="mt-10 flex flex-wrap gap-4">
+      <ul className="mt-4 flex flex-wrap gap-2 sm:mt-10 sm:gap-4">
         {isLoading &&
           [...Array(2)].map((_, index) => (
             <div
               key={index}
-              className="w-fit rounded-[22px] bg-var-background px-[14px] py-6 text-2xl text-var-black-300"
+              className="w-fit rounded-[22px] bg-var-background px-3 py-3 text-2xl text-var-black-300 sm:px-[14px] sm:py-6"
             >
-              <BoxSkeleton width="w-14" height="h-4" />
+              <BoxSkeleton width="w-8 sm:w-14" height="h-3 sm:h-4" />
             </div>
           ))}
         {keywords?.map((keyword) => (

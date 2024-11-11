@@ -56,6 +56,7 @@ module.exports = {
         'var-line-200': '#CFDBEA',
       },
       screens: {
+        ss: '500px',
         sm: '768px', // mobile
         md: '1024px', // tablet
       },

@@ -10,7 +10,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, Props>(function Textarea({ erro
     <>
       <textarea
         ref={ref}
-        className={`h-[148px] w-full rounded-xl border px-4 py-[10px] text-xl outline-none placeholder:text-var-blue-400 ${error ? 'border-var-error' : 'border-var-blue-300 focus:border-var-blue-600'}`}
+        className={`h-[132px] w-full rounded-xl border px-4 py-[10px] outline-none placeholder:text-var-blue-400 sm:h-[148px] sm:text-xl ${error ? 'border-var-error' : 'border-var-blue-300 focus:border-var-blue-600'}`}
         {...rest}
       />
       {error && <ErrorMessage isRight>{error}</ErrorMessage>}

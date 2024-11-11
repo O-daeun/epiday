@@ -95,7 +95,7 @@ export default function EditProfileModal() {
   if (!session) return;
 
   return (
-    <div className="w-[calc(100vw-40px)] max-w-[452px] px-[38px] py-10">
+    <div className="w-[calc(100vw-40px)] max-w-[452px] p-6 sm:px-[38px] sm:py-10">
       <Label label="닉네임">
         <Input
           value={nickname}
@@ -103,7 +103,7 @@ export default function EditProfileModal() {
           maxLength={20}
         />
       </Label>
-      <Label label="프로필 이미지" className="mt-10">
+      <Label label="프로필 이미지" className="mt-5 sm:mt-10">
         <input
           ref={fileInputRef}
           type="file"
@@ -112,21 +112,37 @@ export default function EditProfileModal() {
           className="hidden"
         />
       </Label>
-      <div className="flex justify-between">
-        <Button design="main" onClick={handleFileClick} className="!h-12 w-[184px] grow-0 !text-lg">
+      <div className="flex items-center justify-between">
+        <Button
+          design="main"
+          onClick={handleFileClick}
+          className="!sm:h-12 !sm:text-lg !h-8 w-[120px] grow-0 text-sm sm:w-[184px]"
+        >
           파일 선택
         </Button>
         {image && (
           <div className="flex items-center gap-2">
-            <ModalButton design="gray" onClick={decreaseScale} className="!size-12">
-              <Image src="/minus.svg" width={25} height={25} alt="+" />
+            <ModalButton design="gray" onClick={decreaseScale} className="!sm:size-12 !size-8">
+              <Image
+                src="/minus.svg"
+                width={25}
+                height={25}
+                alt="+"
+                className="size-4 sm:size-[25px]"
+              />
             </ModalButton>
             <div className="flex flex-col items-center font-semibold">
-              <span className="text-var-black-400">Zoom</span>
+              <span className="text-xs text-var-black-400 sm:text-base">Zoom</span>
               <span className="-mt-1 text-var-black-400">{scale.toFixed(1)}</span>
             </div>
-            <ModalButton design="gray" onClick={increaseScale} className="!size-12">
-              <Image src="/plus.svg" width={25} height={25} alt="+" />
+            <ModalButton design="gray" onClick={increaseScale} className="!sm:size-12 !size-8">
+              <Image
+                src="/plus.svg"
+                width={25}
+                height={25}
+                alt="+"
+                className="size-4 sm:size-[25px]"
+              />
             </ModalButton>
           </div>
         )}
@@ -150,14 +166,15 @@ export default function EditProfileModal() {
             border={20}
             borderRadius={200}
             scale={scale}
+            className="!size-full"
           />
         </div>
       )}
-      <div className="flex gap-2">
-        <ModalButton design="gray" onClick={closeModal} className="mt-12">
+      <div className="mt-6 flex gap-2 sm:mt-12">
+        <ModalButton design="gray" onClick={closeModal}>
           취소
         </ModalButton>
-        <ModalButton design="black" onClick={handleSave} className="mt-12">
+        <ModalButton design="black" onClick={handleSave}>
           저장
         </ModalButton>
       </div>

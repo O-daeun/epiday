@@ -72,7 +72,7 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
           {tags.map((tag) => (
             <div
               key={tag}
-              className="relative rounded-3xl bg-var-background px-[14px] py-3 text-xl font-light text-var-black-300"
+              className="relative rounded-[18px] bg-var-background px-3 py-2 font-light text-var-black-300 sm:rounded-3xl sm:px-[14px] sm:py-3 sm:text-xl"
             >
               {tag}
               <button
@@ -80,7 +80,7 @@ export default function TagsInput({ setValue, register, initialTags, error, ...r
                 onClick={() => removeTag(tag)}
                 className="absolute -right-[5px] -top-[2px]"
               >
-                <XMarkIcon className="size-5 stroke-var-black-300 stroke-2" />
+                <XMarkIcon className="size-4 stroke-var-black-300 stroke-1 sm:size-5 sm:stroke-2" />
               </button>
             </div>
           ))}
