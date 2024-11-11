@@ -43,14 +43,14 @@ export default function EmotionCalendarChart() {
           <Title>
             {currentYear}년 {currentMonth}월
           </Title>
-          <BoxSkeleton height="h-[547px]" />
+          <BoxSkeleton height="h-[265px] sm:h-[547px]" />
         </Section>
         <Section>
           <div className="flex items-center justify-between">
             <Title>감정 차트</Title>
             <TextSkeleton width="w-16" />
           </div>
-          <BoxSkeleton height="h-[250px]" />
+          <BoxSkeleton height="h-[202px] sm:h-[250px]" />
         </Section>
       </>
     );

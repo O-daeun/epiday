@@ -10,7 +10,7 @@ interface Props {
 
 export default function RecentSearchedKewords({ keyword }: Props) {
   const [isLoading, setIsLoading] = useState(true);
-  const [keywords, setKeywords] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>();
 
   const handleDelete = () => {
     localStorage.setItem(LOCAL_STORAGE_KEYWORDS_NAME, JSON.stringify([]));
@@ -23,7 +23,7 @@ export default function RecentSearchedKewords({ keyword }: Props) {
     setIsLoading(false);
   }, [keyword]);
 
-  if (keywords.length === 0) return;
+  if (keywords?.length === 0) return;
 
   return (
     <section className="mt-6 sm:mt-10">
@@ -42,9 +42,9 @@ export default function RecentSearchedKewords({ keyword }: Props) {
           [...Array(2)].map((_, index) => (
             <div
               key={index}
-              className="w-fit rounded-[22px] bg-var-background px-[14px] py-6 text-2xl text-var-black-300"
+              className="w-fit rounded-[22px] bg-var-background px-3 py-3 text-2xl text-var-black-300 sm:px-[14px] sm:py-6"
             >
-              <BoxSkeleton width="w-14" height="h-4" />
+              <BoxSkeleton width="w-8 sm:w-14" height="h-3 sm:h-4" />
             </div>
           ))}
         {keywords?.map((keyword) => (

@@ -80,7 +80,8 @@ export default function MyWriting() {
             onClick={() => setActiveNav(nav.id)}
             className={`font-semibold sm:text-2xl ${nav.id === activeNav ? '' : 'text-var-gray-300'}`}
           >
-            {nav.title}({nav.count})
+            {nav.title}
+            {nav.count && `(${nav.count})`}
           </button>
         ))}
       </InnerLayout>

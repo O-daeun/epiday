@@ -33,7 +33,13 @@ export default function RecentEpidaysSection() {
         <RefetchButton refetch={refetch} />
       </div>
       <ul className="flex flex-col gap-4">
-        {isLoading && [...Array(3)].map((_, index) => <EpidayBoxSkeleton key={index} />)}
+        {isLoading && (
+          <>
+            <EpidayBoxSkeleton />
+            <EpidayBoxSkeleton />
+            <EpidayBoxSkeleton />
+          </>
+        )}
         {data?.pages.map((page) =>
           page.list.map((epiday) => (
             <li key={epiday.id}>
