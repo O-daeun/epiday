@@ -28,8 +28,9 @@ const RadioInput = forwardRef<HTMLInputElement, Props>(function RadioInput(
         alt={checked ? '체크됨' : '체크되지 않음'}
         width={24}
         height={24}
+        className="size-5 sm:size-6"
       />
-      <span className="text-xl">{label}</span>
+      <span className="sm:text-xl">{label}</span>
     </label>
   );
 });

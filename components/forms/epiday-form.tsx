@@ -105,11 +105,11 @@ export default function EpidayForm({ data: formData, id }: Props) {
   }, [formData]);
 
   return (
-    <InnerLayout className="py-14">
-      <h1 className="mb-10 text-2xl font-semibold text-black">에피데이 만들기</h1>
+    <InnerLayout className="py-[76px] sm:py-[136px]">
+      <h1 className="mb-6 font-semibold text-black sm:mb-10 sm:text-2xl">에피데이 만들기</h1>
       <form
         onSubmit={handleSubmit((formData) => mutation.mutate(formData))}
-        className="flex flex-col gap-[54px]"
+        className="flex flex-col gap-10 sm:gap-[54px]"
       >
         <Label label="내용" required>
           <Textarea
@@ -123,7 +123,7 @@ export default function EpidayForm({ data: formData, id }: Props) {
           />
         </Label>
         <Label label="저자" required>
-          <div className="mb-4 flex gap-6">
+          <div className="mb-4 flex gap-4 sm:gap-6">
             {AUTHOR_RADIOS.map((authorValue) => (
               <RadioInput
                 key={authorValue}
@@ -150,7 +150,7 @@ export default function EpidayForm({ data: formData, id }: Props) {
         <Label label="출처">
           <Input
             placeholder="출처 제목 입력"
-            className="mb-4"
+            className="mb-2 sm:mb-4"
             onFocus={() => {
               trigger('content');
               trigger('author');

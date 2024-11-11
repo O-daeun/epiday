@@ -27,8 +27,8 @@ export default function EpidayEditPage({ params: { id } }: Props) {
   if (isError) return <div>에피데이를 불러올 수 없습니다.</div>;
 
   return (
-    <div>
+    <>
       <EpidayForm data={epiday} id={id} />
-    </div>
+    </>
   );
 }
