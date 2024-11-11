@@ -57,7 +57,7 @@ module.exports = {
       },
       screens: {
         ss: '500px',
-        sm: '768px', // mobile
+        sm: '668px', // mobile
         md: '1024px', // tablet
       },
       keyframes: {
