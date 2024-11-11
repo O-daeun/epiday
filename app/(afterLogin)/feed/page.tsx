@@ -33,7 +33,7 @@ export default function FeedPage() {
           <h1 className="font-semibold sm:text-2xl">피드</h1>
           <RefetchButton refetch={refetch} />
         </div>
-        <ul className="ss:grid-cols-2 mt-6 grid grid-cols-1 gap-x-4 gap-y-4 sm:mt-10 sm:gap-x-[30px] sm:gap-y-10">
+        <ul className="ss:grid-cols-2 mt-6 grid grid-cols-1 gap-x-4 gap-y-4 pb-8 sm:mt-10 sm:gap-x-[30px] sm:gap-y-10 sm:pb-12">
           {isLoading &&
             [...Array(8)].map((_, index) => <EpidayBoxSkeleton key={index} isContentLimit />)}
           {data?.pages.map((page) =>

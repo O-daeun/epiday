@@ -116,13 +116,13 @@ export default function EditProfileModal() {
         <Button
           design="main"
           onClick={handleFileClick}
-          className="!sm:h-12 !sm:text-lg !h-8 w-[120px] grow-0 text-sm sm:w-[184px]"
+          className="!h-8 w-[120px] grow-0 text-sm sm:!h-12 sm:w-[184px] sm:!text-lg"
         >
           파일 선택
         </Button>
         {image && (
           <div className="flex items-center gap-2">
-            <ModalButton design="gray" onClick={decreaseScale} className="!sm:size-12 !size-8">
+            <ModalButton design="gray" onClick={decreaseScale} className="!size-8 sm:!size-12">
               <Image
                 src="/minus.svg"
                 width={25}
@@ -135,7 +135,7 @@ export default function EditProfileModal() {
               <span className="text-xs text-var-black-400 sm:text-base">Zoom</span>
               <span className="-mt-1 text-var-black-400">{scale.toFixed(1)}</span>
             </div>
-            <ModalButton design="gray" onClick={increaseScale} className="!sm:size-12 !size-8">
+            <ModalButton design="gray" onClick={increaseScale} className="!size-8 sm:!size-12">
               <Image
                 src="/plus.svg"
                 width={25}
