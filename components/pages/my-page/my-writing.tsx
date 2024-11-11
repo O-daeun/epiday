@@ -135,7 +135,7 @@ export default function MyWriting() {
                       {comments.pages.map((page) =>
                         page.list.map((comment: GetCommentData) => (
                           <li key={comment.id}>
-                            <Comment comment={comment} isMyPage />
+                            <Comment comment={comment} isShowPage />
                           </li>
                         )),
                       )}

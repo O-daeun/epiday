@@ -14,10 +14,10 @@ import ProfileImage from './profile-image';
 
 interface Props {
   comment: GetCommentData;
-  isMyPage?: boolean;
+  isShowPage?: boolean;
 }
 
-export default function Comment({ comment, isMyPage }: Props) {
+export default function Comment({ comment, isShowPage }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const { data: session } = useSession();
   const { openModal } = useModalStore();
@@ -58,13 +58,19 @@ export default function Comment({ comment, isMyPage }: Props) {
           </p>
         )}
       </div>
-      {isMyPage && (
+      {isShowPage && (
         <Link
           href={`/epidays/${comment.epigramId}`}
           className="absolute bottom-1 right-5 hidden items-center group-hover:flex"
         >
-          <span className="text-var-blue-400">해당 게시물로 이동</span>
-          <Image src="/arrow-down.svg" width={24} height={24} alt="" className="-rotate-90" />
+          <span className="text-xs text-var-blue-400 sm:text-base">해당 게시물로 이동</span>
+          <Image
+            src="/arrow-down.svg"
+            width={24}
+            height={24}
+            alt=""
+            className="size-4 -rotate-90 sm:size-6"
+          />
         </Link>
       )}
     </InnerLayout>

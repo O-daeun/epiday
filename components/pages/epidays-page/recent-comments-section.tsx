@@ -45,7 +45,7 @@ export default function RecentCommentsSection() {
         {data?.pages.map((page) =>
           page.list.map((comment: GetCommentData) => (
             <li key={comment.id}>
-              <Comment comment={comment} />
+              <Comment comment={comment} isShowPage />
             </li>
           )),
         )}
