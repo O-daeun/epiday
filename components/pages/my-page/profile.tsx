@@ -28,20 +28,22 @@ export default function Profile() {
   };
 
   return (
-    <div className="mx-auto flex translate-y-[-60px] transform flex-col items-center">
+    <div className="mx-auto flex translate-y-[-40px] transform flex-col items-center sm:translate-y-[-60px]">
       {session ? (
         <>
           <ProfileImage nickname={session.nickname} imageUrl={session.image} size="l" priority />
-          <h1 className="mt-4 text-2xl font-medium text-var-black-950">{session.nickname}</h1>
+          <h1 className="mt-2 font-medium text-var-black-950 sm:mt-4 sm:text-2xl">
+            {session.nickname}
+          </h1>
         </>
       ) : (
         <>
           <ProfileImageSkeleton size="l" />
-          <TextSkeleton width="w-16" height="h-8" className="mt-4" />
+          <TextSkeleton width="w-11 sm:w-16" height="h-6 sm:h-8" className="mt-2 sm:mt-4" />
         </>
       )}
 
-      <div className="mx-auto mt-6 flex gap-4">
+      <div className="mx-auto mt-4 flex gap-2 sm:mt-6 sm:gap-4">
         <GrayRoundedButton onClick={() => openModal(<EditProfileModal />)}>
           프로필 편집
         </GrayRoundedButton>

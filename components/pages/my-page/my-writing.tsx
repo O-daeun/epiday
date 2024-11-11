@@ -72,13 +72,13 @@ export default function MyWriting() {
   ];
 
   return (
-    <section className="bg-var-background pb-[87px] pt-[96px]">
-      <InnerLayout className="mb-12 flex gap-6">
+    <section className="bg-var-background pb-[150px] pt-14 sm:pb-[336px] sm:pt-[96px]">
+      <InnerLayout className="mb-6 flex gap-4 sm:mb-12 sm:gap-6">
         {navs.map((nav) => (
           <button
             key={nav.id}
             onClick={() => setActiveNav(nav.id)}
-            className={`text-2xl font-semibold ${nav.id === activeNav ? '' : 'text-var-gray-300'}`}
+            className={`font-semibold sm:text-2xl ${nav.id === activeNav ? '' : 'text-var-gray-300'}`}
           >
             {nav.title}({nav.count})
           </button>
@@ -86,7 +86,7 @@ export default function MyWriting() {
       </InnerLayout>
       {activeNav === 'epiday' && (
         <InnerLayout>
-          <ul className="flex flex-col gap-12">
+          <ul className="flex flex-col gap-4 sm:gap-12">
             {(!session || isLoadingEpidays) &&
               [...Array(3)].map((_, index) => <EpidayBoxSkeleton key={index} />)}
             {epidays &&

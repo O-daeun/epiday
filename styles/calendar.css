@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .react-calendar {
-  @apply flex flex-col gap-12;
+  @apply flex flex-col gap-[22px] sm:gap-12;
 }
 
 .react-calendar__navigation {
@@ -11,16 +11,16 @@
 }
 
 .react-calendar__navigation__label {
-  @apply absolute left-0 top-1/2 -translate-y-1/2 text-2xl font-semibold;
+  @apply absolute left-0 top-1/2 -translate-y-1/2 font-semibold sm:text-2xl;
 }
 
 .react-calendar__navigation__arrow {
-  @apply size-9 bg-no-repeat text-transparent;
+  @apply size-5 bg-no-repeat text-transparent sm:size-9;
 }
 
 .react-calendar__navigation__next-button,
 .react-calendar__navigation__prev-button {
-  @apply bg-[url('/arrow.svg')];
+  @apply bg-[url('/arrow.svg')] bg-contain;
 }
 
 .react-calendar__navigation__next2-button,
@@ -43,12 +43,12 @@
 }
 
 .react-calendar__month-view__weekdays__weekday abbr {
-  @apply text-2xl font-semibold text-var-gray-200 no-underline;
+  @apply font-semibold text-var-gray-200 no-underline sm:text-2xl;
 }
 
 .react-calendar__tile,
 .react-calendar__month-view__weekdays__weekday {
-  @apply flex size-[91px] flex-col items-center justify-center gap-1 border-b border-var-blue-200;
+  @apply flex size-11 flex-col items-center justify-center gap-[1px] border-b border-var-blue-200 sm:size-[91px] sm:gap-1;
 }
 
 .react-calendar__month-view__days__day abbr {
@@ -61,7 +61,7 @@
 }
 
 .react-calendar__tile--now {
-  @apply rounded-md border-[6px] border-var-error text-var-error;
+  @apply rounded-md border-2 border-var-error text-var-error sm:border-[6px];
 }
 .react-calendar__tile--now .date,
 .react-calendar__tile--now abbr {

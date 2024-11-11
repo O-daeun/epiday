@@ -4,7 +4,7 @@ import Image from 'next/image';
 const IMAGE_SIZE = {
   s: 'size-6',
   m: 'size-[30px]',
-  l: 'size-9',
+  l: 'size-6 sm:size-9',
   xl: 'size-8 sm:size-12',
 };
 

@@ -1,19 +1,9 @@
 import Image from 'next/image';
 
 const SIZES = {
-  s: {
-    circle: 24,
-    text: 14,
-  },
-  m: {
-    circle: 48,
-    text: 24,
-  },
-
-  l: {
-    circle: 120,
-    text: 60,
-  },
+  s: 24,
+  m: 48,
+  l: 120,
 };
 
 const COLORS = [
@@ -40,12 +30,6 @@ interface Props {
  * @param size s = 24, m = 48, l = 120
  */
 export default function ProfileImage({ nickname, imageUrl, size, priority }: Props) {
-  const style = {
-    width: SIZES[size].circle,
-    height: SIZES[size].circle,
-    fontSize: SIZES[size].text,
-  };
-
   const getColorForNickname = (nickname: string) => {
     const firstChar = nickname.charCodeAt(0);
     return COLORS[firstChar % COLORS.length];
@@ -54,8 +38,8 @@ export default function ProfileImage({ nickname, imageUrl, size, priority }: Pro
   if (!imageUrl) {
     return (
       <div
-        className="flex shrink-0 items-center justify-center rounded-[50%] bg-var-gray-300 text-white shadow-md"
-        style={{ ...style, backgroundColor: getColorForNickname(nickname) }}
+        className={`flex shrink-0 items-center justify-center rounded-[50%] bg-var-gray-300 text-white shadow-md ${size === 'l' ? 'size-20 text-[30px] sm:size-[120px] sm:text-[60px]' : size === 'm' ? 'size-12 text-2xl' : 'size-6 text-[14px]'}`}
+        style={{ backgroundColor: getColorForNickname(nickname) }}
       >
         {nickname.slice(0, 1)}
       </div>
@@ -65,11 +49,10 @@ export default function ProfileImage({ nickname, imageUrl, size, priority }: Pro
   return (
     <Image
       src={imageUrl}
-      width={SIZES[size].circle}
-      height={SIZES[size].circle}
+      width={SIZES[size]}
+      height={SIZES[size]}
       alt="프로필이미지"
-      className="shrink-0 rounded-full object-cover shadow-md"
-      style={style}
+      className={`shrink-0 rounded-full object-cover shadow-md ${size === 'l' ? 'size-20 sm:size-[120px]' : size === 'm' ? 'size-12' : 'size-6'}`}
       priority={priority}
     />
   );

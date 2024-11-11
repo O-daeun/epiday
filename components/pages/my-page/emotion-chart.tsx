@@ -63,11 +63,11 @@ export default function EmotionChart({ formattedYearMonth, emotionLogs }: Props)
     <Section>
       <div className="flex items-center justify-between">
         <Title>감정 차트</Title>
-        <span className="text-xl text-var-blue-400">{formattedYearMonth}</span>
+        <span className="text-var-blue-400 sm:text-xl">{formattedYearMonth}</span>
       </div>
       <div className="rounded-lg border border-var-blue-200 py-[24px]">
-        <div className="mx-auto flex w-full max-w-[400px] items-center justify-between px-2">
-          <div className="relative size-[200px]">
+        <div className="mx-auto flex w-full max-w-[312px] items-center justify-between px-8 sm:max-w-[400px] sm:px-2">
+          <div className="relative size-[120px] sm:size-[200px]">
             <ResponsiveContainer>
               <PieChart>
                 <Pie
@@ -90,14 +90,14 @@ export default function EmotionChart({ formattedYearMonth, emotionLogs }: Props)
           </div>
           <div className="flex flex-col justify-center gap-2">
             {data.map((entry, index) => (
-              <div key={index} className="flex items-center gap-4">
+              <div key={index} className="flex items-center gap-2 sm:gap-4">
                 <div
-                  className="size-4 rounded-sm"
+                  className="size-2 rounded-sm sm:size-4"
                   style={{ backgroundColor: chartColors[index] }}
                 />
                 <EmotionImage type={getEnglishEmotion(entry.name)} size="s" />
                 <span
-                  className={`text-xl font-semibold ${entry.name !== mostFrequentEmotion.name ? 'text-var-gray-200' : ''}`}
+                  className={`text-xs font-semibold sm:text-xl ${entry.name !== mostFrequentEmotion.name ? 'text-var-gray-200' : ''}`}
                 >{`${entry.value.toFixed(0)}%`}</span>
               </div>
             ))}
