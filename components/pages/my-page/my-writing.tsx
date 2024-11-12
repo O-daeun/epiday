@@ -72,7 +72,7 @@ export default function MyWriting() {
   ];
 
   return (
-    <section className="bg-var-background pb-[150px] pt-14 sm:pb-[336px] sm:pt-[96px]">
+    <section className="bg-var-background pb-[150px] pt-14 sm:pb-[200px] sm:pt-[96px]">
       <InnerLayout className="mb-6 flex gap-4 sm:mb-12 sm:gap-6">
         {navs.map((nav) => (
           <button
