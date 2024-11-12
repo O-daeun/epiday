@@ -15,7 +15,7 @@ export default async function EpidaysSection() {
         <Title className="text-center">
           사용자들이 직접
           <br />
-          인용한 에피그램들
+          인용한 에피데이들
         </Title>
         <ul className="mt-10 flex flex-col gap-4 sm:mt-[100px] sm:gap-[60px]">
           {epidays.list.map((epiday) => (
