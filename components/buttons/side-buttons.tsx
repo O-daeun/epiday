@@ -32,7 +32,7 @@ export default function SideButtons() {
 
   return (
     <div
-      className={`fixed right-6 flex flex-col items-end gap-2 duration-100 sm:right-10 ${isTopButtonVisible ? 'bottom-10' : '-bottom-8'}`}
+      className={`fixed right-6 flex flex-col items-end gap-2 duration-100 sm:right-10 ${isTopButtonVisible ? 'bottom-5 sm:bottom-10' : '-bottom-9 sm:-bottom-8'}`}
     >
       {pathname !== '/addepiday' && pathname !== '/' && (
         <SideButton onClick={() => router.push('/addepiday')}>
