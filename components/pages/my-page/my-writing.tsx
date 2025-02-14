@@ -33,9 +33,7 @@ export default function MyWriting() {
     queryKey: queryKeys.epiday.myEpidays,
     queryFn: async ({ pageParam = '' }) => getEpidays({ limit, pageParam, writerId: session.id }),
     getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
-    staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
-    refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
-    refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+    staleTime: 1000 * 60 * 5, // 5분
     initialPageParam: '',
     enabled: !!session,
   });
@@ -51,9 +49,7 @@ export default function MyWriting() {
     queryFn: async ({ pageParam = '' }) =>
       getMyComments({ limit, sessionId: session.id, pageParam }),
     getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
-    staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
-    refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
-    refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+    staleTime: 1000 * 60 * 5, // 5분
     initialPageParam: '',
     enabled: !!session,
   });

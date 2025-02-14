@@ -18,9 +18,7 @@ export default function RecentEpidaysSection() {
       queryKey: queryKeys.epiday.epidays(limit),
       queryFn: async ({ pageParam = '' }) => getEpidays({ limit, pageParam }),
       getNextPageParam: (lastPage) => lastPage?.nextCursor || null,
-      staleTime: 1000 * 60 * 5, // 데이터를 5분간 신선한 상태로 유지
-      refetchOnWindowFocus: true, // 윈도우 포커스 시 자동 갱신
-      refetchInterval: 1000 * 60 * 10, // 10분마다 자동으로 최신 데이터 갱신
+      staleTime: 1000 * 60 * 5, // 5분
       initialPageParam: '',
     });
 

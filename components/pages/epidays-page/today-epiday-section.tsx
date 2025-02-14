@@ -16,6 +16,7 @@ export default function TodayEpidaySection() {
   } = useQuery<GetEpidayData>({
     queryKey: queryKeys.epiday.epidayForToday(todayDate),
     queryFn: getTodayEpiday,
+    refetchInterval: 1000 * 60 * 100, // 100분
   });
 
   if (isLoading) return;

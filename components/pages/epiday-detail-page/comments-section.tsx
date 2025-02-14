@@ -29,7 +29,7 @@ export default function CommentsSection({ id }: Props) {
       queryFn: ({ pageParam = '' }) => getCommentsForEpiday({ limit, pageParam, id, session }),
       getNextPageParam: (lastPage) =>
         lastPage.list.length > 0 ? lastPage.list[lastPage.list.length - 1].id : null,
-      staleTime: 1000 * 60 * 10,
+      staleTime: 1000 * 60 * 5, // 5분
       refetchOnWindowFocus: false,
       initialPageParam: '',
     });

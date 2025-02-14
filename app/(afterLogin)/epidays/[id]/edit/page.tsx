@@ -21,6 +21,7 @@ export default function EpidayEditPage({ params: { id } }: Props) {
   } = useQuery<GetEpidayData>({
     queryKey: queryKeys.epiday.epidayDetails(id),
     queryFn: () => getEpidayDetails(session, id),
+    staleTime: 1000 * 60 * 5, // 5분
   });
 
   if (isLoading) return <div>로딩 중...</div>;

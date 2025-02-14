@@ -26,8 +26,7 @@ export default function SearchedEpidayList({ keyword }: Props) {
       queryFn: ({ pageParam = '' }) => getEpidays({ limit, pageParam, keyword }),
       getNextPageParam: (lastPage) =>
         lastPage.list.length > 0 ? lastPage.list[lastPage.list.length - 1].id : null,
-      staleTime: 1000 * 60 * 10,
-      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5분
       initialPageParam: '',
     });
 

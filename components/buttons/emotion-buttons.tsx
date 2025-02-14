@@ -18,6 +18,7 @@ export default function EmotionButtons() {
     queryKey: queryKeys.emotionLog.emotionLogForToday,
     queryFn: () => getTodayEmotionLog(session.id),
     enabled: !!session,
+    staleTime: 1000 * 60 * 2, // 2분
   });
 
   // note: 추후 autoUpdate 구현

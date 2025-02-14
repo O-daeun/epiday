@@ -31,6 +31,7 @@ export default function ContentsSection({ id }: Props) {
     queryKey: queryKeys.epiday.epidayDetails(id),
     queryFn: () => getEpidayDetails(session, id),
     enabled: !!session,
+    refetchInterval: 1000 * 60 * 5, // 5분
   });
 
   if (isLoading || !epiday)
